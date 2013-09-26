@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		3400396817F2EDD20093E07E /* nothing32.png in Resources */ = {isa = PBXBuildFile; fileRef = 3400396717F2EDD20093E07E /* nothing32.png */; };
+		3400396A17F35CB10093E07E /* bomb.png in Resources */ = {isa = PBXBuildFile; fileRef = 3400396917F35CB10093E07E /* bomb.png */; };
+		3400396C17F4017D0093E07E /* bomb_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 3400396B17F4017D0093E07E /* bomb_big.png */; };
+		3400396F17F408070093E07E /* EnemyClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3400396E17F408070093E07E /* EnemyClass.m */; };
 		342057D217F2B34C0084E99D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 342057D117F2B34C0084E99D /* UIKit.framework */; };
 		342057D417F2B34C0084E99D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 342057D317F2B34C0084E99D /* Foundation.framework */; };
 		342057D617F2B34C0084E99D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 342057D517F2B34C0084E99D /* CoreGraphics.framework */; };
@@ -28,14 +31,18 @@
 
 /* Begin PBXFileReference section */
 		3400396717F2EDD20093E07E /* nothing32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nothing32.png; sourceTree = "<group>"; };
-		342057CE17F2B34C0084E99D /* ShootingTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShootingTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3400396917F35CB10093E07E /* bomb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bomb.png; sourceTree = "<group>"; };
+		3400396B17F4017D0093E07E /* bomb_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bomb_big.png; sourceTree = "<group>"; };
+		3400396D17F408070093E07E /* EnemyClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnemyClass.h; sourceTree = "<group>"; };
+		3400396E17F408070093E07E /* EnemyClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnemyClass.m; sourceTree = "<group>"; };
+		342057CE17F2B34C0084E99D /* Shooting2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shooting2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		342057D117F2B34C0084E99D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		342057D317F2B34C0084E99D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		342057D517F2B34C0084E99D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		342057D917F2B34C0084E99D /* ShootingTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ShootingTest-Info.plist"; sourceTree = "<group>"; };
+		342057D917F2B34C0084E99D /* Shooting2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Shooting2-Info.plist"; sourceTree = "<group>"; };
 		342057DB17F2B34C0084E99D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		342057DD17F2B34C0084E99D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		342057DF17F2B34C0084E99D /* ShootingTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ShootingTest-Prefix.pch"; sourceTree = "<group>"; };
+		342057DF17F2B34C0084E99D /* Shooting2-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Shooting2-Prefix.pch"; sourceTree = "<group>"; };
 		342057E017F2B34C0084E99D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		342057E117F2B34C0084E99D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		342057E317F2B34C0084E99D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -69,7 +76,7 @@
 		342057C517F2B34C0084E99D = {
 			isa = PBXGroup;
 			children = (
-				342057D717F2B34C0084E99D /* ShootingTest */,
+				342057D717F2B34C0084E99D /* Shooting2 */,
 				342057D017F2B34C0084E99D /* Frameworks */,
 				342057CF17F2B34C0084E99D /* Products */,
 			);
@@ -78,7 +85,7 @@
 		342057CF17F2B34C0084E99D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				342057CE17F2B34C0084E99D /* ShootingTest.app */,
+				342057CE17F2B34C0084E99D /* Shooting2.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -93,7 +100,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		342057D717F2B34C0084E99D /* ShootingTest */ = {
+		342057D717F2B34C0084E99D /* Shooting2 */ = {
 			isa = PBXGroup;
 			children = (
 				342057E017F2B34C0084E99D /* AppDelegate.h */,
@@ -101,25 +108,29 @@
 				342057E917F2B34C0084E99D /* MainStoryboard.storyboard */,
 				342057EC17F2B34C0084E99D /* ViewController.h */,
 				342057ED17F2B34C0084E99D /* ViewController.m */,
+				3400396D17F408070093E07E /* EnemyClass.h */,
+				3400396E17F408070093E07E /* EnemyClass.m */,
 				342057F817F2B8810084E99D /* GameClassViewController.h */,
 				342057F917F2B8810084E99D /* GameClassViewController.m */,
 				342057D817F2B34C0084E99D /* Supporting Files */,
 			);
-			path = ShootingTest;
+			path = Shooting2;
 			sourceTree = "<group>";
 		};
 		342057D817F2B34C0084E99D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3400396B17F4017D0093E07E /* bomb_big.png */,
+				3400396917F35CB10093E07E /* bomb.png */,
 				3400396717F2EDD20093E07E /* nothing32.png */,
 				342057FD17F2E46D0084E99D /* beam.png */,
 				342057FB17F2CC580084E99D /* gameover.png */,
 				342057F417F2B8090084E99D /* enemy.png */,
 				342057F517F2B8090084E99D /* flight.png */,
-				342057D917F2B34C0084E99D /* ShootingTest-Info.plist */,
+				342057D917F2B34C0084E99D /* Shooting2-Info.plist */,
 				342057DA17F2B34C0084E99D /* InfoPlist.strings */,
 				342057DD17F2B34C0084E99D /* main.m */,
-				342057DF17F2B34C0084E99D /* ShootingTest-Prefix.pch */,
+				342057DF17F2B34C0084E99D /* Shooting2-Prefix.pch */,
 				342057E317F2B34C0084E99D /* Default.png */,
 				342057E517F2B34C0084E99D /* Default@2x.png */,
 				342057E717F2B34C0084E99D /* Default-568h@2x.png */,
@@ -130,9 +141,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		342057CD17F2B34C0084E99D /* ShootingTest */ = {
+		342057CD17F2B34C0084E99D /* Shooting2 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 342057F117F2B34C0084E99D /* Build configuration list for PBXNativeTarget "ShootingTest" */;
+			buildConfigurationList = 342057F117F2B34C0084E99D /* Build configuration list for PBXNativeTarget "Shooting2" */;
 			buildPhases = (
 				342057CA17F2B34C0084E99D /* Sources */,
 				342057CB17F2B34C0084E99D /* Frameworks */,
@@ -142,9 +153,9 @@
 			);
 			dependencies = (
 			);
-			name = ShootingTest;
+			name = Shooting2;
 			productName = ShootingTest;
-			productReference = 342057CE17F2B34C0084E99D /* ShootingTest.app */;
+			productReference = 342057CE17F2B34C0084E99D /* Shooting2.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -156,7 +167,7 @@
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = endo.tuyo;
 			};
-			buildConfigurationList = 342057C917F2B34C0084E99D /* Build configuration list for PBXProject "ShootingTest" */;
+			buildConfigurationList = 342057C917F2B34C0084E99D /* Build configuration list for PBXProject "Shooting2" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -168,7 +179,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				342057CD17F2B34C0084E99D /* ShootingTest */,
+				342057CD17F2B34C0084E99D /* Shooting2 */,
 			);
 		};
 /* End PBXProject section */
@@ -188,6 +199,8 @@
 				342057FC17F2CC580084E99D /* gameover.png in Resources */,
 				342057FE17F2E46D0084E99D /* beam.png in Resources */,
 				3400396817F2EDD20093E07E /* nothing32.png in Resources */,
+				3400396A17F35CB10093E07E /* bomb.png in Resources */,
+				3400396C17F4017D0093E07E /* bomb_big.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,6 +215,7 @@
 				342057E217F2B34C0084E99D /* AppDelegate.m in Sources */,
 				342057EE17F2B34C0084E99D /* ViewController.m in Sources */,
 				342057FA17F2B8810084E99D /* GameClassViewController.m in Sources */,
+				3400396F17F408070093E07E /* EnemyClass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,9 +301,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "ShootingTest/ShootingTest-Prefix.pch";
-				INFOPLIST_FILE = "ShootingTest/ShootingTest-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "Shooting2/Shooting2-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/Shooting2/Shooting2-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				PRODUCT_NAME = Shooting2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -298,9 +313,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "ShootingTest/ShootingTest-Prefix.pch";
-				INFOPLIST_FILE = "ShootingTest/ShootingTest-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "Shooting2/Shooting2-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/Shooting2/Shooting2-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				PRODUCT_NAME = Shooting2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -308,7 +324,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		342057C917F2B34C0084E99D /* Build configuration list for PBXProject "ShootingTest" */ = {
+		342057C917F2B34C0084E99D /* Build configuration list for PBXProject "Shooting2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				342057EF17F2B34C0084E99D /* Debug */,
@@ -317,7 +333,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		342057F117F2B34C0084E99D /* Build configuration list for PBXNativeTarget "ShootingTest" */ = {
+		342057F117F2B34C0084E99D /* Build configuration list for PBXNativeTarget "Shooting2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				342057F217F2B34C0084E99D /* Debug */,
