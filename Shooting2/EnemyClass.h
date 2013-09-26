@@ -7,10 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+//#import <UIKit/UIKit.h>
 
 @interface EnemyClass : NSObject
+//@interface EnemyClass : UIViewController//UIViewControlerが必要なためNSObjectではない
 
 
+-(id) init:(int)x_init;
+-(Boolean)getIsAlive;
+-(void)setSize:(int)s;
+
+-(void)doNext;
+
+-(void) die;
 -(void)setLocation:(CGPoint)loc;
 -(void)setX:(int)x;
 -(void)setY:(int)y;

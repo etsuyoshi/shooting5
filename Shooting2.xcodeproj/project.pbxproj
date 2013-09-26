@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3400396817F2EDD20093E07E /* nothing32.png in Resources */ = {isa = PBXBuildFile; fileRef = 3400396717F2EDD20093E07E /* nothing32.png */; };
-		3400396A17F35CB10093E07E /* bomb.png in Resources */ = {isa = PBXBuildFile; fileRef = 3400396917F35CB10093E07E /* bomb.png */; };
-		3400396C17F4017D0093E07E /* bomb_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 3400396B17F4017D0093E07E /* bomb_big.png */; };
 		3400396F17F408070093E07E /* EnemyClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3400396E17F408070093E07E /* EnemyClass.m */; };
 		342057D217F2B34C0084E99D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 342057D117F2B34C0084E99D /* UIKit.framework */; };
 		342057D417F2B34C0084E99D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 342057D317F2B34C0084E99D /* Foundation.framework */; };
@@ -22,17 +19,24 @@
 		342057E817F2B34C0084E99D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 342057E717F2B34C0084E99D /* Default-568h@2x.png */; };
 		342057EB17F2B34C0084E99D /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 342057E917F2B34C0084E99D /* MainStoryboard.storyboard */; };
 		342057EE17F2B34C0084E99D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 342057ED17F2B34C0084E99D /* ViewController.m */; };
-		342057F617F2B8090084E99D /* enemy.png in Resources */ = {isa = PBXBuildFile; fileRef = 342057F417F2B8090084E99D /* enemy.png */; };
-		342057F717F2B8090084E99D /* flight.png in Resources */ = {isa = PBXBuildFile; fileRef = 342057F517F2B8090084E99D /* flight.png */; };
 		342057FA17F2B8810084E99D /* GameClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 342057F917F2B8810084E99D /* GameClassViewController.m */; };
-		342057FC17F2CC580084E99D /* gameover.png in Resources */ = {isa = PBXBuildFile; fileRef = 342057FB17F2CC580084E99D /* gameover.png */; };
-		342057FE17F2E46D0084E99D /* beam.png in Resources */ = {isa = PBXBuildFile; fileRef = 342057FD17F2E46D0084E99D /* beam.png */; };
+		342C03A217F4604E0023C11F /* gradius_a.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 342C039417F4604D0023C11F /* gradius_a.jpg */; };
+		342C03A317F4604E0023C11F /* gradius6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 342C039517F4604D0023C11F /* gradius6.jpg */; };
+		342C03A417F4604E0023C11F /* gradius5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 342C039617F4604D0023C11F /* gradius5.jpg */; };
+		342C03A517F4604E0023C11F /* gradius4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 342C039717F4604D0023C11F /* gradius4.jpg */; };
+		342C03A617F4604E0023C11F /* gradius3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 342C039817F4604D0023C11F /* gradius3.jpg */; };
+		342C03A717F4604E0023C11F /* gradius2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 342C039917F4604E0023C11F /* gradius2.jpg */; };
+		342C03A817F4604E0023C11F /* gradius.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 342C039A17F4604E0023C11F /* gradius.jpg */; };
+		342C03A917F4604E0023C11F /* bomb_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 342C039B17F4604E0023C11F /* bomb_big.png */; };
+		342C03AA17F4604E0023C11F /* bomb.png in Resources */ = {isa = PBXBuildFile; fileRef = 342C039C17F4604E0023C11F /* bomb.png */; };
+		342C03AB17F4604E0023C11F /* nothing32.png in Resources */ = {isa = PBXBuildFile; fileRef = 342C039D17F4604E0023C11F /* nothing32.png */; };
+		342C03AC17F4604E0023C11F /* beam.png in Resources */ = {isa = PBXBuildFile; fileRef = 342C039E17F4604E0023C11F /* beam.png */; };
+		342C03AD17F4604E0023C11F /* gameover.png in Resources */ = {isa = PBXBuildFile; fileRef = 342C039F17F4604E0023C11F /* gameover.png */; };
+		342C03AE17F4604E0023C11F /* enemy.png in Resources */ = {isa = PBXBuildFile; fileRef = 342C03A017F4604E0023C11F /* enemy.png */; };
+		342C03AF17F4604E0023C11F /* flight.png in Resources */ = {isa = PBXBuildFile; fileRef = 342C03A117F4604E0023C11F /* flight.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3400396717F2EDD20093E07E /* nothing32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nothing32.png; sourceTree = "<group>"; };
-		3400396917F35CB10093E07E /* bomb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bomb.png; sourceTree = "<group>"; };
-		3400396B17F4017D0093E07E /* bomb_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bomb_big.png; sourceTree = "<group>"; };
 		3400396D17F408070093E07E /* EnemyClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnemyClass.h; sourceTree = "<group>"; };
 		3400396E17F408070093E07E /* EnemyClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnemyClass.m; sourceTree = "<group>"; };
 		342057CE17F2B34C0084E99D /* Shooting2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shooting2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -51,12 +55,22 @@
 		342057EA17F2B34C0084E99D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		342057EC17F2B34C0084E99D /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		342057ED17F2B34C0084E99D /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		342057F417F2B8090084E99D /* enemy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemy.png; sourceTree = "<group>"; };
-		342057F517F2B8090084E99D /* flight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flight.png; sourceTree = "<group>"; };
 		342057F817F2B8810084E99D /* GameClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClassViewController.h; sourceTree = "<group>"; };
 		342057F917F2B8810084E99D /* GameClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameClassViewController.m; sourceTree = "<group>"; };
-		342057FB17F2CC580084E99D /* gameover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameover.png; sourceTree = "<group>"; };
-		342057FD17F2E46D0084E99D /* beam.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beam.png; sourceTree = "<group>"; };
+		342C039417F4604D0023C11F /* gradius_a.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gradius_a.jpg; sourceTree = "<group>"; };
+		342C039517F4604D0023C11F /* gradius6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gradius6.jpg; sourceTree = "<group>"; };
+		342C039617F4604D0023C11F /* gradius5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gradius5.jpg; sourceTree = "<group>"; };
+		342C039717F4604D0023C11F /* gradius4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gradius4.jpg; sourceTree = "<group>"; };
+		342C039817F4604D0023C11F /* gradius3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gradius3.jpg; sourceTree = "<group>"; };
+		342C039917F4604E0023C11F /* gradius2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gradius2.jpg; sourceTree = "<group>"; };
+		342C039A17F4604E0023C11F /* gradius.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gradius.jpg; sourceTree = "<group>"; };
+		342C039B17F4604E0023C11F /* bomb_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bomb_big.png; sourceTree = "<group>"; };
+		342C039C17F4604E0023C11F /* bomb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bomb.png; sourceTree = "<group>"; };
+		342C039D17F4604E0023C11F /* nothing32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nothing32.png; sourceTree = "<group>"; };
+		342C039E17F4604E0023C11F /* beam.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beam.png; sourceTree = "<group>"; };
+		342C039F17F4604E0023C11F /* gameover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameover.png; sourceTree = "<group>"; };
+		342C03A017F4604E0023C11F /* enemy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemy.png; sourceTree = "<group>"; };
+		342C03A117F4604E0023C11F /* flight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flight.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,13 +134,20 @@
 		342057D817F2B34C0084E99D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3400396B17F4017D0093E07E /* bomb_big.png */,
-				3400396917F35CB10093E07E /* bomb.png */,
-				3400396717F2EDD20093E07E /* nothing32.png */,
-				342057FD17F2E46D0084E99D /* beam.png */,
-				342057FB17F2CC580084E99D /* gameover.png */,
-				342057F417F2B8090084E99D /* enemy.png */,
-				342057F517F2B8090084E99D /* flight.png */,
+				342C039417F4604D0023C11F /* gradius_a.jpg */,
+				342C039517F4604D0023C11F /* gradius6.jpg */,
+				342C039617F4604D0023C11F /* gradius5.jpg */,
+				342C039717F4604D0023C11F /* gradius4.jpg */,
+				342C039817F4604D0023C11F /* gradius3.jpg */,
+				342C039917F4604E0023C11F /* gradius2.jpg */,
+				342C039A17F4604E0023C11F /* gradius.jpg */,
+				342C039B17F4604E0023C11F /* bomb_big.png */,
+				342C039C17F4604E0023C11F /* bomb.png */,
+				342C039D17F4604E0023C11F /* nothing32.png */,
+				342C039E17F4604E0023C11F /* beam.png */,
+				342C039F17F4604E0023C11F /* gameover.png */,
+				342C03A017F4604E0023C11F /* enemy.png */,
+				342C03A117F4604E0023C11F /* flight.png */,
 				342057D917F2B34C0084E99D /* Shooting2-Info.plist */,
 				342057DA17F2B34C0084E99D /* InfoPlist.strings */,
 				342057DD17F2B34C0084E99D /* main.m */,
@@ -194,13 +215,20 @@
 				342057E617F2B34C0084E99D /* Default@2x.png in Resources */,
 				342057E817F2B34C0084E99D /* Default-568h@2x.png in Resources */,
 				342057EB17F2B34C0084E99D /* MainStoryboard.storyboard in Resources */,
-				342057F617F2B8090084E99D /* enemy.png in Resources */,
-				342057F717F2B8090084E99D /* flight.png in Resources */,
-				342057FC17F2CC580084E99D /* gameover.png in Resources */,
-				342057FE17F2E46D0084E99D /* beam.png in Resources */,
-				3400396817F2EDD20093E07E /* nothing32.png in Resources */,
-				3400396A17F35CB10093E07E /* bomb.png in Resources */,
-				3400396C17F4017D0093E07E /* bomb_big.png in Resources */,
+				342C03A217F4604E0023C11F /* gradius_a.jpg in Resources */,
+				342C03A317F4604E0023C11F /* gradius6.jpg in Resources */,
+				342C03A417F4604E0023C11F /* gradius5.jpg in Resources */,
+				342C03A517F4604E0023C11F /* gradius4.jpg in Resources */,
+				342C03A617F4604E0023C11F /* gradius3.jpg in Resources */,
+				342C03A717F4604E0023C11F /* gradius2.jpg in Resources */,
+				342C03A817F4604E0023C11F /* gradius.jpg in Resources */,
+				342C03A917F4604E0023C11F /* bomb_big.png in Resources */,
+				342C03AA17F4604E0023C11F /* bomb.png in Resources */,
+				342C03AB17F4604E0023C11F /* nothing32.png in Resources */,
+				342C03AC17F4604E0023C11F /* beam.png in Resources */,
+				342C03AD17F4604E0023C11F /* gameover.png in Resources */,
+				342C03AE17F4604E0023C11F /* enemy.png in Resources */,
+				342C03AF17F4604E0023C11F /* flight.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
