@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "342057CD17F2B34C0084E99D"
                BuildableName = "Shooting2.app"
-               BlueprintName = "Shooting2"
-               ReferencedContainer = "container:Shooting2.xcodeproj">
+               BlueprintName = "Shooting3"
+               ReferencedContainer = "container:Shooting3.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "342057CD17F2B34C0084E99D"
             BuildableName = "Shooting2.app"
-            BlueprintName = "Shooting2"
-            ReferencedContainer = "container:Shooting2.xcodeproj">
+            BlueprintName = "Shooting3"
+            ReferencedContainer = "container:Shooting3.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -53,8 +53,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "342057CD17F2B34C0084E99D"
             BuildableName = "Shooting2.app"
-            BlueprintName = "Shooting2"
-            ReferencedContainer = "container:Shooting2.xcodeproj">
+            BlueprintName = "Shooting3"
+            ReferencedContainer = "container:Shooting3.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -71,8 +71,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "342057CD17F2B34C0084E99D"
             BuildableName = "Shooting2.app"
-            BlueprintName = "Shooting2"
-            ReferencedContainer = "container:Shooting2.xcodeproj">
+            BlueprintName = "Shooting3"
+            ReferencedContainer = "container:Shooting3.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
