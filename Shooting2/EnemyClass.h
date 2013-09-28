@@ -9,13 +9,26 @@
 #import <Foundation/Foundation.h>
 //#import <UIKit/UIKit.h>
 
-@interface EnemyClass : NSObject
+@interface EnemyClass : NSObject{
 //@interface EnemyClass : UIViewController//UIViewControlerが必要なためNSObjectではない
+    
+    int x_loc;
+    int y_loc;
+
+    int mySize;
+    Boolean isAlive;
+    UIImageView *iv;
+    CGRect rect;
+
+}
 
 
--(id) init:(int)x_init;
+-(id)init:(int)x_init size:(int)size;
+-(id)init;
+
 -(Boolean)getIsAlive;
 -(void)setSize:(int)s;
+-(int)getSize;
 
 -(void)doNext;
 
@@ -27,4 +40,5 @@
 -(CGPoint) getLocation;
 -(int) getX;
 -(int) getY;
+-(UIImageView *)getImageView;
 @end

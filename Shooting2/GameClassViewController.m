@@ -50,10 +50,6 @@ float count = 0;
 	// Do any additional setup after loading the view.
     
     
-    EnemyArray = [[NSMutableArray alloc]init];
-    
-    EnemyClass *enemy = [[EnemyClass alloc]init];
-    [EnemyArray addObject:enemy];
     
     //敵の生存
     ////////////////////////////////////////////////////////////////
@@ -81,10 +77,13 @@ float count = 0;
     length_beam = 50;
     thick_beam = 5;
     
+    //敵の発生時の格納箱初期化
+    EnemyArray = [[NSMutableArray alloc]init];
+    
+    
 
-    size_machine = 50;
-    [(EnemyClass *)[EnemyArray objectAtIndex:0] setSize:50 ];
-
+    size_machine = 30;
+    
     center_x = rect_frame.size.width/2 - size_machine/2;//画面サイズに対して中央になるように左位置特定
     x_myMachine = center_x;//自機横位置は中心
     y_myMachine = 300;//自機縦位置
@@ -94,38 +93,63 @@ float count = 0;
     x_enemyMachine = center_x;//敵機横位置は中心
     y_enemyMachine = 50;//敵機縦位置
     
-    [(EnemyClass *)[EnemyArray objectAtIndex:0] setX:center_x];
-    [(EnemyClass *)[EnemyArray objectAtIndex:0] setY:0];
-    
     ////////////////////////////////////////////////////////////////
+    
     
     
     
     iv_myBeam = nil;//ビームは初期状態でnil
     
+//    [self yieldEnemy];
     count = 0;
+    
+    //以下実行後、0.1秒間隔でtimerメソッドが呼び出されるが、それと並行してこのメソッド(viewDidLoad)も実行される(マルチスレッドのような感じ)
     tm = [NSTimer scheduledTimerWithTimeInterval:0.1
                                           target:self
                                         selector:@selector(time:)//タイマー呼び出し
                                         userInfo:nil
                                          repeats:YES];
-    
+//    [self ordinaryAnimationStart];
 
-    [self ordinaryAnimationStart];
 }
 
 
 - (void)ordinaryAnimationStart{
-    
+    //消去、生成、更新、表示
     
     //前時刻の描画を消去
+    /////////////////////////////////////////////
     [iv_enemyMachine removeFromSuperview];
+//    NSLog(@"count = %dd", [EnemyArray count]);
+    for(int i = 0;i < [EnemyArray count] ; i++){
+        NSLog(@"敵機 No:%d 消去[x = %d, y = %d]",
+              i,
+              [(EnemyClass *)[EnemyArray objectAtIndex:i] getX],
+              [(EnemyClass *)[EnemyArray objectAtIndex:i] getY]);
+        [[(EnemyClass *)[EnemyArray objectAtIndex:i] getImageView ] removeFromSuperview];
+        NSLog(@"オブジェクト:%@",[(EnemyClass *)[EnemyArray objectAtIndex:i] getImageView]);
+        NSLog(@"aaa");
+    }
+
+    /////////////////////////////////////////////
     [iv_myMachine removeFromSuperview];
     
     [iv_myBeam removeFromSuperview];
     
     
+    
+    
+    
+    //敵生成
+    if([EnemyArray count] == 0) {
+        [self yieldEnemy];
+    }
+    
+    
+    
+    
     //自機
+//    NSLog(@"自機");
     rect_myMachine = CGRectMake(x_myMachine, y_myMachine, size_machine, size_machine);//左上座標、幅、高さ
     NSMutableArray *_myImageList = [[NSMutableArray alloc] init];
     [_myImageList addObject:[UIImage imageNamed:[NSString stringWithFormat:@"flight.png"]]];
@@ -134,7 +158,7 @@ float count = 0;
     iv_myMachine.animationDuration = 0.5;
     iv_myMachine.animationRepeatCount = 0;
     //現状、自機と敵機をタップしても何も起こらないようにする
-   iv_myMachine.userInteractionEnabled = YES;
+    iv_myMachine.userInteractionEnabled = YES;
     
     //ジェスチャーレコナイザーを付与して、タップイベントに備える
     UITapGestureRecognizer *tap =
@@ -149,13 +173,15 @@ float count = 0;
     
     
     //敵機
+//    NSLog(@"敵機origin");
     ////////////////////////////////////////////////////////////
     if(bl_enemyAlive){
+
         rect_enemyMachine = CGRectMake(x_enemyMachine, y_enemyMachine, size_machine, size_machine);
         iv_enemyMachine = [[UIImageView alloc]initWithFrame:rect_enemyMachine];
 
         NSMutableArray *_enemyImageList = [[NSMutableArray alloc] init];
-        [_enemyImageList addObject:[UIImage imageNamed:[NSString stringWithFormat:@"enemy.png"]]];
+        [_enemyImageList addObject:[UIImage imageNamed:[NSString stringWithFormat:@"gradius.jpg"]]];
         iv_enemyMachine.animationImages = _enemyImageList;
         iv_enemyMachine.animationDuration = 0.5;
         iv_enemyMachine.animationRepeatCount = 0;
@@ -169,27 +195,32 @@ float count = 0;
     }
     ////////////////////////////////////////////////////////////
     
-    
-    
-    if([(EnemyClass *)[EnemyArray objectAtIndex:0] getIsAlive]){
-        
-        rect_enemyMachine = CGRectMake(x_enemyMachine, y_enemyMachine, size_machine, size_machine);
-        iv_enemyMachine = [[UIImageView alloc]initWithFrame:rect_enemyMachine];
-        
-        NSMutableArray *_enemyImageList = [[NSMutableArray alloc] init];
-        [_enemyImageList addObject:[UIImage imageNamed:[NSString stringWithFormat:@"enemy.png"]]];
-        iv_enemyMachine.animationImages = _enemyImageList;
-        iv_enemyMachine.animationDuration = 0.5;
-        iv_enemyMachine.animationRepeatCount = 0;
-        //    iv_enemyMachine.userInteractionEnabled = YES;
-        //タップ種類=シングルタップ
-        tap.numberOfTapsRequired = 1;
-        [iv_enemyMachine addGestureRecognizer:tap];
-        //ビューにメインイメージを貼り付ける
-        [self.view addSubview:iv_enemyMachine];
-        [iv_enemyMachine startAnimating];
+    //更新
+    //    NSLog(@"x_enemy = %d", x_enemyMachine);
+    //        NSLog(@"do next");
+    for(int i = 0; i < [EnemyArray count] ; i++){
+        NSLog(@"do next at enemy:No %d", i);
+        //既存敵機の距離進行！
+        [(EnemyClass *)[EnemyArray objectAtIndex:i] doNext];
+        //            NSLog(@"%d番目敵：y=%d", i, [(EnemyClass *)[EnemyArray objectAtIndex:i] getY]);
     }
-    
+
+
+//    NSLog(@"敵機配列");
+    //表示
+    for(int i = 0; i < [EnemyArray count] ; i++){
+        if([(EnemyClass *)[EnemyArray objectAtIndex:i] getIsAlive]){
+            //ビューにメインイメージを貼り付ける
+            [self.view addSubview:[(EnemyClass *)[EnemyArray objectAtIndex:i] getImageView]];
+            //上記、self.viewとUIImageViewを引数にしてEnemyClass内でaddSubviewしたらどうなるか。
+            
+//            [[(EnemyClass *)[EnemyArray objectAtIndex:i] getImageView] removeFromSuperview];
+            
+            NSLog(@"敵機 No:%d 表示[x = %d, y = %d]",i,
+                  [(EnemyClass *)[EnemyArray objectAtIndex:i] getX],
+                  [(EnemyClass *)[EnemyArray objectAtIndex:i] getY]);
+        }
+    }
     
     
     //ビーム進行
@@ -209,25 +240,34 @@ float count = 0;
             
             NSLog(@"hit!!");
             
-            [self drawBomb];
+            [self drawBomb:(CGPointMake((float)x_enemyMachine, (float)y_enemyMachine))];
             
             bl_enemyAlive = false;
             
                
         }
-        
-        //更新作業
-        x_beam = x_myMachine + size_machine / 2;
-        y_beam -= length_beam;
-        
-        if(y_beam < - length_beam){
+        if([EnemyArray count] > 0) {
             
-            [iv_myBeam removeFromSuperview];
-            iv_myBeam = nil;
+            if([(EnemyClass *)[EnemyArray objectAtIndex:0] getIsAlive] &&
+               x_beam >= [(EnemyClass *)[EnemyArray objectAtIndex:0] getX] &&
+               x_beam <= [(EnemyClass *)[EnemyArray objectAtIndex:0] getX] +
+               [(EnemyClass *)[EnemyArray objectAtIndex:0] getSize] &&
+               [(EnemyClass *)[EnemyArray objectAtIndex:0] getY] <= y_beam &&
+               [(EnemyClass *)[EnemyArray objectAtIndex:0] getY] +
+               [(EnemyClass *)[EnemyArray objectAtIndex:0] getSize] >= y_beam){
+                
+                NSLog(@"hit!!");
+                
+                int x = [(EnemyClass *)[EnemyArray objectAtIndex:0] getX];
+                int y = [(EnemyClass *)[EnemyArray objectAtIndex:0] getY];
+                [self drawBomb:(CGPointMake((float)x, (float)y))];
+                
+                //            bl_enemyAlive = false;
+                [(EnemyClass *)[EnemyArray objectAtIndex:0] die];
+            }
+            
         }
     }
-    
-    
 
     
 }
@@ -254,21 +294,13 @@ float count = 0;
 - (void)time:(NSTimer*)timer{
     count += 0.1;
     
-//    [iv_beam_launch removeFromSuperview];
-    
-    
-//    NSLog(@"time:%f", count);
-    //タイマーが有効かどうか
-    //    NSString *str = [tm isValid] ? @"yes" : @"no";
-    //    NSLog(@"isValid:%@", str);
 //    srand(time(nil));
 //    int x_move = rand() % 50 - 25;
 //    int x_move = arc4random() % size_machine - size_machine / 2;
     int x_move = center_x * (sin(2 * M_PI * count * 50/ 360.0f) + 1.0f);
-//    NSLog(@"%f", sin(2 * M_PI * count * 50/ 360.0f)/2.0f);
-//    NSLog(@"x_move = %d", x_move);
 //    x_enemyMachine = x_enemyMachine + x_move;
     x_enemyMachine = x_move;//正弦波の場合
+    
     if (x_enemyMachine < 0){
         x_enemyMachine = size_machine * 2;
     }else if(x_enemyMachine > x_frame - size_machine){
@@ -278,14 +310,14 @@ float count = 0;
 //    y_enemyMachine += arc4random() % size_machine;
     
     
+    //ここにあったdoNextをこのメソッドの敵機生成前に移行
     
-//    NSLog(@"x_enemy = %d", x_enemyMachine);
     [self ordinaryAnimationStart];
     
     //一定時間経過するとゲームオーバー
     if(count >=150){
         NSLog(@"gameover");
-        //３秒経過したらタイマー終了
+        //経過したらタイマー終了
         [tm invalidate];
         
         
@@ -296,6 +328,28 @@ float count = 0;
         [self.view addSubview:iv_gameover];
         
     }
+    
+    
+    //ビームの更新作業
+    x_beam = x_myMachine + size_machine / 2;
+    y_beam -= length_beam;
+    
+    if(y_beam < - length_beam){
+        
+        [iv_myBeam removeFromSuperview];
+        iv_myBeam = nil;
+    }
+    
+//    NSLog(@"after do next");
+    
+    if(count > 0.2){
+        NSLog(@"ブレークポイント設置用：timer終了＝0.1秒経過");
+    }else{
+        NSLog(@"timer終了＝0.1秒経過");
+    }
+    
+    
+
 }
 
 - (void)onFlickedFrame:(UIPanGestureRecognizer*)gr {
@@ -389,11 +443,11 @@ float count = 0;
 }
 
 
--(void) drawBomb{
+-(void) drawBomb:(CGPoint)location{
     
     int bomb_size = 150;
-    CGRect rect_bomb = CGRectMake(x_enemyMachine + size_machine/2 - bomb_size/2,
-                                  y_enemyMachine + size_machine/2 - bomb_size/2,
+    CGRect rect_bomb = CGRectMake(location.x - bomb_size/2,
+                                  location.y - bomb_size/2,
                                   bomb_size,bomb_size);
     NSMutableArray *_bombImageList = [[NSMutableArray alloc] init];
     
@@ -408,6 +462,25 @@ float count = 0;
     //            iv_bomb.image = [UIImage imageNamed:@"bomb.png"];
     [self.view addSubview:iv_bomb];
     [iv_bomb startAnimating];
+
+}
+
+-(void) yieldEnemy{
+    //敵発生
+//    NSLog(@"count = %d", [EnemyArray count]);
+//    NSLog(@"%d", arc4random());
+//    if(count == 0 || arc4random() % 4 == 0){
+//        NSLog(@"生成");
+//        EnemyClass *enemy = [[EnemyClass alloc]init:center_x size:50];
+        int x = (int)(count * 10) % 200;
+        EnemyClass *enemy = [[EnemyClass alloc]init:x size:50];
+        [EnemyArray addObject:enemy];//既に初期化済なので追加のみ
+        NSLog(@"敵機 新規生成, %d", [enemy getY]);
+//    [(EnemyClass *)[EnemyArray objectAtIndex:0] setSize:50 ];
+//    [(EnemyClass *)[EnemyArray objectAtIndex:0] setX:center_x];
+//    [(EnemyClass *)[EnemyArray objectAtIndex:0] setY:0];
+//    }
+
 
 }
 @end

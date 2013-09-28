@@ -11,15 +11,20 @@
 
 @implementation EnemyClass
 
-int x_loc, y_loc;
-int mySize;
-Boolean isAlive;
+-(id) init:(int)x_init size:(int)size{
 
--(id) init:(int)x_init{
     y_loc = 0;
     x_loc = x_init;
+    mySize = size;
     isAlive = true;
+    rect = CGRectMake(x_loc, y_loc, mySize, mySize);
+    iv = [[UIImageView alloc]initWithFrame:rect];
+    iv.image = [UIImage imageNamed:@"enemy.png"];
     return self;
+}
+-(id) init{
+    NSLog(@"call enemy class initialization");
+    return [self init:0 size:50];
 }
 
 -(Boolean) getIsAlive{
@@ -29,10 +34,21 @@ Boolean isAlive;
 -(void)setSize:(int)s{
     mySize = s;
 }
-
+-(int)getSize{
+    return mySize;
+}
 -(void)doNext{
-    y_loc += mySize;
-    x_loc += mySize * (arc4random() % 3) * pow(-1, arc4random()%2);//単位時間当たりに左右3個体分の移動距離を進む
+    
+//    [iv removeFromSuperview];
+    NSLog(@"更新前 y = %d", y_loc);
+    y_loc += mySize/4;
+    x_loc += 0;//mySize * (arc4random() % 3) * pow(-1, arc4random()%2);//単位時間当たりに左右3個体分の移動距離を進む
+    iv = [[UIImageView alloc]initWithFrame:CGRectMake(x_loc, y_loc, mySize, mySize)];
+    iv.image = [UIImage imageNamed:@"enemy.png"];
+
+    NSLog(@"更新後 y = %d", y_loc);
+//    rect = CGRectMake(x_loc, y_loc, mySize, mySize);
+//    iv = [[UIImageView alloc]initWithFrame:rect];
 }
 
 -(void) die{
@@ -62,6 +78,12 @@ Boolean isAlive;
     return y_loc;
 }
 
-
+-(UIImageView *)getImageView{
+//    [iv removeFromSuperview];
+//    rect = CGRectMake(x_loc, y_loc, mySize, mySize);
+//    iv = [[UIImageView alloc]initWithFrame:rect];
+//    iv.image = [UIImage imageNamed:@"enemy.png"];
+    return iv;
+}
 
 @end
