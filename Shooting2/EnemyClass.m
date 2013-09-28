@@ -40,13 +40,13 @@
 -(void)doNext{
     
 //    [iv removeFromSuperview];
-    NSLog(@"更新前 y = %d", y_loc);
+//    NSLog(@"更新前 y = %d", y_loc);
     y_loc += mySize/4;
-    x_loc += 0;//mySize * (arc4random() % 3) * pow(-1, arc4random()%2);//単位時間当たりに左右3個体分の移動距離を進む
+    x_loc += mySize/10 * (int)pow(-1, arc4random()%2) % 200;//単位時間当たりに左右3個体分の移動距離を進む
     iv = [[UIImageView alloc]initWithFrame:CGRectMake(x_loc, y_loc, mySize, mySize)];
     iv.image = [UIImage imageNamed:@"enemy.png"];
 
-    NSLog(@"更新後 y = %d", y_loc);
+//    NSLog(@"更新後 y = %d", y_loc);
 //    rect = CGRectMake(x_loc, y_loc, mySize, mySize);
 //    iv = [[UIImageView alloc]initWithFrame:rect];
 }
@@ -80,6 +80,8 @@
 
 -(UIImageView *)getImageView{
 //    [iv removeFromSuperview];
+    //ここでivに代入するとself.viewに張り付いているivとは別オブジェクトが新規に生成されてしまう。
+    //=>だからdoNextで移動距離を計算し、そこでivも作ってしまうことに。
 //    rect = CGRectMake(x_loc, y_loc, mySize, mySize);
 //    iv = [[UIImageView alloc]initWithFrame:rect];
 //    iv.image = [UIImage imageNamed:@"enemy.png"];
