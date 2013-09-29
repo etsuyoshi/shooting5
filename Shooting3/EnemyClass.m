@@ -11,15 +11,31 @@
 
 @implementation EnemyClass
 
+int unique_id;
 -(id) init:(int)x_init size:(int)size{
-
+    unique_id++;
     y_loc = 0;
     x_loc = x_init;
     mySize = size;
     isAlive = true;
     rect = CGRectMake(x_loc, y_loc, mySize, mySize);
     iv = [[UIImageView alloc]initWithFrame:rect];
-    iv.image = [UIImage imageNamed:@"enemy.png"];
+    switch(arc4random() % 3){
+        case 0:
+            enemy_type = 0;
+            iv.image = [UIImage imageNamed:@"enemy01_stand_128.png"];
+            break;
+        case 1:
+            enemy_type = 1;
+            iv.image = [UIImage imageNamed:@"enemy02_stand_128.png"];
+            break;
+        case 2:
+            enemy_type = 2;
+            iv.image = [UIImage imageNamed:@"enemy03_stand_128.png"];
+            break;
+    }
+    
+    
     return self;
 }
 -(id) init{
@@ -44,7 +60,23 @@
     y_loc += mySize/4;
     x_loc += mySize/10 * (int)pow(-1, arc4random()%2) % 200;//単位時間当たりに左右3個体分の移動距離を進む
     iv = [[UIImageView alloc]initWithFrame:CGRectMake(x_loc, y_loc, mySize, mySize)];
-    iv.image = [UIImage imageNamed:@"enemy.png"];
+
+    
+    switch(enemy_type){
+        case 0:
+            enemy_type = 0;
+            iv.image = [UIImage imageNamed:@"enemy01_stand_128.png"];
+            break;
+        case 1:
+            enemy_type = 1;
+            iv.image = [UIImage imageNamed:@"enemy02_stand_128.png"];
+            break;
+        case 2:
+            enemy_type = 2;
+            iv.image = [UIImage imageNamed:@"enemy03_stand_128.png"];
+            break;
+    }
+
 
 //    NSLog(@"更新後 y = %d", y_loc);
 //    rect = CGRectMake(x_loc, y_loc, mySize, mySize);

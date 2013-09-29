@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "342057CD17F2B34C0084E99D"
-               BuildableName = "Shooting2.app"
+               BuildableName = "Shooting3.app"
                BlueprintName = "Shooting3"
                ReferencedContainer = "container:Shooting3.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "342057CD17F2B34C0084E99D"
-            BuildableName = "Shooting2.app"
+            BuildableName = "Shooting3.app"
             BlueprintName = "Shooting3"
             ReferencedContainer = "container:Shooting3.xcodeproj">
          </BuildableReference>
@@ -52,7 +52,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "342057CD17F2B34C0084E99D"
-            BuildableName = "Shooting2.app"
+            BuildableName = "Shooting3.app"
             BlueprintName = "Shooting3"
             ReferencedContainer = "container:Shooting3.xcodeproj">
          </BuildableReference>
@@ -70,7 +70,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "342057CD17F2B34C0084E99D"
-            BuildableName = "Shooting2.app"
+            BuildableName = "Shooting3.app"
             BlueprintName = "Shooting3"
             ReferencedContainer = "container:Shooting3.xcodeproj">
          </BuildableReference>

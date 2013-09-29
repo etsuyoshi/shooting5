@@ -5,14 +5,16 @@
 //  Created by 遠藤 豪 on 13/09/25.
 //  Copyright (c) 2013年 endo.tuyo. All rights reserved.
 //  敵機がランダムに動く中で、タップすると自機が移動、フリックさせるとビーム発射
-//
+//背景参考：http://dixq.net/rp/20.html
 
 #import "GameClassViewController.h"
 #import "EnemyClass.h"
+#import "BeamClass.h"
 
 
 CGRect rect_frame, rect_myMachine, rect_enemyMachine, rect_myBeam, rect_enemyBeam, rect_beam_launch;
-UIImageView *iv_frame, *iv_myMachine, *iv_enemyMachine, *iv_myBeam, *iv_enemyBeam, *iv_beam_launch;
+UIImageView *iv_frame, *iv_myMachine, *iv_enemyMachine, *iv_myBeam, *iv_enemyBeam, *iv_beam_launch, *iv_background1, *iv_background2;
+int y_background1, y_background2;
 Boolean bl_enemyAlive;
 int max_enemy_in_frame;
 int x_frame, y_frame;
@@ -22,9 +24,11 @@ int size_machine;
 int length_beam, thick_beam;//ビームの長さと太さ
 
 int center_x;
-int beam_time;
+
+
 
 NSMutableArray *EnemyArray;
+NSMutableArray *BeamArray;
 
 NSTimer *tm;
 float count = 0;
@@ -75,12 +79,22 @@ float count = 0;
     [self.view addSubview:iv_frame];
     
     
+    //backgroundの描画：絵を二枚用意して一枚目を表示して時間経過と共に進行方向(逆)にスクロールさせ、１枚目の終端を描画し始めたら２枚目の最初を描画させる
+    iv_background1 = [[UIImageView alloc]initWithFrame:rect_frame];
+    iv_background1.image = [UIImage imageNamed:@"flight.png"];
+    [self.view addSubview:iv_background1];//初期状態ではまず１枚目を描画させる
+    y_background1 = 0;
+    y_background2 = -rect_frame.size.height;
+
+    
     length_beam = 20;
     thick_beam = 5;
     
     //敵の発生時の格納箱初期化
     EnemyArray = [[NSMutableArray alloc]init];
     
+    //自機が発射したビームを格納する配列初期化
+    BeamArray = [[NSMutableArray alloc] init];
     
 
     size_machine = 100;
@@ -131,6 +145,10 @@ float count = 0;
 //        NSLog(@"オブジェクト:%@",[(EnemyClass *)[EnemyArray objectAtIndex:i] getImageView]);
 //        NSLog(@"aaa");
     }
+    
+    for(int i = 0; i < [BeamArray count] ;i++){
+        [[(BeamClass *)[BeamArray objectAtIndex:i]getImageView] removeFromSuperview];
+    }
 
     /////////////////////////////////////////////
     [iv_myMachine removeFromSuperview];
@@ -153,7 +171,7 @@ float count = 0;
 //    NSLog(@"自機");
     rect_myMachine = CGRectMake(x_myMachine, y_myMachine, size_machine, size_machine);//左上座標、幅、高さ
     NSMutableArray *_myImageList = [[NSMutableArray alloc] init];
-    [_myImageList addObject:[UIImage imageNamed:[NSString stringWithFormat:@"gradius_stand_128.png"]]];
+    [_myImageList addObject:[UIImage imageNamed:[NSString stringWithFormat:@"gradius01_stand_128.png"]]];
     iv_myMachine = [[UIImageView alloc]initWithFrame:rect_myMachine];
     iv_myMachine.animationImages = _myImageList;
     iv_myMachine.animationDuration = 0.5;
@@ -202,8 +220,16 @@ float count = 0;
     for(int i = 0; i < [EnemyArray count] ; i++){
 //        NSLog(@"do next at enemy:No %d", i);
         //既存敵機の距離進行！
-        [(EnemyClass *)[EnemyArray objectAtIndex:i] doNext];
-        //            NSLog(@"%d番目敵：y=%d", i, [(EnemyClass *)[EnemyArray objectAtIndex:i] getY]);
+        if([(EnemyClass *)[EnemyArray objectAtIndex:i] getIsAlive]){
+            [(EnemyClass *)[EnemyArray objectAtIndex:i] doNext];
+//            NSLog(@"%d番目敵：y=%d", i, [(EnemyClass *)[EnemyArray objectAtIndex:i] getY]);
+        }
+    }
+    
+    for(int i = 0; i < [BeamArray count] ; i++){
+        if([(BeamClass *)[BeamArray objectAtIndex:i] getIsAlive]) {
+            [(BeamClass *)[BeamArray objectAtIndex:i ] doNext];
+        }
     }
 
 
@@ -222,15 +248,24 @@ float count = 0;
         }
     }
     
+    for(int i = 0; i < [BeamArray count] ; i++){
+        if([(BeamClass *)[BeamArray objectAtIndex:i] getIsAlive]){
+            //ビューにメインイメージを貼り付ける
+            [self.view addSubview:[(BeamClass *)[BeamArray objectAtIndex:i] getImageView]];
+        }
+
+    }
+    
     
     //ビーム進行
-    if(iv_myBeam != nil){//ビームが枠外に出るか敵に命中したらiv_myBeamをnilにする
-        rect_myBeam = CGRectMake(x_beam, y_beam, thick_beam, length_beam);
-        iv_myBeam = [[UIImageView alloc]initWithFrame:rect_myBeam];
-        iv_myBeam.image = [UIImage imageNamed:@"beam.png"];
-        [self.view addSubview:iv_myBeam];
+//    if(iv_myBeam != nil){//ビームが枠外に出るか敵に命中したらiv_myBeamをnilにする
+//        rect_myBeam = CGRectMake(x_beam, y_beam, thick_beam, length_beam);
+//        iv_myBeam = [[UIImageView alloc]initWithFrame:rect_myBeam];
+//        iv_myBeam.image = [UIImage imageNamed:@"beam.png"];
+//        [self.view addSubview:iv_myBeam];
         
         
+        /*
         //ヒット処理
 //        if((x_beam >= x_enemyMachine - size_machine/2 || x_beam <= x_enemyMachine + size_machine/2) &&
         if(bl_enemyAlive == true &&
@@ -246,28 +281,47 @@ float count = 0;
             
                
         }
-        for(int i = 0; i < [EnemyArray count] ;i++ ) {
+        */
+        //ビーム衝突判定
+        for(int i = 0; i < [EnemyArray count] ;i++ ) {//全ての生存している敵に対して
+//            NSLog(@"敵衝突判定:%d", i);
             
-            if([(EnemyClass *)[EnemyArray objectAtIndex:i] getIsAlive] &&
-               x_beam >= [(EnemyClass *)[EnemyArray objectAtIndex:i] getX] &&
-               x_beam <= [(EnemyClass *)[EnemyArray objectAtIndex:i] getX] +
-               [(EnemyClass *)[EnemyArray objectAtIndex:i] getSize] &&
-               [(EnemyClass *)[EnemyArray objectAtIndex:i] getY] <= y_beam &&
-               [(EnemyClass *)[EnemyArray objectAtIndex:i] getY] +
-               [(EnemyClass *)[EnemyArray objectAtIndex:i] getSize] >= y_beam){
+            if([(EnemyClass *)[EnemyArray objectAtIndex:i] getIsAlive]){//計算時間節約
+//                NSLog(@"敵衝突生存確認完了");
                 
-                NSLog(@"hit!!");
+                EnemyClass *_enemy = (EnemyClass *)[EnemyArray objectAtIndex:i];
                 
-                int x = [(EnemyClass *)[EnemyArray objectAtIndex:i] getX];
-                int y = [(EnemyClass *)[EnemyArray objectAtIndex:i] getY];
-                [self drawBomb:(CGPointMake((float)x, (float)y))];
-                
-                //            bl_enemyAlive = false;
-                [(EnemyClass *)[EnemyArray objectAtIndex:i] die];
+                for(int j = 0; j < [BeamArray count] ;j++){//発射した全てのビームに対して
+//                    NSLog(@"ビーム衝突判定:%d", j);
+                    if([(BeamClass *)[BeamArray objectAtIndex:j] getIsAlive]){
+//                        NSLog(@"ビーム発射確認完了");
+                        
+                        int _xBeam = [(BeamClass *)[BeamArray objectAtIndex:j] getX];
+                        int _yBeam = [(BeamClass *)[BeamArray objectAtIndex:j] getY];
+                        if(
+                           _xBeam >= [_enemy getX] &&
+                           _xBeam <= [_enemy getX] + [_enemy getSize] &&
+                           [_enemy getY] <= _yBeam &&
+                           [_enemy getY] + [_enemy getSize] >= _yBeam){
+                            
+                            
+                            
+                            NSLog(@"hit!!");
+                            NSLog(@"beam location[x = %d, y = %d], enemy location[x = %d, y = %d]",
+                                  _xBeam, _yBeam, [_enemy getX], [_enemy getY]);
+                            
+                            
+                            [self drawBomb:(CGPointMake((float)_xBeam, (float)_yBeam))];
+                            
+                            //            bl_enemyAlive = false;
+                            [(EnemyClass *)[EnemyArray objectAtIndex:i] die];
+                        }
+
+                    }
+                }
             }
-            
         }
-    }
+//    }
 
     
 }
@@ -292,6 +346,8 @@ float count = 0;
 }
 
 - (void)time:(NSTimer*)timer{
+    [self drawBackground];
+
     count += 0.1;
     
 //    srand(time(nil));
@@ -373,9 +429,15 @@ float count = 0;
         
         if (point.y < 0) {//上向き
             
+            //ビームオブジェクト生成
+
+            [self yieldBeam:0 init_x:(x_myMachine + size_machine/2) init_y:(y_myMachine - length_beam)];
+            
+            
             if(iv_myBeam == nil){
                 NSLog(@"beam!!");
                 
+                /*
                 //ビーム発射=>最終的には煙幕のようなものを出す
                 rect_beam_launch = CGRectMake(x_myMachine + size_machine / 2,
                                               y_myMachine - length_beam,
@@ -391,10 +453,12 @@ float count = 0;
                 iv_beam_launch.animationRepeatCount = 3;//切り替え回数
                 [self.view addSubview:iv_beam_launch];
                 [iv_beam_launch startAnimating];
-                
+                */
                 
                 
                 //ビーム進行
+                
+                /*
                 x_beam = x_myMachine + size_machine / 2;
                 y_beam = y_myMachine - length_beam,
                 rect_myBeam = CGRectMake(x_beam,
@@ -404,10 +468,8 @@ float count = 0;
                 iv_myBeam = [[UIImageView alloc]initWithFrame:rect_myBeam];
                 iv_myBeam.image = [UIImage imageNamed:@"beam.png"];
                 [self.view addSubview:iv_myBeam];
+                */
                 
-                
-                beam_time = 0;
-
             }else{
                 NSLog(@"%@", iv_myBeam);
             }
@@ -485,5 +547,41 @@ float count = 0;
     }
 
 
+}
+
+-(void)yieldBeam:(int)beam_type init_x:(int)x init_y:(int)y{
+    //
+    BeamClass *beam = [[BeamClass alloc] init:x y_init:y width:20 height:20];
+    [BeamArray addObject:beam];
+    
+    
+}
+
+-(void)drawBackground{
+    //frameの大きさと背景の現在描画位置
+//    NSLog(@"drawbackground : 1 = %d, 2 = %d", y_background1, y_background2);
+    y_background1 += 5;
+    y_background2 += 5;//スクロール速度
+    
+    
+    if(y_background1 > rect_frame.size.height){
+        y_background1 = -rect_frame.size.height;
+    }else if(y_background2 > rect_frame.size.height){
+        y_background2 = -rect_frame.size.height;
+    }
+    
+    
+    [iv_background1 removeFromSuperview];
+    [iv_background2 removeFromSuperview];
+    iv_background1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, y_background1,rect_frame.size.width,rect_frame.size.height)];
+    iv_background2 = [[UIImageView alloc]initWithFrame:CGRectMake(0, y_background2,rect_frame.size.width,rect_frame.size.height)];
+    iv_background1.image = [UIImage imageNamed:@"flight.png"];
+    iv_background2.image = [UIImage imageNamed:@"flight.png"];
+    
+    [self.view addSubview:iv_background1];
+    [self.view addSubview:iv_background2];
+    
+//    x_frame = rect_frame.size.width;
+//    y_frame = rect_frame.size.height;
 }
 @end

@@ -20,13 +20,11 @@
 		342057EB17F2B34C0084E99D /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 342057E917F2B34C0084E99D /* MainStoryboard.storyboard */; };
 		342057EE17F2B34C0084E99D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 342057ED17F2B34C0084E99D /* ViewController.m */; };
 		342057FA17F2B8810084E99D /* GameClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 342057F917F2B8810084E99D /* GameClassViewController.m */; };
-		342C03A217F4604E0023C11F /* gradius_a.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 342C039417F4604D0023C11F /* gradius_a.jpg */; };
-		342C03A317F4604E0023C11F /* gradius6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 342C039517F4604D0023C11F /* gradius6.jpg */; };
-		342C03A417F4604E0023C11F /* gradius5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 342C039617F4604D0023C11F /* gradius5.jpg */; };
-		342C03A517F4604E0023C11F /* gradius4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 342C039717F4604D0023C11F /* gradius4.jpg */; };
-		342C03A617F4604E0023C11F /* gradius3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 342C039817F4604D0023C11F /* gradius3.jpg */; };
-		342C03A717F4604E0023C11F /* gradius2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 342C039917F4604E0023C11F /* gradius2.jpg */; };
-		342C03A817F4604E0023C11F /* gradius.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 342C039A17F4604E0023C11F /* gradius.jpg */; };
+		3424020117F6E8A100E06902 /* BeamClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3424020017F6E8A100E06902 /* BeamClass.m */; };
+		342403C517F774E000E06902 /* enemy01_stand_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 342403C117F774E000E06902 /* enemy01_stand_128.png */; };
+		342403C617F774E000E06902 /* enemy02_stand_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 342403C217F774E000E06902 /* enemy02_stand_128.png */; };
+		342403C717F774E000E06902 /* enemy03_stand_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 342403C317F774E000E06902 /* enemy03_stand_128.png */; };
+		342403C817F774E000E06902 /* gradius02_stand_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 342403C417F774E000E06902 /* gradius02_stand_128.png */; };
 		342C03A917F4604E0023C11F /* bomb_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 342C039B17F4604E0023C11F /* bomb_big.png */; };
 		342C03AA17F4604E0023C11F /* bomb.png in Resources */ = {isa = PBXBuildFile; fileRef = 342C039C17F4604E0023C11F /* bomb.png */; };
 		342C03AB17F4604E0023C11F /* nothing32.png in Resources */ = {isa = PBXBuildFile; fileRef = 342C039D17F4604E0023C11F /* nothing32.png */; };
@@ -34,7 +32,7 @@
 		342C03AD17F4604E0023C11F /* gameover.png in Resources */ = {isa = PBXBuildFile; fileRef = 342C039F17F4604E0023C11F /* gameover.png */; };
 		342C03AE17F4604E0023C11F /* enemy.png in Resources */ = {isa = PBXBuildFile; fileRef = 342C03A017F4604E0023C11F /* enemy.png */; };
 		342C03AF17F4604E0023C11F /* flight.png in Resources */ = {isa = PBXBuildFile; fileRef = 342C03A117F4604E0023C11F /* flight.png */; };
-		3475247C17F6D23F002EC895 /* gradius_stand_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 3475247B17F6D23F002EC895 /* gradius_stand_128.png */; };
+		3475247C17F6D23F002EC895 /* gradius01_stand_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 3475247B17F6D23F002EC895 /* gradius01_stand_128.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,13 +56,12 @@
 		342057ED17F2B34C0084E99D /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		342057F817F2B8810084E99D /* GameClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClassViewController.h; sourceTree = "<group>"; };
 		342057F917F2B8810084E99D /* GameClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameClassViewController.m; sourceTree = "<group>"; };
-		342C039417F4604D0023C11F /* gradius_a.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gradius_a.jpg; sourceTree = "<group>"; };
-		342C039517F4604D0023C11F /* gradius6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gradius6.jpg; sourceTree = "<group>"; };
-		342C039617F4604D0023C11F /* gradius5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gradius5.jpg; sourceTree = "<group>"; };
-		342C039717F4604D0023C11F /* gradius4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gradius4.jpg; sourceTree = "<group>"; };
-		342C039817F4604D0023C11F /* gradius3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gradius3.jpg; sourceTree = "<group>"; };
-		342C039917F4604E0023C11F /* gradius2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gradius2.jpg; sourceTree = "<group>"; };
-		342C039A17F4604E0023C11F /* gradius.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gradius.jpg; sourceTree = "<group>"; };
+		342401FF17F6E8A100E06902 /* BeamClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeamClass.h; sourceTree = "<group>"; };
+		3424020017F6E8A100E06902 /* BeamClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeamClass.m; sourceTree = "<group>"; };
+		342403C117F774E000E06902 /* enemy01_stand_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemy01_stand_128.png; sourceTree = "<group>"; };
+		342403C217F774E000E06902 /* enemy02_stand_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemy02_stand_128.png; sourceTree = "<group>"; };
+		342403C317F774E000E06902 /* enemy03_stand_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemy03_stand_128.png; sourceTree = "<group>"; };
+		342403C417F774E000E06902 /* gradius02_stand_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradius02_stand_128.png; sourceTree = "<group>"; };
 		342C039B17F4604E0023C11F /* bomb_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bomb_big.png; sourceTree = "<group>"; };
 		342C039C17F4604E0023C11F /* bomb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bomb.png; sourceTree = "<group>"; };
 		342C039D17F4604E0023C11F /* nothing32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nothing32.png; sourceTree = "<group>"; };
@@ -72,7 +69,7 @@
 		342C039F17F4604E0023C11F /* gameover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameover.png; sourceTree = "<group>"; };
 		342C03A017F4604E0023C11F /* enemy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemy.png; sourceTree = "<group>"; };
 		342C03A117F4604E0023C11F /* flight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flight.png; sourceTree = "<group>"; };
-		3475247B17F6D23F002EC895 /* gradius_stand_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradius_stand_128.png; sourceTree = "<group>"; };
+		3475247B17F6D23F002EC895 /* gradius01_stand_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradius01_stand_128.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +123,8 @@
 				342057ED17F2B34C0084E99D /* ViewController.m */,
 				3400396D17F408070093E07E /* EnemyClass.h */,
 				3400396E17F408070093E07E /* EnemyClass.m */,
+				342401FF17F6E8A100E06902 /* BeamClass.h */,
+				3424020017F6E8A100E06902 /* BeamClass.m */,
 				342057F817F2B8810084E99D /* GameClassViewController.h */,
 				342057F917F2B8810084E99D /* GameClassViewController.m */,
 				342057D817F2B34C0084E99D /* Supporting Files */,
@@ -136,14 +135,11 @@
 		342057D817F2B34C0084E99D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3475247B17F6D23F002EC895 /* gradius_stand_128.png */,
-				342C039417F4604D0023C11F /* gradius_a.jpg */,
-				342C039517F4604D0023C11F /* gradius6.jpg */,
-				342C039617F4604D0023C11F /* gradius5.jpg */,
-				342C039717F4604D0023C11F /* gradius4.jpg */,
-				342C039817F4604D0023C11F /* gradius3.jpg */,
-				342C039917F4604E0023C11F /* gradius2.jpg */,
-				342C039A17F4604E0023C11F /* gradius.jpg */,
+				342403C117F774E000E06902 /* enemy01_stand_128.png */,
+				342403C217F774E000E06902 /* enemy02_stand_128.png */,
+				342403C317F774E000E06902 /* enemy03_stand_128.png */,
+				342403C417F774E000E06902 /* gradius02_stand_128.png */,
+				3475247B17F6D23F002EC895 /* gradius01_stand_128.png */,
 				342C039B17F4604E0023C11F /* bomb_big.png */,
 				342C039C17F4604E0023C11F /* bomb.png */,
 				342C039D17F4604E0023C11F /* nothing32.png */,
@@ -218,13 +214,6 @@
 				342057E617F2B34C0084E99D /* Default@2x.png in Resources */,
 				342057E817F2B34C0084E99D /* Default-568h@2x.png in Resources */,
 				342057EB17F2B34C0084E99D /* MainStoryboard.storyboard in Resources */,
-				342C03A217F4604E0023C11F /* gradius_a.jpg in Resources */,
-				342C03A317F4604E0023C11F /* gradius6.jpg in Resources */,
-				342C03A417F4604E0023C11F /* gradius5.jpg in Resources */,
-				342C03A517F4604E0023C11F /* gradius4.jpg in Resources */,
-				342C03A617F4604E0023C11F /* gradius3.jpg in Resources */,
-				342C03A717F4604E0023C11F /* gradius2.jpg in Resources */,
-				342C03A817F4604E0023C11F /* gradius.jpg in Resources */,
 				342C03A917F4604E0023C11F /* bomb_big.png in Resources */,
 				342C03AA17F4604E0023C11F /* bomb.png in Resources */,
 				342C03AB17F4604E0023C11F /* nothing32.png in Resources */,
@@ -232,7 +221,11 @@
 				342C03AD17F4604E0023C11F /* gameover.png in Resources */,
 				342C03AE17F4604E0023C11F /* enemy.png in Resources */,
 				342C03AF17F4604E0023C11F /* flight.png in Resources */,
-				3475247C17F6D23F002EC895 /* gradius_stand_128.png in Resources */,
+				3475247C17F6D23F002EC895 /* gradius01_stand_128.png in Resources */,
+				342403C517F774E000E06902 /* enemy01_stand_128.png in Resources */,
+				342403C617F774E000E06902 /* enemy02_stand_128.png in Resources */,
+				342403C717F774E000E06902 /* enemy03_stand_128.png in Resources */,
+				342403C817F774E000E06902 /* gradius02_stand_128.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,6 +241,7 @@
 				342057EE17F2B34C0084E99D /* ViewController.m in Sources */,
 				342057FA17F2B8810084E99D /* GameClassViewController.m in Sources */,
 				3400396F17F408070093E07E /* EnemyClass.m in Sources */,
+				3424020117F6E8A100E06902 /* BeamClass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
