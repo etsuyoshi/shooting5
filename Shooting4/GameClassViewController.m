@@ -9,28 +9,28 @@
 
 /**
  ・敵機からビーム発射及び自機との接触イベント(敵機と自機の接触イベントも同じように出来れば尚よし)
- ・自機からのビームはタップ時常時発射
- ・自機の移動はpanGesture
- UIPanGestureRecognizer* panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
- [self.view addGestureRecognizer:panGesture];
- [panGesture release];
- 
- - (void) handlePanGesture:(UIPanGestureRecognizer*) sender {
- UIPanGestureRecognizer* pan = (UIPanGestureRecognizer*) sender;
- CGPoint location = [pan translationInView:self.view];
- NSLog(@"pan x=%f, y=%f", location.x, location.y);
- }
- ＝＞フリック(パン)用ジェスチャーは既にあるから、その移動
+ ・画面構成：一時停止ボタン：済(再開リアクション：済)、点数表示、機数(生き返り数)、パワーゲージ(自機耐久力＝死ににくいようにする必要、ビーム強力度)
+ ・行き帰り時のリアクション(alpha修正により半透明にする)
+ ・敵機倒した時にアイテムを生成
+ ・敵機の描画を精密に？！
+
+ ・敵機をもっと頑丈に(typeによって爆発hit数を変更する)
+ ・自機からのビームはタップ時常時発射:済
+ ・自機の移動はpanGesture:済
+ ・ハロワ編集
+ ・信託記帳
  */
 
 #import "GameClassViewController.h"
 #import "EnemyClass.h"
 #import "BeamClass.h"
+#import "ItemClass.h"
 #import "DWFParticleView.h"
 #import <QuartzCore/QuartzCore.h>
 
+
 CGRect rect_frame, rect_myMachine, rect_enemyBeam, rect_beam_launch;
-UIImageView *iv_frame, *iv_myMachine, *iv_enemyBeam, *iv_beam_launch, *iv_background1, *iv_background2;
+UIImageView *iv_frame, *iv_myMachine, *iv_enemyBeam, *iv_beam_launch, *iv_background1, *iv_background2, *iv_tokuten;
 int y_background1, y_background2;
 const int explosionCycle = 3;//爆発時間
 Boolean bl_enemyAlive;
@@ -40,13 +40,16 @@ int x_myMachine, x_enemyMachine, x_beam;
 int y_myMachine, y_enemyMachine, y_beam;
 int size_machine;
 int length_beam, thick_beam;//ビームの長さと太さ
-
+Boolean isGameMode;
 int center_x;
+
+int tokuten;
 
 
 
 NSMutableArray *EnemyArray;
 NSMutableArray *BeamArray;
+NSMutableArray *ItemArray;
 
 NSTimer *tm;
 float count = 0;
@@ -71,6 +74,23 @@ float count = 0;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    //UI編集：ナビゲーションボタンの追加＝一時停止
+    
+    UIBarButtonItem* right_button_stop = [[UIBarButtonItem alloc] initWithTitle:@"stop"
+                                                                          style:UIBarButtonItemStyleBordered
+                                                                         target:self
+//                                                                         action:@selector(alertView:clickedButtonAtIndex:)];
+                               action:@selector(onClickedStopButton)];
+    UIBarButtonItem* right_button_setting = [[UIBarButtonItem alloc]
+                                          initWithTitle:@"set"
+                                          style:UIBarButtonItemStyleBordered
+                                          target:self
+                                             action:@selector(onClickedSettingButton)];
+    
+    isGameMode = true;
+    self.navigationItem.rightBarButtonItems = @[right_button_stop, right_button_setting];
+    self.navigationItem.leftItemsSupplementBackButton = YES; //戻るボタンを有効にする
     
     max_enemy_in_frame = 20;
     
@@ -114,6 +134,8 @@ float count = 0;
     //自機が発射したビームを格納する配列初期化
     BeamArray = [[NSMutableArray alloc] init];
     
+    //敵機を破壊した際のアイテム
+    ItemArray = [[NSMutableArray alloc] init];
 
     size_machine = 100;
     
@@ -310,55 +332,89 @@ float count = 0;
                
         }
         */
-        //ビーム衝突判定
-        for(int i = 0; i < [EnemyArray count] ;i++ ) {//全ての生存している敵に対して
-            NSLog(@"敵衝突判定:%d", i);
+    
+        //自機の衝突判定(判定対象はアイテムと敵機、及び敵機ビーム)
+    for(int itemCount = 0; itemCount < [ItemArray count] ; itemCount++){
+        ItemClass *_item = [ItemArray objectAtIndex:itemCount];
+        int _xItem = [_item getX];
+        int _yItem = [_item getY];
+        
+        if(
+           _xItem >= x_myMachine &&
+           _xItem <= x_myMachine + size_machine &&
+           _yItem >= y_myMachine &&
+           _yItem <= y_myMachine + size_machine){
             
-            if([(EnemyClass *)[EnemyArray objectAtIndex:i] getIsAlive]){//計算時間節約
-//                NSLog(@"敵衝突生存確認完了");
-                
-                EnemyClass *_enemy = (EnemyClass *)[EnemyArray objectAtIndex:i];
-                
-                for(int j = 0; j < [BeamArray count] ;j++){//発射した全てのビームに対して
-//                    NSLog(@"ビーム衝突判定:%d", j);
-                    if([(BeamClass *)[BeamArray objectAtIndex:j] getIsAlive]){
-//                        NSLog(@"ビーム発射確認完了");
+            [[[ItemArray objectAtIndex:itemCount] getImageView] removeFromSuperview];
+            
+            //得点の加算
+            
+            [self displayTOKUTEN:tokuten];
+            
+        }
+    }
+    
+    //敵機のビーム衝突判定
+    for(int i = 0; i < [EnemyArray count] ;i++ ) {//全ての生存している敵に対して
+        NSLog(@"敵衝突判定:%d", i);
+        
+        if([(EnemyClass *)[EnemyArray objectAtIndex:i] getIsAlive]){//計算時間節約
+            //                NSLog(@"敵衝突生存確認完了");
+            
+            EnemyClass *_enemy = (EnemyClass *)[EnemyArray objectAtIndex:i];
+            
+            for(int j = 0; j < [BeamArray count] ;j++){//発射した全てのビームに対して
+                //                    NSLog(@"ビーム衝突判定:%d", j);
+                if([(BeamClass *)[BeamArray objectAtIndex:j] getIsAlive]){
+                    //                        NSLog(@"ビーム発射確認完了");
+                    
+                    int _xBeam = [(BeamClass *)[BeamArray objectAtIndex:j] getX];
+                    int _yBeam = [(BeamClass *)[BeamArray objectAtIndex:j] getY];
+                    if(
+                       _xBeam >= [_enemy getX] &&
+                       _xBeam <= [_enemy getX] + [_enemy getSize] &&
+                       [_enemy getY] <= _yBeam &&
+                       [_enemy getY] + [_enemy getSize] >= _yBeam){
                         
-                        int _xBeam = [(BeamClass *)[BeamArray objectAtIndex:j] getX];
-                        int _yBeam = [(BeamClass *)[BeamArray objectAtIndex:j] getY];
-                        if(
-                           _xBeam >= [_enemy getX] &&
-                           _xBeam <= [_enemy getX] + [_enemy getSize] &&
-                           [_enemy getY] <= _yBeam &&
-                           [_enemy getY] + [_enemy getSize] >= _yBeam){
+                        
+                        
+                        NSLog(@"hit!!");
+                        NSLog(@"beam location[x = %d, y = %d], enemy location[x = %d, y = %d]",
+                              _xBeam, _yBeam, [_enemy getX], [_enemy getY]);
+                        
+                        //            bl_enemyAlive = false;
+                        [(EnemyClass *)[EnemyArray objectAtIndex:i] die:CGPointMake(_xBeam, _yBeam)];
+                        
+                        //                            [self drawBomb:(CGPointMake((float)_xBeam, (float)_yBeam))];
+                        
+                        //爆発パーティクル
+                        NSLog(@"パーティクル = %@", [(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle]);
+                        [[(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle] setUserInteractionEnabled: NO];//インタラクション拒否
+                        [[(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle] setIsEmitting:YES];//消去するには数秒後にNOに
+                        [self.view bringSubviewToFront: [(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle]];//最前面に
+                        [self.view addSubview: [(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle]];//表示する
+                        
+                        //アイテム出現
+                        if(arc4random() % 2 == 0){
+                            NSLog(@"アイテム出現");
+                            ItemClass *_item = [[ItemClass alloc] init:_xBeam y_init:_yBeam width:20 height:20];
+                            [ItemArray addObject:_item];
+                            
+                            [self.view bringSubviewToFront: [[ItemArray objectAtIndex:([ItemArray count]-1)] getImageView]];//最前面に
+                            [self.view addSubview:[[ItemArray objectAtIndex:([ItemArray count]-1)] getImageView]];
                             
                             
-                            
-                            NSLog(@"hit!!");
-                            NSLog(@"beam location[x = %d, y = %d], enemy location[x = %d, y = %d]",
-                                  _xBeam, _yBeam, [_enemy getX], [_enemy getY]);
-                            
-                            //            bl_enemyAlive = false;
-                            [(EnemyClass *)[EnemyArray objectAtIndex:i] die:CGPointMake(_xBeam, _yBeam)];
-                            
-//                            [self drawBomb:(CGPointMake((float)_xBeam, (float)_yBeam))];
-                            
-                            //爆発パーティクル
-                            NSLog(@"パーティクル = %@", [(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle]);
-                            [[(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle] setUserInteractionEnabled: NO];//インタラクション拒否
-                            [[(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle] setIsEmitting:YES];//消去するには数秒後にNOに
-                            [self.view bringSubviewToFront: [(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle]];//最前面に
-                            [self.view addSubview: [(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle]];//表示する
-                            
-                            break;//ビームループ脱出
+                        }else{
+                            NSLog(@"アイテムなし");
                         }
+                        
+                        break;//ビームループ脱出
                     }
                 }
             }
         }
-//    }
+    }
 
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -387,60 +443,69 @@ float count = 0;
 }
 
 - (void)time:(NSTimer*)timer{
-    [self drawBackground];
+    if(isGameMode){
+        [self drawBackground];
+        
+        count += 0.1;
+        
+        //    srand(time(nil));
+        //    int x_move = rand() % 50 - 25;
+        //    int x_move = arc4random() % size_machine - size_machine / 2;
+        int x_move = center_x * (sin(2 * M_PI * count * 50/ 360.0f) + 1.0f);
+        //    x_enemyMachine = x_enemyMachine + x_move;
+        x_enemyMachine = x_move;//正弦波の場合
+        
+        if (x_enemyMachine < 0){
+            x_enemyMachine = size_machine * 2;
+        }else if(x_enemyMachine > x_frame - size_machine){
+            x_enemyMachine = x_frame - size_machine * 2;
+        }
+        
+        //    y_enemyMachine += arc4random() % size_machine;
+        
+        
+        //ここにあったdoNextをこのメソッドの敵機生成前に移行
+        NSLog(@"count");
+        [self ordinaryAnimationStart];
+        
+        //一定時間経過するとゲームオーバー
+        if(count >= 30){
+            NSLog(@"gameover");
+            //経過したらタイマー終了
+            [tm invalidate];
+            
+            
+            //ゲームオーバー表示
+            CGRect rect_gameover = CGRectMake(50, 150, 250, 100);
+            UIImageView *iv_gameover = [[UIImageView alloc]initWithFrame:rect_gameover];
+            iv_gameover.image = [UIImage imageNamed:@"gameover.png"];
+            [self.view addSubview:iv_gameover];
+            
+        }
+        
+        
+        //ビームの更新作業
+        x_beam = x_myMachine + size_machine / 2;
+        y_beam -= length_beam;
+        
+        
+        //    NSLog(@"after do next");
+        
+        //    if(count > 0.2){
+        //        NSLog(@"ブレークポイント設置用：timer終了＝0.1秒経過");
+        //    }else{
+        //        NSLog(@"timer終了＝0.1秒経過");
+        //    }
+        
 
-    count += 0.1;
-    
-//    srand(time(nil));
-//    int x_move = rand() % 50 - 25;
-//    int x_move = arc4random() % size_machine - size_machine / 2;
-    int x_move = center_x * (sin(2 * M_PI * count * 50/ 360.0f) + 1.0f);
-//    x_enemyMachine = x_enemyMachine + x_move;
-    x_enemyMachine = x_move;//正弦波の場合
-    
-    if (x_enemyMachine < 0){
-        x_enemyMachine = size_machine * 2;
-    }else if(x_enemyMachine > x_frame - size_machine){
-        x_enemyMachine = x_frame - size_machine * 2;
-    }
-    
-//    y_enemyMachine += arc4random() % size_machine;
-    
-    
-    //ここにあったdoNextをこのメソッドの敵機生成前に移行
-    NSLog(@"count");
-    [self ordinaryAnimationStart];
-    
-    //一定時間経過するとゲームオーバー
-    if(count >= 30){
-        NSLog(@"gameover");
-        //経過したらタイマー終了
-        [tm invalidate];
+    }else{
+        
+        //一時停止ボタンが押された：isGameMode=false
         
         
-        //ゲームオーバー表示
-        CGRect rect_gameover = CGRectMake(50, 150, 250, 100);
-        UIImageView *iv_gameover = [[UIImageView alloc]initWithFrame:rect_gameover];
-        iv_gameover.image = [UIImage imageNamed:@"gameover.png"];
-        [self.view addSubview:iv_gameover];
+        //停止中画面に移行(一時停止用UIImageViewの表示)
         
     }
-    
-    
-    //ビームの更新作業
-    x_beam = x_myMachine + size_machine / 2;
-    y_beam -= length_beam;
-    
-    
-//    NSLog(@"after do next");
-    
-//    if(count > 0.2){
-//        NSLog(@"ブレークポイント設置用：timer終了＝0.1秒経過");
-//    }else{
-//        NSLog(@"timer終了＝0.1秒経過");
-//    }
-    
-
 }
 
 - (void)onFlickedFrame:(UIPanGestureRecognizer*)gr {
@@ -466,21 +531,7 @@ float count = 0;
     }
     // 指が離されたとき、ビューを元に位置に戻して、ラベルの文字列を変更する
     else if (gr.state == UIGestureRecognizerStateEnded) {//指を離した時
-//        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationCurveLinear animations:^{
-//            self.view.center = _center;
-//        } completion:^(BOOL finished) {
-//        }];
         
-//        if (point.y < 0) {//上向き
-//            
-//            //ビームオブジェクト生成
-//
-//            
-//            
-//        }
-//        else {//下向き
-//            NSLog(@"back");
-//        }
     }
 }
 
@@ -569,7 +620,7 @@ float count = 0;
 
 -(void)yieldBeam:(int)beam_type init_x:(int)x init_y:(int)y{
     //
-    BeamClass *beam = [[BeamClass alloc] init:x y_init:y width:50 height:50];
+    BeamClass *beam = [[BeamClass alloc] init:x - size_machine/3 y_init:y + size_machine/2 width:50 height:50];
     [BeamArray addObject:beam];
     
     
@@ -610,5 +661,58 @@ float count = 0;
     
 //    x_frame = rect_frame.size.width;
 //    y_frame = rect_frame.size.height;
+}
+
+-(void)onClickedStopButton{
+    NSLog(@"clicked stop button");
+    isGameMode = false;
+    
+    [self displayStoppedFrame];
+}
+
+-(void)onClickedSettingButton{
+    NSLog(@"clicked setting button");
+    isGameMode = false;
+    [self displaySettingFrame];
+}
+
+-(void)displayStoppedFrame{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"PAUSE"
+                                                    message:@"再開するにはボタンを押して下さい"
+                                                   delegate:self//デリゲートによりボタン反応はalertViewメソッドに委ねられる
+                                          cancelButtonTitle:@"ゲームに戻る"
+                                          otherButtonTitles:nil
+                            ,nil];
+    [alert show];
+    
+
+}
+-(void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    switch (buttonIndex) {
+        case 0:
+            //１番目のボタンが押されたときの処理を記述する
+            isGameMode = true;
+            break;
+//        case 1:
+//            //２番目のボタンが押されたときの処理を記述する
+//            NSLog(@"2");
+//            break;
+    }
+    
+}
+
+-(void)displaySettingFrame{
+    
+}
+
+-(void)displayTOKUTEN:(int)tokuten{
+    
+    
+    [iv_tokuten removeFromSuperview];
+    
+    iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(200, 50, 100, 150)];
+    iv_tokuten.image = [UIImage imageNamed:@"zero.png"];
+    [self.view addSubview:iv_tokuten];
 }
 @end

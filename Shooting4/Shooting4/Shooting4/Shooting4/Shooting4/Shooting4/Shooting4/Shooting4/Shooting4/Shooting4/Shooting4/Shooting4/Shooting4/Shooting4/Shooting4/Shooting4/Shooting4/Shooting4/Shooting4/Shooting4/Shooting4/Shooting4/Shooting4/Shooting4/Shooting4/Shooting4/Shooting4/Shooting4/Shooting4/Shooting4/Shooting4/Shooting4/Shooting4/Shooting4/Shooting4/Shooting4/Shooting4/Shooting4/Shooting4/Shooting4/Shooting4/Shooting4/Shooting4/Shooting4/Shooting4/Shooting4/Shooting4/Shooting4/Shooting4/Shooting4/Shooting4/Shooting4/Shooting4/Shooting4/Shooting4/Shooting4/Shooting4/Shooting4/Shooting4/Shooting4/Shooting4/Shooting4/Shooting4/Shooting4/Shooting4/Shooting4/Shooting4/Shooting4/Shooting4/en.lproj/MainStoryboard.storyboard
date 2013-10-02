@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="11G63" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ff4-jL-f67">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller - 初期画面-->
+        <scene sceneID="5">
+            <objects>
+                <viewController title="初期画面" id="2" customClass="ViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="初期画面" textAlignment="center" lineBreakMode="wordWrap" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EBb-yw-9sh">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="113" id="XRf-ga-uY0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VzW-Dp-6ry">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="117" id="lQM-A6-hKI"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="game start">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="HjP-Ee-DXG" kind="push" id="dKs-6z-GmJ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="EBb-yw-9sh" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" symbolic="YES" type="default" id="Bti-oU-fpr"/>
+                            <constraint firstItem="VzW-Dp-6ry" firstAttribute="centerX" secondItem="EBb-yw-9sh" secondAttribute="centerX" type="default" id="Ida-MQ-gD8"/>
+                            <constraint firstItem="EBb-yw-9sh" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" type="default" id="gLI-9R-Rwe"/>
+                            <constraint firstItem="VzW-Dp-6ry" firstAttribute="top" secondItem="EBb-yw-9sh" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="pET-jU-5vy"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="初期画面" id="axM-gk-Ddr">
+                        <barButtonItem key="backBarButtonItem" title="戻る" id="BkH-vi-BJ0"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="867" y="188"/>
+        </scene>
+        <!--Game Class View Controller-->
+        <scene sceneID="yMT-Yz-AqE">
+            <objects>
+                <viewController id="HjP-Ee-DXG" customClass="GameClassViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="v0D-pp-gQi">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Jqg-EE-Tdr"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Mgu-UH-JRV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1358" y="188"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="mmC-qL-ndK">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="Ff4-jL-f67" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hom-Dg-QLr">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="2" kind="relationship" relationship="rootViewController" id="Soj-MD-bmj"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yyL-ca-uqb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="317" y="188"/>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
