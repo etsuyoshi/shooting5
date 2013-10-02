@@ -174,7 +174,10 @@ float count = 0;
     //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
     //_/_/_/_/生成_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
     //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-    [self yieldEnemy];
+//    if([EnemyArray count] < 3){
+        [self yieldEnemy];
+//    }
+
     
     
     //自機
@@ -346,7 +349,8 @@ float count = 0;
                             [[(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle] setIsEmitting:YES];//消去するには数秒後にNOに
                             [self.view bringSubviewToFront: [(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle]];//最前面に
                             [self.view addSubview: [(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle]];//表示する
-
+                            
+                            break;//ビームループ脱出
                         }
                     }
                 }
@@ -546,7 +550,7 @@ float count = 0;
 //    NSLog(@"count = %d", [EnemyArray count]);
 //    NSLog(@"%d", arc4random());
 //    if(count == 0 || arc4random() % 4 == 0){
-    if((int)(count * 10) % 5 ==0 && arc4random() % 2 == 0){
+    if((int)(count * 10) % 10 ==0 && arc4random() % 2 == 0){
         
 //        NSLog(@"生成");
 //        EnemyClass *enemy = [[EnemyClass alloc]init:center_x size:50];

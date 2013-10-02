@@ -123,7 +123,7 @@
     }
     
     
-    [particleEmitter setValue:[NSNumber numberWithInt:isEmitting?30:0]
+    [particleEmitter setValue:[NSNumber numberWithInt:isEmitting?100:0]
                    forKeyPath:@"emitterCells.particle.birthRate"];
 
 //    [particleEmitter setValue:[NSNumber numberWithInt:isEmitting?30:0] forKeyPath:@"emitterCells.particle.birthRate"];

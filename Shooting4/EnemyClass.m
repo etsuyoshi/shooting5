@@ -98,6 +98,7 @@ int unique_id;
     //爆発用パーティクルの初期化
     particleView = [[DWFParticleView alloc] initWithFrame:CGRectMake(location.x, location.y, bomb_size, bomb_size)];
     isAlive = false;
+    dead_time ++;
 }
 
 -(int) getDeadTime{
