@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "342057CD17F2B34C0084E99D"
-               BuildableName = "Shooting3.app"
-               BlueprintName = "Shooting3"
-               ReferencedContainer = "container:Shooting3.xcodeproj">
+               BuildableName = "Shooting4.app"
+               BlueprintName = "Shooting4"
+               ReferencedContainer = "container:Shooting4.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "342057CD17F2B34C0084E99D"
-            BuildableName = "Shooting3.app"
-            BlueprintName = "Shooting3"
-            ReferencedContainer = "container:Shooting3.xcodeproj">
+            BuildableName = "Shooting4.app"
+            BlueprintName = "Shooting4"
+            ReferencedContainer = "container:Shooting4.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -52,9 +52,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "342057CD17F2B34C0084E99D"
-            BuildableName = "Shooting3.app"
-            BlueprintName = "Shooting3"
-            ReferencedContainer = "container:Shooting3.xcodeproj">
+            BuildableName = "Shooting4.app"
+            BlueprintName = "Shooting4"
+            ReferencedContainer = "container:Shooting4.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -70,9 +70,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "342057CD17F2B34C0084E99D"
-            BuildableName = "Shooting3.app"
-            BlueprintName = "Shooting3"
-            ReferencedContainer = "container:Shooting3.xcodeproj">
+            BuildableName = "Shooting4.app"
+            BlueprintName = "Shooting4"
+            ReferencedContainer = "container:Shooting4.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

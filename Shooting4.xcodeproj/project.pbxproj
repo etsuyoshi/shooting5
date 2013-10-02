@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		3400396F17F408070093E07E /* EnemyClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3400396E17F408070093E07E /* EnemyClass.m */; };
+		34043A5A17FA0FE50000E338 /* DWFParticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34043A5917FA0FE50000E338 /* DWFParticleView.m */; };
+		34043A5C17FA103C0000E338 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34043A5B17FA103C0000E338 /* QuartzCore.framework */; };
+		34043A5E17FA132B0000E338 /* Particles_fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 34043A5D17FA132B0000E338 /* Particles_fire.png */; };
 		342057D217F2B34C0084E99D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 342057D117F2B34C0084E99D /* UIKit.framework */; };
 		342057D417F2B34C0084E99D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 342057D317F2B34C0084E99D /* Foundation.framework */; };
 		342057D617F2B34C0084E99D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 342057D517F2B34C0084E99D /* CoreGraphics.framework */; };
@@ -25,6 +28,8 @@
 		342403C617F774E000E06902 /* enemy02_stand_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 342403C217F774E000E06902 /* enemy02_stand_128.png */; };
 		342403C717F774E000E06902 /* enemy03_stand_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 342403C317F774E000E06902 /* enemy03_stand_128.png */; };
 		342403C817F774E000E06902 /* gradius02_stand_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 342403C417F774E000E06902 /* gradius02_stand_128.png */; };
+		3424A7DA17F91C040068B0D8 /* cosmos.png in Resources */ = {isa = PBXBuildFile; fileRef = 3424A7D917F91C040068B0D8 /* cosmos.png */; };
+		3424A7DC17F937050068B0D8 /* cosmos_star4.png in Resources */ = {isa = PBXBuildFile; fileRef = 3424A7DB17F937050068B0D8 /* cosmos_star4.png */; };
 		342C03A917F4604E0023C11F /* bomb_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 342C039B17F4604E0023C11F /* bomb_big.png */; };
 		342C03AA17F4604E0023C11F /* bomb.png in Resources */ = {isa = PBXBuildFile; fileRef = 342C039C17F4604E0023C11F /* bomb.png */; };
 		342C03AB17F4604E0023C11F /* nothing32.png in Resources */ = {isa = PBXBuildFile; fileRef = 342C039D17F4604E0023C11F /* nothing32.png */; };
@@ -33,19 +38,24 @@
 		342C03AE17F4604E0023C11F /* enemy.png in Resources */ = {isa = PBXBuildFile; fileRef = 342C03A017F4604E0023C11F /* enemy.png */; };
 		342C03AF17F4604E0023C11F /* flight.png in Resources */ = {isa = PBXBuildFile; fileRef = 342C03A117F4604E0023C11F /* flight.png */; };
 		3475247C17F6D23F002EC895 /* gradius01_stand_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 3475247B17F6D23F002EC895 /* gradius01_stand_128.png */; };
+		34FA998D17FB87A700317D83 /* bullet_nil.png in Resources */ = {isa = PBXBuildFile; fileRef = 34FA998C17FB87A700317D83 /* bullet_nil.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3400396D17F408070093E07E /* EnemyClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnemyClass.h; sourceTree = "<group>"; };
 		3400396E17F408070093E07E /* EnemyClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnemyClass.m; sourceTree = "<group>"; };
-		342057CE17F2B34C0084E99D /* Shooting3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shooting3.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		34043A5817FA0FE50000E338 /* DWFParticleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWFParticleView.h; sourceTree = "<group>"; };
+		34043A5917FA0FE50000E338 /* DWFParticleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWFParticleView.m; sourceTree = "<group>"; };
+		34043A5B17FA103C0000E338 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		34043A5D17FA132B0000E338 /* Particles_fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Particles_fire.png; path = "../../../一般材料/UI/shooting/Particles_fire.png"; sourceTree = "<group>"; };
+		342057CE17F2B34C0084E99D /* Shooting4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shooting4.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		342057D117F2B34C0084E99D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		342057D317F2B34C0084E99D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		342057D517F2B34C0084E99D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		342057D917F2B34C0084E99D /* Shooting3-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Shooting3-Info.plist"; sourceTree = "<group>"; };
+		342057D917F2B34C0084E99D /* Shooting4-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Shooting4-Info.plist"; sourceTree = "<group>"; };
 		342057DB17F2B34C0084E99D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		342057DD17F2B34C0084E99D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		342057DF17F2B34C0084E99D /* Shooting3-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Shooting3-Prefix.pch"; sourceTree = "<group>"; };
+		342057DF17F2B34C0084E99D /* Shooting4-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Shooting4-Prefix.pch"; sourceTree = "<group>"; };
 		342057E017F2B34C0084E99D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		342057E117F2B34C0084E99D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		342057E317F2B34C0084E99D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -62,6 +72,8 @@
 		342403C217F774E000E06902 /* enemy02_stand_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemy02_stand_128.png; sourceTree = "<group>"; };
 		342403C317F774E000E06902 /* enemy03_stand_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemy03_stand_128.png; sourceTree = "<group>"; };
 		342403C417F774E000E06902 /* gradius02_stand_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradius02_stand_128.png; sourceTree = "<group>"; };
+		3424A7D917F91C040068B0D8 /* cosmos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cosmos.png; sourceTree = "<group>"; };
+		3424A7DB17F937050068B0D8 /* cosmos_star4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cosmos_star4.png; sourceTree = "<group>"; };
 		342C039B17F4604E0023C11F /* bomb_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bomb_big.png; sourceTree = "<group>"; };
 		342C039C17F4604E0023C11F /* bomb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bomb.png; sourceTree = "<group>"; };
 		342C039D17F4604E0023C11F /* nothing32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nothing32.png; sourceTree = "<group>"; };
@@ -70,6 +82,7 @@
 		342C03A017F4604E0023C11F /* enemy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemy.png; sourceTree = "<group>"; };
 		342C03A117F4604E0023C11F /* flight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flight.png; sourceTree = "<group>"; };
 		3475247B17F6D23F002EC895 /* gradius01_stand_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradius01_stand_128.png; sourceTree = "<group>"; };
+		34FA998C17FB87A700317D83 /* bullet_nil.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bullet_nil.png; path = "../../../一般材料/UI/shooting/bullet_nil.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34043A5C17FA103C0000E338 /* QuartzCore.framework in Frameworks */,
 				342057D217F2B34C0084E99D /* UIKit.framework in Frameworks */,
 				342057D417F2B34C0084E99D /* Foundation.framework in Frameworks */,
 				342057D617F2B34C0084E99D /* CoreGraphics.framework in Frameworks */,
@@ -89,7 +103,8 @@
 		342057C517F2B34C0084E99D = {
 			isa = PBXGroup;
 			children = (
-				342057D717F2B34C0084E99D /* Shooting3 */,
+				34043A5B17FA103C0000E338 /* QuartzCore.framework */,
+				342057D717F2B34C0084E99D /* Shooting4 */,
 				342057D017F2B34C0084E99D /* Frameworks */,
 				342057CF17F2B34C0084E99D /* Products */,
 			);
@@ -98,7 +113,7 @@
 		342057CF17F2B34C0084E99D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				342057CE17F2B34C0084E99D /* Shooting3.app */,
+				342057CE17F2B34C0084E99D /* Shooting4.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -113,7 +128,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		342057D717F2B34C0084E99D /* Shooting3 */ = {
+		342057D717F2B34C0084E99D /* Shooting4 */ = {
 			isa = PBXGroup;
 			children = (
 				342057E017F2B34C0084E99D /* AppDelegate.h */,
@@ -125,16 +140,22 @@
 				3400396E17F408070093E07E /* EnemyClass.m */,
 				342401FF17F6E8A100E06902 /* BeamClass.h */,
 				3424020017F6E8A100E06902 /* BeamClass.m */,
+				34043A5817FA0FE50000E338 /* DWFParticleView.h */,
+				34043A5917FA0FE50000E338 /* DWFParticleView.m */,
 				342057F817F2B8810084E99D /* GameClassViewController.h */,
 				342057F917F2B8810084E99D /* GameClassViewController.m */,
 				342057D817F2B34C0084E99D /* Supporting Files */,
 			);
-			path = Shooting3;
+			path = Shooting4;
 			sourceTree = "<group>";
 		};
 		342057D817F2B34C0084E99D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				34FA998C17FB87A700317D83 /* bullet_nil.png */,
+				34043A5D17FA132B0000E338 /* Particles_fire.png */,
+				3424A7DB17F937050068B0D8 /* cosmos_star4.png */,
+				3424A7D917F91C040068B0D8 /* cosmos.png */,
 				342403C117F774E000E06902 /* enemy01_stand_128.png */,
 				342403C217F774E000E06902 /* enemy02_stand_128.png */,
 				342403C317F774E000E06902 /* enemy03_stand_128.png */,
@@ -147,10 +168,10 @@
 				342C039F17F4604E0023C11F /* gameover.png */,
 				342C03A017F4604E0023C11F /* enemy.png */,
 				342C03A117F4604E0023C11F /* flight.png */,
-				342057D917F2B34C0084E99D /* Shooting3-Info.plist */,
+				342057D917F2B34C0084E99D /* Shooting4-Info.plist */,
 				342057DA17F2B34C0084E99D /* InfoPlist.strings */,
 				342057DD17F2B34C0084E99D /* main.m */,
-				342057DF17F2B34C0084E99D /* Shooting3-Prefix.pch */,
+				342057DF17F2B34C0084E99D /* Shooting4-Prefix.pch */,
 				342057E317F2B34C0084E99D /* Default.png */,
 				342057E517F2B34C0084E99D /* Default@2x.png */,
 				342057E717F2B34C0084E99D /* Default-568h@2x.png */,
@@ -161,9 +182,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		342057CD17F2B34C0084E99D /* Shooting3 */ = {
+		342057CD17F2B34C0084E99D /* Shooting4 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 342057F117F2B34C0084E99D /* Build configuration list for PBXNativeTarget "Shooting3" */;
+			buildConfigurationList = 342057F117F2B34C0084E99D /* Build configuration list for PBXNativeTarget "Shooting4" */;
 			buildPhases = (
 				342057CA17F2B34C0084E99D /* Sources */,
 				342057CB17F2B34C0084E99D /* Frameworks */,
@@ -173,9 +194,9 @@
 			);
 			dependencies = (
 			);
-			name = Shooting3;
+			name = Shooting4;
 			productName = ShootingTest;
-			productReference = 342057CE17F2B34C0084E99D /* Shooting3.app */;
+			productReference = 342057CE17F2B34C0084E99D /* Shooting4.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -187,7 +208,7 @@
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = endo.tuyo;
 			};
-			buildConfigurationList = 342057C917F2B34C0084E99D /* Build configuration list for PBXProject "Shooting3" */;
+			buildConfigurationList = 342057C917F2B34C0084E99D /* Build configuration list for PBXProject "Shooting4" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -199,7 +220,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				342057CD17F2B34C0084E99D /* Shooting3 */,
+				342057CD17F2B34C0084E99D /* Shooting4 */,
 			);
 		};
 /* End PBXProject section */
@@ -226,6 +247,10 @@
 				342403C617F774E000E06902 /* enemy02_stand_128.png in Resources */,
 				342403C717F774E000E06902 /* enemy03_stand_128.png in Resources */,
 				342403C817F774E000E06902 /* gradius02_stand_128.png in Resources */,
+				3424A7DA17F91C040068B0D8 /* cosmos.png in Resources */,
+				3424A7DC17F937050068B0D8 /* cosmos_star4.png in Resources */,
+				34043A5E17FA132B0000E338 /* Particles_fire.png in Resources */,
+				34FA998D17FB87A700317D83 /* bullet_nil.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,6 +267,7 @@
 				342057FA17F2B8810084E99D /* GameClassViewController.m in Sources */,
 				3400396F17F408070093E07E /* EnemyClass.m in Sources */,
 				3424020117F6E8A100E06902 /* BeamClass.m in Sources */,
+				34043A5A17FA0FE50000E338 /* DWFParticleView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,10 +353,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Shooting3/Shooting3-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/Shooting3/Shooting3-Info.plist";
+				GCC_PREFIX_HEADER = "Shooting4/Shooting4-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/Shooting4/Shooting4-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				PRODUCT_NAME = Shooting3;
+				PRODUCT_NAME = Shooting4;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -339,10 +365,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Shooting3/Shooting3-Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/Shooting3/Shooting3-Info.plist";
+				GCC_PREFIX_HEADER = "Shooting4/Shooting4-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/Shooting4/Shooting4-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				PRODUCT_NAME = Shooting3;
+				PRODUCT_NAME = Shooting4;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -350,7 +376,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		342057C917F2B34C0084E99D /* Build configuration list for PBXProject "Shooting3" */ = {
+		342057C917F2B34C0084E99D /* Build configuration list for PBXProject "Shooting4" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				342057EF17F2B34C0084E99D /* Debug */,
@@ -359,7 +385,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		342057F117F2B34C0084E99D /* Build configuration list for PBXNativeTarget "Shooting3" */ = {
+		342057F117F2B34C0084E99D /* Build configuration list for PBXNativeTarget "Shooting4" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				342057F217F2B34C0084E99D /* Debug */,
