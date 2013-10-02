@@ -30,7 +30,9 @@
 
 
 CGRect rect_frame, rect_myMachine, rect_enemyBeam, rect_beam_launch;
-UIImageView *iv_frame, *iv_myMachine, *iv_enemyBeam, *iv_beam_launch, *iv_background1, *iv_background2, *iv_tokuten;
+UIImageView *iv_frame, *iv_myMachine, *iv_enemyBeam, *iv_beam_launch, *iv_background1, *iv_background2;
+
+NSMutableArray *iv_arr_tokuten;
 int y_background1, y_background2;
 const int explosionCycle = 3;//爆発時間
 Boolean bl_enemyAlive;
@@ -136,6 +138,27 @@ float count = 0;
     
     //敵機を破壊した際のアイテム
     ItemArray = [[NSMutableArray alloc] init];
+    
+    
+    //ここは時間がある時にtokutenオブジェクトとして保有しておく必要がある
+    //点数表示用ImageView用配列
+    iv_arr_tokuten = [[NSMutableArray alloc] init];
+    //全て0で初期化
+    int _strWidth = 25;
+    int _strHeight = 36;
+    int _x0 = 250;
+    int _y0 = 20;
+    int _maxKetasu = 4;
+    for(int ketasu = 0 ; ketasu < _maxKetasu; ketasu++){
+        
+        UIImageView *_iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
+                                                                                _y0,
+                                                                                _strWidth - 1,
+                                                                                _strHeight - 1)];
+        _iv_tokuten.image = [UIImage imageNamed:@"zero.png"];
+        [iv_arr_tokuten addObject:_iv_tokuten];
+        [self.view addSubview:[iv_arr_tokuten objectAtIndex:ketasu]];
+    }
 
     size_machine = 100;
     
@@ -336,21 +359,28 @@ float count = 0;
         //自機の衝突判定(判定対象はアイテムと敵機、及び敵機ビーム)
     for(int itemCount = 0; itemCount < [ItemArray count] ; itemCount++){
         ItemClass *_item = [ItemArray objectAtIndex:itemCount];
-        int _xItem = [_item getX];
-        int _yItem = [_item getY];
-        
-        if(
-           _xItem >= x_myMachine &&
-           _xItem <= x_myMachine + size_machine &&
-           _yItem >= y_myMachine &&
-           _yItem <= y_myMachine + size_machine){
+        if([_item getIsAlive]){
+            int _xItem = [_item getX];
+            int _yItem = [_item getY];
             
-            [[[ItemArray objectAtIndex:itemCount] getImageView] removeFromSuperview];
-            
-            //得点の加算
-            
-            [self displayTOKUTEN:tokuten];
-            
+            if(
+               _xItem >= x_myMachine &&
+               _xItem <= x_myMachine + size_machine &&
+               _yItem >= y_myMachine &&
+               _yItem <= y_myMachine + size_machine){
+                
+                [[[ItemArray objectAtIndex:itemCount] getImageView] removeFromSuperview];
+                [[ItemArray objectAtIndex:itemCount] die];
+                
+                //得点の加算
+                tokuten++;
+                NSLog(@"tokuten = %d", tokuten);
+                [self displayTOKUTEN];
+                
+                //            break;
+                
+            }
+
         }
     }
     
@@ -395,7 +425,7 @@ float count = 0;
                         [self.view addSubview: [(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle]];//表示する
                         
                         //アイテム出現
-                        if(arc4random() % 2 == 0){
+                        if(arc4random() % 2 == 0 || true){
                             NSLog(@"アイテム出現");
                             ItemClass *_item = [[ItemClass alloc] init:_xBeam y_init:_yBeam width:20 height:20];
                             [ItemArray addObject:_item];
@@ -706,13 +736,134 @@ float count = 0;
     
 }
 
--(void)displayTOKUTEN:(int)tokuten{
+-(void)displayTOKUTEN{
+    
+    int _strWidth = 25;
+    int _strHeight = 36;
+    int _x0 = 250;
+    int _y0 = 20;
+    int _maxKetasu = 4;
     
     
-    [iv_tokuten removeFromSuperview];
+    NSString *moji = [ NSString stringWithFormat : @"%04d", tokuten];
+    NSLog(@"moji = %@", moji);
+//    NSLog(@"moji at 0 = %@", [moji substringWithRange:NSMakeRange(0,1)]);//左一文字
     
-    iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(200, 50, 100, 150)];
-    iv_tokuten.image = [UIImage imageNamed:@"zero.png"];
-    [self.view addSubview:iv_tokuten];
+    UIImageView *_iv_tokuten = nil;
+    //４桁まで表示する
+    for(int ketasu = 0; ketasu < _maxKetasu; ketasu++){
+        NSLog(@"moji at %d = %@", ketasu, [moji substringWithRange:NSMakeRange(ketasu,1)]);//左一文字
+        [[iv_arr_tokuten objectAtIndex:ketasu] removeFromSuperview];//まずは前のスコアを非表示に。
+    }
+    
+    [iv_arr_tokuten removeAllObjects];//次に配列内を全て空に。
+    
+    for(int ketasu = 0; ketasu < _maxKetasu; ketasu++){
+        switch([[moji substringWithRange:NSMakeRange(ketasu, 1)] intValue]){
+            case 0:
+                
+                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
+                                                                          _y0,
+                                                                          _strWidth,
+                                                                          _strHeight)];
+                _iv_tokuten.image = [UIImage imageNamed:@"zero.png"];
+                [iv_arr_tokuten addObject:_iv_tokuten];
+                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
+                NSLog(@"%@", _iv_tokuten);
+                
+                break;
+            case 1:
+                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
+                                                                          _y0,
+                                                                          _strWidth - 1,
+                                                                          _strHeight - 1)];
+                _iv_tokuten.image = [UIImage imageNamed:@"one.png"];
+                [iv_arr_tokuten addObject:_iv_tokuten];
+                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
+                NSLog(@"%@", _iv_tokuten);
+                break;
+            case 2:
+                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
+                                                                          _y0,
+                                                                          _strWidth - 1,
+                                                                          _strHeight - 1)];
+                _iv_tokuten.image = [UIImage imageNamed:@"two.png"];
+                [iv_arr_tokuten addObject:_iv_tokuten];
+                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
+                NSLog(@"%@", _iv_tokuten);
+                break;
+            case 3:
+                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
+                                                                          _y0,
+                                                                          _strWidth - 1,
+                                                                          _strHeight - 1)];
+                _iv_tokuten.image = [UIImage imageNamed:@"three.png"];
+                [iv_arr_tokuten addObject:_iv_tokuten];
+                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
+                NSLog(@"%@", _iv_tokuten);
+                break;
+            case 4:
+                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
+                                                                          _y0,
+                                                                          _strWidth - 1,
+                                                                          _strHeight - 1)];
+                _iv_tokuten.image = [UIImage imageNamed:@"four.png"];
+                [iv_arr_tokuten addObject:_iv_tokuten];
+                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
+                NSLog(@"%@", _iv_tokuten);
+                break;
+            case 5:
+                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
+                                                                          _y0,
+                                                                          _strWidth - 1,
+                                                                          _strHeight - 1)];
+                _iv_tokuten.image = [UIImage imageNamed:@"five.png"];
+                [iv_arr_tokuten addObject:_iv_tokuten];
+                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
+                NSLog(@"%@", _iv_tokuten);
+                break;
+            case 6:
+                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
+                                                                          _y0,
+                                                                          _strWidth - 1,
+                                                                          _strHeight - 1)];
+                _iv_tokuten.image = [UIImage imageNamed:@"six.png"];
+                [iv_arr_tokuten addObject:_iv_tokuten];
+                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
+                NSLog(@"%@", _iv_tokuten);
+                break;
+            case 7:
+                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
+                                                                          _y0,
+                                                                          _strWidth - 1,
+                                                                          _strHeight - 1)];
+                _iv_tokuten.image = [UIImage imageNamed:@"seven.png"];
+                [iv_arr_tokuten addObject:_iv_tokuten];
+                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
+                NSLog(@"%@", _iv_tokuten);
+                break;
+            case 8:
+                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
+                                                                          _y0,
+                                                                          _strWidth - 1,
+                                                                          _strHeight - 1)];
+                _iv_tokuten.image = [UIImage imageNamed:@"eight.png"];
+                [iv_arr_tokuten addObject:_iv_tokuten];
+                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
+                NSLog(@"%@", _iv_tokuten);
+                break;
+            case 9:
+                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
+                                                                          _y0,
+                                                                          _strWidth - 1,
+                                                                          _strHeight - 1)];
+                _iv_tokuten.image = [UIImage imageNamed:@"nine.png"];
+                [iv_arr_tokuten addObject:_iv_tokuten];
+                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
+                NSLog(@"%@", _iv_tokuten);
+                break;
+        }
+    }
+    
 }
 @end
