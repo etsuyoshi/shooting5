@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "DWFParticleView.h"
+#import "DamageParticleView.h"
 
 @interface EnemyClass : NSObject{
     
     int x_loc;
     int y_loc;
     int enemy_type;//機体の型
+    int hitPoint;
     int mySize;
     int lifetime_count;
     int bomb_size;
@@ -21,14 +23,16 @@
     Boolean isAlive;
     UIImageView *iv;
     CGRect rect;
-    DWFParticleView *particleView;
-
+    DWFParticleView *explodeParticle;
+    DamageParticleView *damageParticle;
 }
 
 
 -(id)init:(int)x_init size:(int)size;
 -(id)init;
 
+-(void)setDamage:(int)damage location:(CGPoint)location;
+-(int)getHitPoint;
 -(Boolean)getIsAlive;
 -(int)getDeadTime;
 -(void)setSize:(int)s;
@@ -45,5 +49,6 @@
 -(int) getX;
 -(int) getY;
 -(UIImageView *)getImageView;
--(DWFParticleView *)getParticle;
+-(DWFParticleView *)getExplodeParticle;
+-(DamageParticleView *)getDamageParticle;
 @end

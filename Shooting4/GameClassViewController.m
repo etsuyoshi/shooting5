@@ -9,10 +9,12 @@
 
 /**
  ・敵機からビーム発射及び自機との接触イベント(敵機と自機の接触イベントも同じように出来れば尚よし)
- ・画面構成：一時停止ボタン：済(再開リアクション：済)、点数表示、機数(生き返り数)、パワーゲージ(自機耐久力＝死ににくいようにする必要、ビーム強力度)
+ ・画面構成：一時停止ボタン：済(再開リアクション：済)、点数表示:済、機数(生き返り数)：ラベルはgradius5.jpg、パワーゲージ(自機耐久力＝死ににくいようにする必要、ビーム強力度)
+ ・敵機にhitPointを、Beamにpowerを持たせて、当たった分だけダメージを与える：ダメージ発生時、簡単なparticleを表示させたい
  ・行き帰り時のリアクション(alpha修正により半透明にする)
  ・敵機倒した時にアイテムを生成
  ・敵機の描画を精密に？！
+ ・画面タッチ時にビーム発射
 
  ・敵機をもっと頑丈に(typeによって爆発hit数を変更する)
  ・自機からのビームはタップ時常時発射:済
@@ -46,6 +48,8 @@ Boolean isGameMode;
 int center_x;
 
 int tokuten;
+
+UIPanGestureRecognizer *flick_frame;
 
 
 
@@ -109,15 +113,17 @@ float count = 0;
     iv_frame = [[UIImageView alloc]initWithFrame:rect_frame];
 //    iv_frame.image =[UIImage imageNamed:@"gameover.png"];
     iv_frame.userInteractionEnabled = YES;
-    UIPanGestureRecognizer *flick_frame = [[UIPanGestureRecognizer alloc] initWithTarget:self
+    flick_frame = [[UIPanGestureRecognizer alloc] initWithTarget:self
                                                                           action:@selector(onFlickedFrame:)];
-    UITapGestureRecognizer *tap_frame = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                action:@selector(onTappedFrame:)];
+//    UITapGestureRecognizer *tap_frame = [[UITapGestureRecognizer alloc] initWithTarget:self
+//                                                                                action:@selector(onTappedFrame:)];
     [iv_frame addGestureRecognizer:flick_frame];
-    [iv_frame addGestureRecognizer:tap_frame];
+    
+//    [iv_frame addGestureRecognizer:tap_frame];
+    [self.view bringSubviewToFront: iv_frame];//最前面に
     //ビューにメインイメージを貼り付ける
     [self.view addSubview:iv_frame];
-    
+
     
     //backgroundの描画：絵を二枚用意して一枚目を表示して時間経過と共に進行方向(逆)にスクロールさせ、１枚目の終端を描画し始めたら２枚目の最初を描画させる
     iv_background1 = [[UIImageView alloc]initWithFrame:rect_frame];
@@ -236,10 +242,11 @@ float count = 0;
     iv_myMachine.animationRepeatCount = 0;
     //現状、自機と敵機をタップしても何も起こらないようにする
     iv_myMachine.userInteractionEnabled = YES;
+//    [iv_myMachine addGestureRecognizer:flick_frame];
     
     //ジェスチャーレコナイザーを付与して、タップイベントに備える
-    UIPanGestureRecognizer* panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
-    [iv_myMachine addGestureRecognizer:panGesture];
+//    UIPanGestureRecognizer* panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
+//    [iv_myMachine addGestureRecognizer:panGesture];
 //    UITapGestureRecognizer *tap =
 //    [[UITapGestureRecognizer alloc] initWithTarget:self
 //                                            action:@selector(onTappedMachine:)];
@@ -268,32 +275,35 @@ float count = 0;
             [(EnemyClass *)[EnemyArray objectAtIndex:i] doNext];
 //            NSLog(@"%d番目敵：y=%d", i, [(EnemyClass *)[EnemyArray objectAtIndex:i] getY]);
             
+            //ダメージパーティクルの消去
+            [[(EnemyClass *)[EnemyArray objectAtIndex:i] getDamageParticle] setIsEmitting:NO];//消去するには数秒後にNOに
+            
+            
             if([(EnemyClass *)[EnemyArray objectAtIndex: i] getDeadTime] >= explosionCycle){
                 //爆発パーティクルの消去
                 NSLog(@"パーティクル消去 at %d", i);
-                [[(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle] setIsEmitting:NO];//消去するには数秒後にNOに
-                //→最初のパーティクル以外は消去されていない？？
+                [[(EnemyClass *)[EnemyArray objectAtIndex:i] getExplodeParticle] setIsEmitting:NO];//消去するには数秒後にNOに
 
             }
         }
     }
-    
-    //test:パーティクルのbirthRateがゼロになっているか
-    for(int i = 0;i < [EnemyArray count] ; i++){
-        if([[EnemyArray objectAtIndex:i] getIsAlive]){
-            NSLog(@"enemy[%d] is alive", i);
-        }else{
-            NSLog(@"enemy[%d] is dead ", i);
-            NSLog(@"enemy's dead_time is %d", [[EnemyArray objectAtIndex:i] getDeadTime]);
-//            if([[EnemyArray objectAtIndex:i] getStatus]){
-            if([[[EnemyArray objectAtIndex:i] getParticle] getIsFinished]){
-                NSLog(@"enemy's explosion is finished");
-            }else{
-                NSLog(@"enemy's explosion is not finished");
-            }
-            
-        }
-    }
+//    
+//    //test:パーティクルのbirthRateがゼロになっているか
+//    for(int i = 0;i < [EnemyArray count] ; i++){
+//        if([[EnemyArray objectAtIndex:i] getIsAlive]){
+//            NSLog(@"enemy[%d] is alive", i);
+//        }else{
+//            NSLog(@"enemy[%d] is dead ", i);
+//            NSLog(@"enemy's dead_time is %d", [[EnemyArray objectAtIndex:i] getDeadTime]);
+////            if([[EnemyArray objectAtIndex:i] getStatus]){
+//            if([[[EnemyArray objectAtIndex:i] getParticle] getIsFinished]){
+//                NSLog(@"enemy's explosion is finished");
+//            }else{
+//                NSLog(@"enemy's explosion is not finished");
+//            }
+//            
+//        }
+//    }
     
     
     
@@ -330,36 +340,11 @@ float count = 0;
     }
     
     
-    //ビーム進行
-//    if(iv_myBeam != nil){//ビームが枠外に出るか敵に命中したらiv_myBeamをnilにする
-//        rect_myBeam = CGRectMake(x_beam, y_beam, thick_beam, length_beam);
-//        iv_myBeam = [[UIImageView alloc]initWithFrame:rect_myBeam];
-//        iv_myBeam.image = [UIImage imageNamed:@"beam.png"];
-//        [self.view addSubview:iv_myBeam];
-        
-        
-        /*
-        //ヒット処理
-//        if((x_beam >= x_enemyMachine - size_machine/2 || x_beam <= x_enemyMachine + size_machine/2) &&
-        if(bl_enemyAlive == true &&
-           (x_beam >= x_enemyMachine && x_beam <= x_enemyMachine + size_machine) &&
-           (y_enemyMachine <= y_beam) &&
-           (y_enemyMachine + size_machine >= y_beam)){
-            
-            NSLog(@"hit!!");
-            
-            [self drawBomb:(CGPointMake((float)x_enemyMachine, (float)y_enemyMachine))];
-            
-            bl_enemyAlive = false;
-            
-               
-        }
-        */
     
-        //自機の衝突判定(判定対象はアイテムと敵機、及び敵機ビーム)
+    //自機の衝突判定(判定対象はアイテムと敵機、及び敵機ビーム)
     for(int itemCount = 0; itemCount < [ItemArray count] ; itemCount++){
         ItemClass *_item = [ItemArray objectAtIndex:itemCount];
-        if([_item getIsAlive]){
+        if([_item getIsAlive]){//アイテムの獲得判定
             int _xItem = [_item getX];
             int _yItem = [_item getY];
             
@@ -413,29 +398,47 @@ float count = 0;
                               _xBeam, _yBeam, [_enemy getX], [_enemy getY]);
                         
                         //            bl_enemyAlive = false;
-                        [(EnemyClass *)[EnemyArray objectAtIndex:i] die:CGPointMake(_xBeam, _yBeam)];
+                        int damage = [[BeamArray objectAtIndex:j] getPower];
+                        [(EnemyClass *)[EnemyArray objectAtIndex:i] setDamage:damage location:CGPointMake(_xBeam, _yBeam)];
+                        
+                        //上記setDamageでdieメソッドも包含実行
+                        //                        [(EnemyClass *)[EnemyArray objectAtIndex:i] die:CGPointMake(_xBeam, _yBeam)];
                         
                         //                            [self drawBomb:(CGPointMake((float)_xBeam, (float)_yBeam))];
+
+                        //ダメージパーティクル表示
+                        [[(EnemyClass *)[EnemyArray objectAtIndex:i] getDamageParticle] setUserInteractionEnabled: NO];//インタラクション拒否
+                        [[(EnemyClass *)[EnemyArray objectAtIndex:i] getDamageParticle] setIsEmitting:YES];//消去するには数秒後にNOに
+                        [self.view bringSubviewToFront: [(EnemyClass *)[EnemyArray objectAtIndex:i] getDamageParticle]];//最前面に
+                        [self.view addSubview: [(EnemyClass *)[EnemyArray objectAtIndex:i] getDamageParticle]];//表示する
+                        
+                        
                         
                         //爆発パーティクル
-                        NSLog(@"パーティクル = %@", [(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle]);
-                        [[(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle] setUserInteractionEnabled: NO];//インタラクション拒否
-                        [[(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle] setIsEmitting:YES];//消去するには数秒後にNOに
-                        [self.view bringSubviewToFront: [(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle]];//最前面に
-                        [self.view addSubview: [(EnemyClass *)[EnemyArray objectAtIndex:i] getParticle]];//表示する
+//                        NSLog(@"パーティクル = %@", [(EnemyClass *)[EnemyArray objectAtIndex:i] getExplodeParticle]);
+                        [[BeamArray objectAtIndex:j] die];//衝突したらビームは消去
                         
-                        //アイテム出現
-                        if(arc4random() % 2 == 0 || true){
-                            NSLog(@"アイテム出現");
-                            ItemClass *_item = [[ItemClass alloc] init:_xBeam y_init:_yBeam width:20 height:20];
-                            [ItemArray addObject:_item];
+                        if(![[EnemyArray objectAtIndex:i] getIsAlive]){
+                            NSLog(@"パーティクル = %@", [(EnemyClass *)[EnemyArray objectAtIndex:i] getExplodeParticle]);
+                            [[(EnemyClass *)[EnemyArray objectAtIndex:i] getExplodeParticle] setUserInteractionEnabled: NO];//インタラクション拒否
+                            [[(EnemyClass *)[EnemyArray objectAtIndex:i] getExplodeParticle] setIsEmitting:YES];//消去するには数秒後にNOに
+                            [self.view bringSubviewToFront: [(EnemyClass *)[EnemyArray objectAtIndex:i] getExplodeParticle]];//最前面に
+                            [self.view addSubview: [(EnemyClass *)[EnemyArray objectAtIndex:i] getExplodeParticle]];//表示する
                             
-                            [self.view bringSubviewToFront: [[ItemArray objectAtIndex:([ItemArray count]-1)] getImageView]];//最前面に
-                            [self.view addSubview:[[ItemArray objectAtIndex:([ItemArray count]-1)] getImageView]];
-                            
-                            
-                        }else{
-                            NSLog(@"アイテムなし");
+                            //アイテム出現
+                            if(arc4random() % 2 == 0){
+                                NSLog(@"アイテム出現");
+                                ItemClass *_item = [[ItemClass alloc] init:_xBeam y_init:_yBeam width:20 height:20];
+                                [ItemArray addObject:_item];
+                                
+                                [self.view bringSubviewToFront: [[ItemArray objectAtIndex:([ItemArray count]-1)] getImageView]];//最前面に
+                                [self.view addSubview:[[ItemArray objectAtIndex:([ItemArray count]-1)] getImageView]];
+                                
+                                
+                            }else{
+                                NSLog(@"アイテムなし");
+                            }
+
                         }
                         
                         break;//ビームループ脱出
@@ -453,24 +456,11 @@ float count = 0;
     // Dispose of any resources that can be recreated.
 }
 
-
-//メインイメージをタップした時に起動
-- (void)onTappedMachine:(UITapGestureRecognizer*)gr{
-    
-    //タップされた位置座標を取得する(左上端からの座標値を取得)
-    CGPoint location = [gr locationInView:iv_myMachine];
-    NSLog(@"tapped main image@[ x = %f, y = %f]", location.x , location.y);
-    
-    //ジェスチャーの種類：http://blog.syuhari.jp/archives/2234
-    
-    
-}
-
-- (void) handlePanGesture:(UIPanGestureRecognizer*) sender {
-    UIPanGestureRecognizer* pan = (UIPanGestureRecognizer*) sender;
-    CGPoint location = [pan translationInView:self.view];
-    NSLog(@"pan x=%f, y=%f", location.x, location.y);
-}
+//- (void) handlePanGesture:(UIPanGestureRecognizer*) sender {
+//    UIPanGestureRecognizer* pan = (UIPanGestureRecognizer*) sender;
+//    CGPoint location = [pan translationInView:self.view];
+//    NSLog(@"pan x=%f, y=%f", location.x, location.y);
+//}
 
 - (void)time:(NSTimer*)timer{
     if(isGameMode){
@@ -549,6 +539,7 @@ float count = 0;
     y_myMachine = movedPoint.y;
     [gr setTranslation:CGPointZero inView:self.view];
     
+    [self yieldBeam:0 init_x:(x_myMachine + size_machine/2) init_y:(y_myMachine - length_beam)];
     
     // 指が移動したとき、上下方向にビューをスライドさせる
     if (gr.state == UIGestureRecognizerStateChanged) {//移動中
@@ -556,7 +547,7 @@ float count = 0;
 //        NSLog(@"x = %d, y = %d", (int)[gr translationInView:self.view].x, (int)[gr translationInView:self.view].y);
         
         //フリックしている時は常に「自機位置から」ビームを発射：このメソッドではフリックと
-        [self yieldBeam:0 init_x:(x_myMachine + size_machine/2) init_y:(y_myMachine - length_beam)];
+//        [self yieldBeam:0 init_x:(x_myMachine + size_machine/2) init_y:(y_myMachine - length_beam)];
 
     }
     // 指が離されたとき、ビューを元に位置に戻して、ラベルの文字列を変更する
@@ -566,16 +557,16 @@ float count = 0;
 }
 
 
-- (void)onTappedFrame:(UITapGestureRecognizer*)gr{
-    
-    //画面をタップした時
-//    NSLog(@"tapped frame");
-    //横位置を取得する(取得したら自動的に呼び出されるordinaryAnimationStartによって画像もその位置に表示される)
-    CGPoint location = [gr locationInView:iv_frame];
-//    NSLog(@"tapped main image@[ x = %f, y = %f]", location.x , location.y);
-    x_myMachine = location.x;
-    
-}
+//- (void)onTappedFrame:(UITapGestureRecognizer*)gr{
+//    
+//    //画面をタップした時
+////    NSLog(@"tapped frame");
+//    //横位置を取得する(取得したら自動的に呼び出されるordinaryAnimationStartによって画像もその位置に表示される)
+//    CGPoint location = [gr locationInView:iv_frame];
+////    NSLog(@"tapped main image@[ x = %f, y = %f]", location.x , location.y);
+//    x_myMachine = location.x;
+//    
+//}
 
 
 -(void) viewWillDisappear:(BOOL)animated {

@@ -13,6 +13,7 @@
     
     y_loc = y_init;
     x_loc = x_init;
+    power = 1;//衝突対象に対するダメージ
     width = w;
     height = h;
     isAlive = true;
@@ -44,6 +45,10 @@
     //    NSLog(@"更新後 y = %d", y_loc);
     //    rect = CGRectMake(x_loc, y_loc, mySize, mySize);
     //    iv = [[UIImageView alloc]initWithFrame:rect];
+}
+
+-(int)getPower{
+    return power;
 }
 
 -(void) die{

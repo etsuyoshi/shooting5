@@ -13,7 +13,7 @@
     
     int x_loc;
     int y_loc;
-    
+    int power;
     int width;
     int height;
     Boolean isAlive;
@@ -35,6 +35,7 @@
 -(void)setX:(int)x;
 -(void)setY:(int)y;
 
+-(int)getPower;
 -(CGPoint)getLocation;
 -(int) getX;
 -(int) getY;

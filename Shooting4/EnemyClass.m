@@ -16,11 +16,13 @@ int unique_id;
     unique_id++;
     y_loc = 0;
     x_loc = x_init;
+    hitPoint = 3;
     mySize = size;
     lifetime_count = 0;
     dead_time = -1;//死亡したら0にして一秒後にparticleを消去する
     isAlive = true;
-    particleView = nil;
+    explodeParticle = nil;
+    damageParticle  = nil;
     rect = CGRectMake(x_loc, y_loc, mySize, mySize);
     iv = [[UIImageView alloc]initWithFrame:rect];
     switch(arc4random() % 3){
@@ -47,6 +49,26 @@ int unique_id;
 -(id) init{
     NSLog(@"call enemy class initialization");
     return [self init:0 size:50];
+}
+
+-(void)setDamage:(int)damage location:(CGPoint)location{
+    damageParticle = [[DamageParticleView alloc] initWithFrame:CGRectMake(location.x, location.y, damage, damage)];
+    hitPoint -= damage;
+    if(hitPoint < 0){
+        [self die:location];
+    }
+}
+
+-(void) die:(CGPoint) location{
+    //爆発用パーティクルの初期化
+    explodeParticle = [[DWFParticleView alloc] initWithFrame:CGRectMake(location.x, location.y, bomb_size, bomb_size)];
+    isAlive = false;
+    dead_time ++;
+}
+
+
+-(int)getHitPoint{
+    return hitPoint;
 }
 
 -(Boolean) getIsAlive{
@@ -93,14 +115,6 @@ int unique_id;
 //    iv = [[UIImageView alloc]initWithFrame:rect];
 }
 
-
--(void) die:(CGPoint) location{
-    //爆発用パーティクルの初期化
-    particleView = [[DWFParticleView alloc] initWithFrame:CGRectMake(location.x, location.y, bomb_size, bomb_size)];
-    isAlive = false;
-    dead_time ++;
-}
-
 -(int) getDeadTime{
     return dead_time;
 }
@@ -138,9 +152,13 @@ int unique_id;
     return iv;
 }
 
--(DWFParticleView *)getParticle{
+-(DWFParticleView *)getExplodeParticle{
     //dieしていれば爆発用particleは初期化されているはず=>描画用クラスで描画(self.view addSubview:particle);
-    return particleView;
+    return explodeParticle;
+}
+-(DamageParticleView *)getDamageParticle{
+    //dieしていれば爆発用particleは初期化されているはず=>描画用クラスで描画(self.view addSubview:particle);
+    return damageParticle;
 }
 
 @end
