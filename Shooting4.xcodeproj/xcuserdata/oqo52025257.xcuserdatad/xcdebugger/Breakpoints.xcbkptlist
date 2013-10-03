@@ -138,11 +138,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Shooting4/GameClassViewController.m"
-         timestampString = "402472803.058206"
+         timestampString = "402473431.575726"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "664"
-         endingLineNumber = "664"
+         startingLineNumber = "665"
+         endingLineNumber = "665"
          landmarkName = "-drawBackground"
          landmarkType = "5">
       </FileBreakpoint>

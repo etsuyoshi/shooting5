@@ -117,6 +117,7 @@ float count = 0;
     iv_frame.userInteractionEnabled = YES;
     flick_frame = [[UIPanGestureRecognizer alloc] initWithTarget:self
                                                           action:@selector(onFlickedFrame:)];
+    //LongPressGestureRecogを付けてしまうとtouchesEnded:メソッドが実行されない
 //    longPress_frame=
 //        [[UILongPressGestureRecognizer alloc]initWithTarget:self
 //                                                     action:@selector(onLongPressedFrame:)];
@@ -495,7 +496,7 @@ float count = 0;
         [self ordinaryAnimationStart];
         
         //一定時間経過するとゲームオーバー
-        if(count >= 30){
+        if(count >= 300){
             NSLog(@"gameover");
             //経過したらタイマー終了
             [tm invalidate];
