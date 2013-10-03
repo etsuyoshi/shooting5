@@ -50,7 +50,8 @@ int center_x;
 int tokuten;
 
 UIPanGestureRecognizer *flick_frame;
-
+//UILongPressGestureRecognizer *longPress_frame;
+Boolean isTouched;
 
 
 NSMutableArray *EnemyArray;
@@ -95,6 +96,7 @@ float count = 0;
                                              action:@selector(onClickedSettingButton)];
     
     isGameMode = true;
+    isTouched = false;
     self.navigationItem.rightBarButtonItems = @[right_button_stop, right_button_setting];
     self.navigationItem.leftItemsSupplementBackButton = YES; //戻るボタンを有効にする
     
@@ -114,10 +116,14 @@ float count = 0;
 //    iv_frame.image =[UIImage imageNamed:@"gameover.png"];
     iv_frame.userInteractionEnabled = YES;
     flick_frame = [[UIPanGestureRecognizer alloc] initWithTarget:self
-                                                                          action:@selector(onFlickedFrame:)];
+                                                          action:@selector(onFlickedFrame:)];
+//    longPress_frame=
+//        [[UILongPressGestureRecognizer alloc]initWithTarget:self
+//                                                     action:@selector(onLongPressedFrame:)];
 //    UITapGestureRecognizer *tap_frame = [[UITapGestureRecognizer alloc] initWithTarget:self
 //                                                                                action:@selector(onTappedFrame:)];
     [iv_frame addGestureRecognizer:flick_frame];
+//    [iv_frame addGestureRecognizer:longPress_frame];
     
 //    [iv_frame addGestureRecognizer:tap_frame];
     [self.view bringSubviewToFront: iv_frame];//最前面に
@@ -203,7 +209,7 @@ float count = 0;
     //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
     //_/_/_/_/前時刻の描画を消去_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
     //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-    NSLog(@"count = %d", [EnemyArray count]);
+//    NSLog(@"count = %d", [EnemyArray count]);
     for(int i = 0;i < [EnemyArray count] ; i++){
 //        NSLog(@"敵機 No:%d 消去[x = %d, y = %d]",
 //              i,
@@ -232,7 +238,7 @@ float count = 0;
     
     
     //自機
-    NSLog(@"自機");
+//    NSLog(@"自機");
     rect_myMachine = CGRectMake(x_myMachine, y_myMachine, size_machine, size_machine);//左上座標、幅、高さ
     NSMutableArray *_myImageList = [[NSMutableArray alloc] init];
     [_myImageList addObject:[UIImage imageNamed:[NSString stringWithFormat:@"gradius01_stand_128.png"]]];
@@ -265,7 +271,7 @@ float count = 0;
     
     //敵機進行or爆発後のカウント
     for(int i = 0; i < [EnemyArray count] ; i++){
-        NSLog(@"do next at enemy:No %d", i);
+//        NSLog(@"do next at enemy:No %d", i);
         //既存敵機の距離進行！
         //dead状態になってからも、dead_timeが10未満の時までは更新doNextする(爆発パーティクル表示のため)
         if([(EnemyClass *)[EnemyArray objectAtIndex:i] getIsAlive] ||
@@ -371,7 +377,7 @@ float count = 0;
     
     //敵機のビーム衝突判定
     for(int i = 0; i < [EnemyArray count] ;i++ ) {//全ての生存している敵に対して
-        NSLog(@"敵衝突判定:%d", i);
+//        NSLog(@"敵衝突判定:%d", i);
         
         if([(EnemyClass *)[EnemyArray objectAtIndex:i] getIsAlive]){//計算時間節約
             //                NSLog(@"敵衝突生存確認完了");
@@ -485,7 +491,7 @@ float count = 0;
         
         
         //ここにあったdoNextをこのメソッドの敵機生成前に移行
-        NSLog(@"count");
+//        NSLog(@"count");
         [self ordinaryAnimationStart];
         
         //一定時間経過するとゲームオーバー
@@ -527,8 +533,14 @@ float count = 0;
         
     }
 }
+//- (void)onLongPressedFrame:(UILongPressGestureRecognizer *)gr {
+////    [self yieldBeam:0 init_x:(x_myMachine + size_machine/2) init_y:(y_myMachine - length_beam)];
+//    NSLog(@"長押しがされました．");
+////    isTouched = true;
+//}
 
 - (void)onFlickedFrame:(UIPanGestureRecognizer*)gr {
+//    isTouched = true;
 //    NSLog(@"onFlickedFrame");
     //参考：http://ultra-prism.jp/2012/12/01/uigesturerecognizer-touch-handling-sample/2/
 //    http://www.yoheim.net/blog.php?q=20120620
@@ -539,11 +551,11 @@ float count = 0;
     y_myMachine = movedPoint.y;
     [gr setTranslation:CGPointZero inView:self.view];
     
-    [self yieldBeam:0 init_x:(x_myMachine + size_machine/2) init_y:(y_myMachine - length_beam)];
+//    [self yieldBeam:0 init_x:(x_myMachine + size_machine/2) init_y:(y_myMachine - length_beam)];
     
     // 指が移動したとき、上下方向にビューをスライドさせる
     if (gr.state == UIGestureRecognizerStateChanged) {//移動中
-     
+        isTouched = true;
 //        NSLog(@"x = %d, y = %d", (int)[gr translationInView:self.view].x, (int)[gr translationInView:self.view].y);
         
         //フリックしている時は常に「自機位置から」ビームを発射：このメソッドではフリックと
@@ -552,7 +564,7 @@ float count = 0;
     }
     // 指が離されたとき、ビューを元に位置に戻して、ラベルの文字列を変更する
     else if (gr.state == UIGestureRecognizerStateEnded) {//指を離した時
-        
+        isTouched = false;
     }
 }
 
@@ -622,7 +634,7 @@ float count = 0;
 //    NSLog(@"count = %d", [EnemyArray count]);
 //    NSLog(@"%d", arc4random());
 //    if(count == 0 || arc4random() % 4 == 0){
-    if((int)(count * 10) % 10 ==0 && arc4random() % 2 == 0){
+    if((int)(count * 10) % 5 ==0 && arc4random() % 2 == 0){
         
 //        NSLog(@"生成");
 //        EnemyClass *enemy = [[EnemyClass alloc]init:center_x size:50];
@@ -630,7 +642,7 @@ float count = 0;
         int x = arc4random() % 200;
         EnemyClass *enemy = [[EnemyClass alloc]init:x size:50];
         [EnemyArray addObject:enemy];//既に初期化済なので追加のみ
-        NSLog(@"敵機 新規生成, %d, %d", [enemy getY], (int)(count * 10));
+//        NSLog(@"敵機 新規生成, %d, %d", [enemy getY], (int)(count * 10));
 //    [(EnemyClass *)[EnemyArray objectAtIndex:0] setSize:50 ];
 //    [(EnemyClass *)[EnemyArray objectAtIndex:0] setX:center_x];
 //    [(EnemyClass *)[EnemyArray objectAtIndex:0] setY:0];
@@ -641,13 +653,18 @@ float count = 0;
 
 -(void)yieldBeam:(int)beam_type init_x:(int)x init_y:(int)y{
     //
-    BeamClass *beam = [[BeamClass alloc] init:x - size_machine/3 y_init:y + size_machine/2 width:50 height:50];
-    [BeamArray addObject:beam];
+    if(isTouched){
+        BeamClass *beam = [[BeamClass alloc] init:x - size_machine/3 y_init:y + size_machine/2 width:50 height:50];
+        [BeamArray addObject:beam];
+    }
     
     
 }
 
 -(void)drawBackground{
+    if(isTouched){
+        [self yieldBeam:0 init_x:(x_myMachine + size_machine/2) init_y:(y_myMachine - length_beam)];
+    }
     //frameの大きさと背景の現在描画位置を決定
     //点数オブジェクトで描画
 //    NSLog(@"drawbackground : 1 = %d, 2 = %d", y_background1, y_background2);
@@ -856,5 +873,33 @@ float count = 0;
         }
     }
     
+}
+
+// 画面に指を一本以上タッチしたときに実行されるメソッド
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    isTouched = true;
+    NSLog(@"touches count : %d (touchesBegan:withEvent:)", [touches count]);
+}
+
+// 画面に触れている指が一本以上移動したときに実行されるメソッド
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    isTouched = true;
+    NSLog(@"touches count : %d (touchesMoved:withEvent:)", [touches count]);
+}
+
+// 指を一本以上画面から離したときに実行されるメソッド
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    isTouched = false;
+    NSLog(@"touches count : %d (touchesEnded:withEvent:)", [touches count]);
+}
+
+// システムイベントがタッチイベントをキャンセルしたときに実行されるメソッド
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    isTouched = false;
+    NSLog(@"touches count : %d (touchesCancelled:withEvent:)", [touches count]);
 }
 @end

@@ -105,16 +105,18 @@
         particleEmitter.renderMode = kCAEmitterLayerAdditive;
         
         CAEmitterCell *particle = [CAEmitterCell emitterCell];
-        particle.birthRate = 100;//火や水に見せるためには数百が必要
-        particle.lifetime = 1.0;
+        particle.birthRate = 300;//火や水に見せるためには数百が必要
+        particle.lifetime = 2.0;
         particle.lifetimeRange = 1.5;
         particle.color = [[UIColor colorWithRed: 0.2 green: 0.4 blue: 0.8 alpha: 0.1] CGColor];
         particle.contents = (id) [[UIImage imageNamed: @"Particles_fire.png"] CGImage];
         particle.name = @"fire";
-        particle.velocity = 10;
+        particle.velocity = 50;
         particle.velocityRange = 20;
+        particle.emissionLongitude = M_PI_2;
         particle.emissionRange = M_PI_2;
-        particle.emissionLongitude = 0.025 * 180 / M_PI;
+        particle.scale = 0.3f;
+        particle.scaleRange = 0;
         particle.scaleSpeed = 0.5;
         particle.spin = 0.5;
 

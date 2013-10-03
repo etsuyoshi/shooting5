@@ -13,6 +13,8 @@
 		34043A5E17FA132B0000E338 /* Particles_fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 34043A5D17FA132B0000E338 /* Particles_fire.png */; };
 		3419C41417FD27E200980E71 /* explode4.png in Resources */ = {isa = PBXBuildFile; fileRef = 3419C41217FD27E200980E71 /* explode4.png */; };
 		3419C41517FD27E200980E71 /* explode3.png in Resources */ = {isa = PBXBuildFile; fileRef = 3419C41317FD27E200980E71 /* explode3.png */; };
+		3419C41717FD2B3300980E71 /* explode5.png in Resources */ = {isa = PBXBuildFile; fileRef = 3419C41617FD2B3300980E71 /* explode5.png */; };
+		3419C41A17FD2B7E00980E71 /* IDClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3419C41917FD2B7E00980E71 /* IDClass.m */; };
 		342057D217F2B34C0084E99D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 342057D117F2B34C0084E99D /* UIKit.framework */; };
 		342057D417F2B34C0084E99D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 342057D317F2B34C0084E99D /* Foundation.framework */; };
 		342057D617F2B34C0084E99D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 342057D517F2B34C0084E99D /* CoreGraphics.framework */; };
@@ -71,6 +73,9 @@
 		34043A5D17FA132B0000E338 /* Particles_fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Particles_fire.png; path = "../../../一般材料/UI/shooting/Particles_fire.png"; sourceTree = "<group>"; };
 		3419C41217FD27E200980E71 /* explode4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explode4.png; sourceTree = "<group>"; };
 		3419C41317FD27E200980E71 /* explode3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explode3.png; sourceTree = "<group>"; };
+		3419C41617FD2B3300980E71 /* explode5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explode5.png; sourceTree = "<group>"; };
+		3419C41817FD2B7E00980E71 /* IDClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDClass.h; sourceTree = "<group>"; };
+		3419C41917FD2B7E00980E71 /* IDClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDClass.m; sourceTree = "<group>"; };
 		342057CE17F2B34C0084E99D /* Shooting4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shooting4.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		342057D117F2B34C0084E99D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		342057D317F2B34C0084E99D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -182,6 +187,8 @@
 				342057ED17F2B34C0084E99D /* ViewController.m */,
 				3400396D17F408070093E07E /* EnemyClass.h */,
 				3400396E17F408070093E07E /* EnemyClass.m */,
+				3419C41817FD2B7E00980E71 /* IDClass.h */,
+				3419C41917FD2B7E00980E71 /* IDClass.m */,
 				34FA999C17FBCEEF00317D83 /* ItemClass.h */,
 				34FA999D17FBCEEF00317D83 /* ItemClass.m */,
 				342401FF17F6E8A100E06902 /* BeamClass.h */,
@@ -200,6 +207,7 @@
 		342057D817F2B34C0084E99D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3419C41617FD2B3300980E71 /* explode5.png */,
 				3419C41217FD27E200980E71 /* explode4.png */,
 				3419C41317FD27E200980E71 /* explode3.png */,
 				342ECBBB17FC570500123886 /* star.png */,
@@ -337,6 +345,7 @@
 				342ECBBC17FC570500123886 /* star.png in Resources */,
 				3419C41417FD27E200980E71 /* explode4.png in Resources */,
 				3419C41517FD27E200980E71 /* explode3.png in Resources */,
+				3419C41717FD2B3300980E71 /* explode5.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,6 +365,7 @@
 				34043A5A17FA0FE50000E338 /* DWFParticleView.m in Sources */,
 				34FA999E17FBCEF000317D83 /* ItemClass.m in Sources */,
 				342ECBC517FC5AF900123886 /* DamageParticleView.m in Sources */,
+				3419C41A17FD2B7E00980E71 /* IDClass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
