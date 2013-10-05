@@ -175,31 +175,10 @@ float count = 0;
     //スコアボードの初期化
     ScoreBoard = [[ScoreBoardClass alloc]init:0 x_init:0 y_init:0];
     
+    //スコアボードの表示(初期状態ではゼロ)
     [self displayScore];
-    /*
     
-    //ここは時間がある時にtokutenオブジェクトとして保有しておく必要がある
-    //点数表示用ImageView用配列
-//    iv_arr_tokuten = [[NSMutableArray alloc] init];
-    //全て0で初期化
-    int _strWidth = 25;
-    int _strHeight = 36;
-    int _x0 = 250;
-    int _y0 = 20;
-    int _maxKetasu = 4;
-    for(int ketasu = 0 ; ketasu < _maxKetasu; ketasu++){
-        
-        UIImageView *_iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
-                                                                                _y0,
-                                                                                _strWidth - 1,
-                                                                                _strHeight - 1)];
-        _iv_tokuten.image = [UIImage imageNamed:@"zero.png"];
-        [iv_arr_tokuten addObject:_iv_tokuten];
-        [self.view addSubview:[iv_arr_tokuten objectAtIndex:ketasu]];
-    }
-     
-     */
-
+    
     size_machine = 100;
     
     center_x = rect_frame.size.width/2 - size_machine/2;//画面サイズに対して中央になるように左位置特定

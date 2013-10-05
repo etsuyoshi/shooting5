@@ -16,7 +16,7 @@ int unique_id;
     unique_id++;
     y_loc = 0;
     x_loc = x_init;
-    hitPoint = 20;
+    hitPoint = 5;
     mySize = size;
     lifetime_count = 0;
     dead_time = -1;//死亡したら0にして一秒後にparticleを消去する

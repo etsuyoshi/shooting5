@@ -70,18 +70,18 @@ NSMutableArray *strEnglishNum;
     UIImageView *_eachDigit;
 //    NSLog(@"start");
     for(int ketasu = 0; ketasu < maxKetasu; ketasu++){
-//        NSLog(@"keta = %d", ketasu);
+        NSLog(@"keta = %d", ketasu);
         for(int loopCount = 0; loopCount < [score_array count]; loopCount++){
-//            NSLog(@"lc = %d, searchNum = %d", loopCount, [[moji substringWithRange:NSMakeRange(ketasu, 1)] intValue]);
+            NSLog(@"lc = %d, searchNum = %d", loopCount, [[moji substringWithRange:NSMakeRange(ketasu, 1)] intValue]);
             if(loopCount == [[moji substringWithRange:NSMakeRange(ketasu, 1)] intValue]){
                 
 //                _eachDigit = [[UIImageView alloc]initWithFrame:CGRectMake(xStart + (eachDigitWidth) * ketasu,
 //                                                                          yStart,
 //                                                                          eachDigitWidth,
 //                                                                          eachDigitHeight)];
-                _eachDigit.image = [UIImage imageNamed:[strEnglishNum objectAtIndex:loopCount]];
+                ((UIImageView *)[score_array objectAtIndex:ketasu]).image = [UIImage imageNamed:[strEnglishNum objectAtIndex:loopCount]];
 //                    [score_array addObject:_eachDigit];//追加してはだめ(二重ループで順番がめちゃくちゃなため)
-                    [score_array replaceObjectAtIndex:ketasu withObject:_eachDigit];
+//                    [score_array replaceObjectAtIndex:ketasu withObject:_eachDigit];
                 break;
             }
         }
