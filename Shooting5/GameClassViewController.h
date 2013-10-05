@@ -7,11 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DWFParticleView.h"
 
 @interface GameClassViewController : UIViewController
 {
     
-    IBOutlet DWFParticleView* fireView;
 }
 @end

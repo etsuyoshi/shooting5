@@ -1,20 +1,19 @@
 //
-//  EnemyClass.m
-//  ShootingTest
+//  MyMachineClass.m
+//  Shooting5
 //
-//  Created by 遠藤 豪 on 13/09/26.
+//  Created by 遠藤 豪 on 13/10/04.
 //  Copyright (c) 2013年 endo.tuyo. All rights reserved.
 //
 
+#import "MyMachineClass.h"
 
-#import "EnemyClass.h"
-
-@implementation EnemyClass
+@implementation MyMachineClass
 
 int unique_id;
 -(id) init:(int)x_init size:(int)size{
     unique_id++;
-    y_loc = 0;
+    y_loc = 300;
     x_loc = x_init;
     hitPoint = 20;
     mySize = size;
@@ -25,28 +24,27 @@ int unique_id;
     damageParticle  = nil;
     rect = CGRectMake(x_loc, y_loc, mySize, mySize);
     iv = [[UIImageView alloc]initWithFrame:rect];
-    enemy_type = arc4random() % 3;
-    switch(enemy_type){
+    machine_type = arc4random() % 3;
+    switch(machine_type){
         case 0:
             bomb_size = 20;
-            iv.image = [UIImage imageNamed:@"enemy01_stand_128.png"];
+            iv.image = [UIImage imageNamed:@"gradius02_stand_128.png"];
             break;
         case 1:
             bomb_size = 30;
-            iv.image = [UIImage imageNamed:@"enemy02_stand_128.png"];
+            iv.image = [UIImage imageNamed:@"gradius02_stand_128.png"];
             break;
         case 2:
             bomb_size = 40;
-            iv.image = [UIImage imageNamed:@"enemy03_stand_128.png"];
+            iv.image = [UIImage imageNamed:@"gradius02_stand_128.png"];
             break;
     }
-//    iv.alpha = 0.5;
     
     
     return self;
 }
 -(id) init{
-    NSLog(@"call enemy class initialization");
+    NSLog(@"call mymachine class ""DEFAULT"" initialization");
     return [self init:0 size:50];
 }
 
@@ -82,56 +80,30 @@ int unique_id;
 }
 -(void)doNext{
     
-//    [iv removeFromSuperview];
-//    NSLog(@"更新前 y = %d", y_loc);
+    //    [iv removeFromSuperview];
+    //    NSLog(@"更新前 y = %d", y_loc);
     lifetime_count ++;//不要？
     if(!isAlive){
         dead_time ++;
     }
     
-
-    if(y_loc <= 100){//衝突判定テストのため
-            y_loc += mySize/6;
-            x_loc += mySize/10 * (int)pow(-1, arc4random()%2) % 200;//単位時間当たりに左右3個体分の移動距離を進む
-    }else{
-        //タイプによって進むものとそうでないものに分ける
-        switch(enemy_type){
-            case 0:
-                y_loc += mySize/6;
-//                x_loc += mySize/10 * (int)pow(-1, arc4random()%2) % 200;//単位時間当たりに左右3個体分の移動距離を進む
-                break;
-                
-            case 1:
-                y_loc += mySize/6;
-//                x_loc += mySize/10 * (int)pow(-1, arc4random()%2) % 200;//単位時間当たりに左右3個体分の移動距離を進む
-                break;
-            
-        }
-    }
-    
-    
-    
+//            NSLog(@"machine iv generated");    
     iv = [[UIImageView alloc]initWithFrame:CGRectMake(x_loc, y_loc, mySize, mySize)];
-
     
-    switch(enemy_type){
+    
+    switch(machine_type){
         case 0:
-//            iv.image = [UIImage imageNamed:@"enemy01_stand_128.png"];//mechanical_design_3
-            iv.image = [UIImage imageNamed:@"mechanical_design_3.png"];
+//            NSLog(@"machine iv generated");
+            iv.image = [UIImage imageNamed:@"gradius02_stand_128.png"];
             break;
         case 1:
-//            iv.image = [UIImage imageNamed:@"enemy02_stand_128.png"];
-            iv.image = [UIImage imageNamed:@"mechanical_design_3.png"];
+            iv.image = [UIImage imageNamed:@"gradius02_stand_128.png"];
             break;
         case 2:
-            iv.image = [UIImage imageNamed:@"enemy03_stand_128.png"];
+            iv.image = [UIImage imageNamed:@"gradius02_stand_128.png"];
             break;
     }
-
-
-//    NSLog(@"更新後 y = %d", y_loc);
-//    rect = CGRectMake(x_loc, y_loc, mySize, mySize);
-//    iv = [[UIImageView alloc]initWithFrame:rect];
+    
 }
 
 -(int) getDeadTime{
@@ -173,5 +145,6 @@ int unique_id;
     //dieしていれば爆発用particleは初期化されているはず=>描画用クラスで描画(self.view addSubview:particle);
     return damageParticle;
 }
+
 
 @end

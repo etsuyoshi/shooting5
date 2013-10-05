@@ -1,8 +1,8 @@
 //
-//  EnemyClass.h
-//  ShootingTest
+//  MyMachineClass.h
+//  Shooting5
 //
-//  Created by 遠藤 豪 on 13/09/26.
+//  Created by 遠藤 豪 on 13/10/04.
 //  Copyright (c) 2013年 endo.tuyo. All rights reserved.
 //
 
@@ -10,11 +10,11 @@
 #import "DWFParticleView.h"
 #import "DamageParticleView.h"
 
-@interface EnemyClass : NSObject{
+@interface MyMachineClass : NSObject{
     
     int x_loc;
     int y_loc;
-    int enemy_type;//機体の型
+    int machine_type;//機体の型
     int hitPoint;
     int mySize;
     int lifetime_count;
@@ -51,4 +51,5 @@
 -(UIImageView *)getImageView;
 -(DWFParticleView *)getExplodeParticle;
 -(DamageParticleView *)getDamageParticle;
+
 @end

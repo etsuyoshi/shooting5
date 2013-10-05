@@ -33,6 +33,7 @@
 #import "ItemClass.h"
 #import "DWFParticleView.h"
 #import "PowerGaugeClass.h"
+#import "MyMachineClass.h"
 #import <QuartzCore/QuartzCore.h>
 
 
@@ -43,11 +44,10 @@ UIImageView *iv_frame, *iv_myMachine, *iv_enemyBeam, *iv_beam_launch, *iv_backgr
 NSMutableArray *iv_arr_tokuten;
 int y_background1, y_background2;
 const int explosionCycle = 3;//爆発時間
-Boolean bl_enemyAlive;
 int max_enemy_in_frame;
 int x_frame, y_frame;
-int x_myMachine, x_enemyMachine, x_beam;
-int y_myMachine, y_enemyMachine, y_beam;
+//int x_myMachine, x_enemyMachine, x_beam;
+//int y_myMachine, y_enemyMachine, y_beam;
 int size_machine;
 int length_beam, thick_beam;//ビームの長さと太さ
 Boolean isGameMode;
@@ -59,7 +59,7 @@ UIPanGestureRecognizer *flick_frame;
 //UILongPressGestureRecognizer *longPress_frame;
 Boolean isTouched;
 
-
+MyMachineClass *MyMachine;
 NSMutableArray *EnemyArray;
 NSMutableArray *BeamArray;
 NSMutableArray *ItemArray;
@@ -161,6 +161,9 @@ float count = 0;
     //敵の発生時の格納箱初期化
     EnemyArray = [[NSMutableArray alloc]init];
     
+    //自機定義
+    MyMachine = [[MyMachineClass alloc] init:x_frame/2 size:50];
+    
     //自機が発射したビームを格納する配列初期化
     BeamArray = [[NSMutableArray alloc] init];
     
@@ -191,8 +194,8 @@ float count = 0;
     size_machine = 100;
     
     center_x = rect_frame.size.width/2 - size_machine/2;//画面サイズに対して中央になるように左位置特定
-    x_myMachine = center_x;//自機横位置は中心
-    y_myMachine = 250;//自機縦位置
+//    x_myMachine = center_x;//自機横位置は中心(ちなみにx_myMachineはイメージ画像の左端)
+//    y_myMachine = 250;//自機縦位置
     
     
     count = 0;
@@ -264,7 +267,13 @@ float count = 0;
     }
 
     /////////////////////////////////////////////
-    [iv_myMachine removeFromSuperview];
+//    if([iv_myMachine center].x >= x_myMachine && [iv_myMachine center].x < x_myMachine + size_machine){
+//    
+//    }else{
+//        NSLog(@"x_past=%d, size=%d, x_now=%d", (int)[iv_myMachine center].x, size_machine, x_myMachine);
+        [iv_myMachine removeFromSuperview];
+    [[MyMachine getImageView] removeFromSuperview];
+//    }
     
     
     //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -278,6 +287,7 @@ float count = 0;
     
     //自機
 //    NSLog(@"自機");
+    /*
     rect_myMachine = CGRectMake(x_myMachine, y_myMachine, size_machine, size_machine);//左上座標、幅、高さ
     NSMutableArray *_myImageList = [[NSMutableArray alloc] init];
     [_myImageList addObject:[UIImage imageNamed:[NSString stringWithFormat:@"gradius00_stand_128.png"]]];
@@ -286,8 +296,11 @@ float count = 0;
     iv_myMachine.animationImages = _myImageList;
     iv_myMachine.animationDuration = 0.5;
     iv_myMachine.animationRepeatCount = 0;
+     */
+    
+    
     //現状、自機と敵機をタップしても何も起こらないようにする
-    iv_myMachine.userInteractionEnabled = NO;
+//    iv_myMachine.userInteractionEnabled = NO;
 //    [iv_myMachine addGestureRecognizer:flick_frame];
     
     //ジェスチャーレコナイザーを付与して、タップイベントに備える
@@ -300,14 +313,29 @@ float count = 0;
 //    tap.numberOfTapsRequired = 1;
 //    [iv_myMachine addGestureRecognizer:tap];
     //ビューにメインイメージを貼り付ける
+    /*
     [self.view addSubview:iv_myMachine];
     [iv_myMachine startAnimating];
-    
+    */
     
     //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
     //_/_/_/_/進行_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
     //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
     
+    
+    if([MyMachine getIsAlive]){
+        
+        [MyMachine doNext];//設定されたtype、x_loc,y_locプロパティでUIImageViewを作成する
+        
+        //ダメージパーティクルの消去
+        [[MyMachine getDamageParticle] setIsEmitting:NO];
+        
+        //爆発から所定時間が経過しているか判定＝＞爆発パーティクルの消去
+        if([MyMachine getDeadTime] >= explosionCycle){
+            [[MyMachine getExplodeParticle] setIsEmitting:NO];//消去するには数秒後にNOに
+        }
+        
+    }
     
     //敵機進行or爆発後のカウント
     for(int i = 0; i < [EnemyArray count] ; i++){
@@ -324,7 +352,7 @@ float count = 0;
             //ダメージパーティクルの消去
             [[(EnemyClass *)[EnemyArray objectAtIndex:i] getDamageParticle] setIsEmitting:NO];//消去するには数秒後にNOに
             
-            
+            //爆発してから時間が所定時間が経過してる場合
             if([(EnemyClass *)[EnemyArray objectAtIndex: i] getDeadTime] >= explosionCycle){
                 //爆発パーティクルの消去
                 NSLog(@"パーティクル消去 at %d", i);
@@ -354,7 +382,7 @@ float count = 0;
     
     
     
-    //ビーム進行
+    //ビーム進行=>出来ればMyMachineの保有オブジェクトにする
     for(int i = 0; i < [BeamArray count] ; i++){
         if([(BeamClass *)[BeamArray objectAtIndex:i] getIsAlive]) {
             [(BeamClass *)[BeamArray objectAtIndex:i ] doNext];
@@ -369,13 +397,14 @@ float count = 0;
             //ビューにメインイメージを貼り付ける
             [self.view addSubview:[(EnemyClass *)[EnemyArray objectAtIndex:i] getImageView]];
             
-//            [[(EnemyClass *)[EnemyArray objectAtIndex:i] getImageView] removeFromSuperview];
-            
-//            NSLog(@"敵機 No:%d 表示[x = %d, y = %d]",i,
-//                  [(EnemyClass *)[EnemyArray objectAtIndex:i] getX],
-//                  [(EnemyClass *)[EnemyArray objectAtIndex:i] getY]);
         }
     }
+    NSLog(@"%@", [MyMachine getImageView]);
+    [self.view addSubview:[MyMachine getImageView]];
+    
+    
+    ////////////////////ここまでMyMachineクラスの定義、動作完了。
+    //続き＝＞x_myMachine、y・・・について、全て修正：前時刻の更新なのか、MyMachineクラスを更新するのか区別しておく必要あり。
     
     for(int i = 0; i < [BeamArray count] ; i++){
         if([(BeamClass *)[BeamArray objectAtIndex:i] getIsAlive]){
@@ -387,6 +416,7 @@ float count = 0;
     
     
     
+    
     //アイテム取得判定
     for(int itemCount = 0; itemCount < [ItemArray count] ; itemCount++){
         ItemClass *_item = [ItemArray objectAtIndex:itemCount];
@@ -394,18 +424,46 @@ float count = 0;
             int _xItem = [_item getX];
             int _yItem = [_item getY];
             
+//            if(
+//               _xItem >= x_myMachine &&
+//               _xItem <= x_myMachine + size_machine &&
+//               _yItem >= y_myMachine &&
+//               _yItem <= y_myMachine + size_machine){
+//                
+//                [[[ItemArray objectAtIndex:itemCount] getImageView] removeFromSuperview];
+//                [[ItemArray objectAtIndex:itemCount] die];
+//                
+//                //得点の加算
+//                tokuten++;
+////                NSLog(@"tokuten = %d", tokuten);
+//                [self displayTOKUTEN];
+//                
+//                //            break;
+//                
+//            }
+            
+            
             if(
-               _xItem >= x_myMachine &&
-               _xItem <= x_myMachine + size_machine &&
-               _yItem >= y_myMachine &&
-               _yItem <= y_myMachine + size_machine){
+               _xItem >= [MyMachine getX] &&
+               _xItem <= [MyMachine getX] + [MyMachine getSize] &&
+               _yItem >= [MyMachine getY] &&
+               _yItem <= [MyMachine getY] + [MyMachine getSize]){
                 
                 [[[ItemArray objectAtIndex:itemCount] getImageView] removeFromSuperview];
                 [[ItemArray objectAtIndex:itemCount] die];
                 
+                /*
+                 _/_/_/_/_/_/_/_/_/_/_/_/
+                 得点を加算
+                 武器を強化
+                 シールドを強化
+                 体力回復？？
+                 _/_/_/_/_/_/_/_/_/_/_/_/
+                 */
+                
                 //得点の加算
                 tokuten++;
-//                NSLog(@"tokuten = %d", tokuten);
+                //                NSLog(@"tokuten = %d", tokuten);
                 [self displayTOKUTEN];
                 
                 //            break;
@@ -428,22 +486,43 @@ float count = 0;
             
             
             //自機の衝突判定(判定対象は敵機、及び敵機ビーム)
+//            if(
+//               x_myMachine >= [_enemy getX] - [_enemy getSize] * 0.6 &&
+//               x_myMachine <= [_enemy getX] + [_enemy getSize] * 0.6 &&
+//               [_enemy getY] - [_enemy getSize] * 0 <= y_myMachine &&
+//               [_enemy getY] + [_enemy getSize] * 0.5 >= y_myMachine){
+//                
+//                NSLog(@"自機と敵機との衝突");
+//                
+//                myHitPoint = MAX(0, myHitPoint-10);
+//                
+////                powerGauge = [[PowerGaugeClass alloc ]init:0 x_init:200 y_init:300 width:100 height:100];
+////                [powerGauge getImageView].transform = CGAffineTransformMakeRotation(2*M_PI* count/60.0f );
+//                [powerGauge setValue:myHitPoint];//仮で90とする
+////                NSLog(@"hitpoint = %d", [powerGauge getValue]);
+//                [self.view addSubview:[powerGauge getImageView]];
+//            }
+            
+            
             if(
-               x_myMachine >= [_enemy getX] - [_enemy getSize] * 0.6 &&
-               x_myMachine <= [_enemy getX] + [_enemy getSize] * 0.6 &&
-               [_enemy getY] - [_enemy getSize] * 0 <= y_myMachine &&
-               [_enemy getY] + [_enemy getSize] * 0.5 >= y_myMachine){
+               [MyMachine getX] >= [_enemy getX] - [_enemy getSize] * 0.6 &&
+               [MyMachine getX] <= [_enemy getX] + [_enemy getSize] * 0.6 &&
+               [_enemy getY] - [_enemy getSize] * 0 <= [MyMachine getY] &&
+               [_enemy getY] + [_enemy getSize] * 0.5 >= [MyMachine getY]){
                 
                 NSLog(@"自機と敵機との衝突");
                 
                 myHitPoint = MAX(0, myHitPoint-10);
-//                powerGauge = [[PowerGaugeClass alloc ]init:0 x_init:200 y_init:300 width:100 height:100];
-//                [powerGauge getImageView].transform = CGAffineTransformMakeRotation(2*M_PI* count/60.0f );
+                
+                //                powerGauge = [[PowerGaugeClass alloc ]init:0 x_init:200 y_init:300 width:100 height:100];
+                //                [powerGauge getImageView].transform = CGAffineTransformMakeRotation(2*M_PI* count/60.0f );
                 [powerGauge setValue:myHitPoint];//仮で90とする
+                //                NSLog(@"hitpoint = %d", [powerGauge getValue]);
                 [self.view addSubview:[powerGauge getImageView]];
-                NSLog(@"powerGauge angle = %f", [powerGauge getAngle]);
             }
             
+            
+            ////////////ここまで。
             
             
             for(int j = 0; j < [BeamArray count] ;j++){//発射した全てのビームに対して
@@ -521,7 +600,7 @@ float count = 0;
     //powergaugeを回転させる
     [powerGauge setAngle:2*M_PI * count * 2/60.0f];
     
-    //背景をアニメ
+    //pg背景をアニメ
     [iv_powerGauge removeFromSuperview];
     int temp = count * 10  + 1;
     
@@ -563,21 +642,6 @@ float count = 0;
         
         count += 0.1;
         
-        //    srand(time(nil));
-        //    int x_move = rand() % 50 - 25;
-        //    int x_move = arc4random() % size_machine - size_machine / 2;
-        int x_move = center_x * (sin(2 * M_PI * count * 50/ 360.0f) + 1.0f);
-        //    x_enemyMachine = x_enemyMachine + x_move;
-        x_enemyMachine = x_move;//正弦波の場合
-        
-        if (x_enemyMachine < 0){
-            x_enemyMachine = size_machine * 2;
-        }else if(x_enemyMachine > x_frame - size_machine){
-            x_enemyMachine = x_frame - size_machine * 2;
-        }
-        
-        //    y_enemyMachine += arc4random() % size_machine;
-        
         
         //ここにあったdoNextをこのメソッドの敵機生成前に移行
 //        NSLog(@"count");
@@ -600,8 +664,8 @@ float count = 0;
         
         
         //ビームの更新作業
-        x_beam = x_myMachine + size_machine / 2;
-        y_beam -= length_beam;
+//        x_beam = x_myMachine + size_machine / 2;
+//        y_beam -= length_beam;
         
         
         //    NSLog(@"after do next");
@@ -635,9 +699,9 @@ float count = 0;
 //    http://www.yoheim.net/blog.php?q=20120620
     //フリックで移動した距離を取得する
     CGPoint point = [gr translationInView:self.view];
-    CGPoint movedPoint = CGPointMake(x_myMachine + point.x, y_myMachine + point.y);
-    x_myMachine = movedPoint.x;
-    y_myMachine = movedPoint.y;
+    CGPoint movedPoint = CGPointMake([MyMachine getX] + point.x, [MyMachine getY] + point.y);
+    [MyMachine setX:movedPoint.x];
+    [MyMachine setY:movedPoint.y];
     [gr setTranslation:CGPointZero inView:self.view];
     
 //    [self yieldBeam:0 init_x:(x_myMachine + size_machine/2) init_y:(y_myMachine - length_beam)];
@@ -732,7 +796,7 @@ float count = 0;
 //        int x = (int)(count * 100);// % 200;//arc4random() % 200;
         int x = arc4random() % 200;
 
-        EnemyClass *enemy = [[EnemyClass alloc]init:x size:50];
+        EnemyClass *enemy = [[EnemyClass alloc]init:x size:70];
         [EnemyArray addObject:enemy];//既に初期化済なので追加のみ
 //        NSLog(@"敵機 新規生成, %d, %d", [enemy getY], (int)(count * 10));
 //    [(EnemyClass *)[EnemyArray objectAtIndex:0] setSize:50 ];
@@ -755,7 +819,7 @@ float count = 0;
 
 -(void)drawBackground{
     if(isTouched){
-        [self yieldBeam:0 init_x:(x_myMachine + size_machine/2) init_y:(y_myMachine - length_beam)];
+        [self yieldBeam:0 init_x:([MyMachine getX] + [MyMachine getSize]/2) init_y:([MyMachine getY] - length_beam)];
     }
     //frameの大きさと背景の現在描画位置を決定
     //点数オブジェクトで描画
@@ -776,8 +840,8 @@ float count = 0;
     iv_background1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, y_background1,rect_frame.size.width,rect_frame.size.height + 5)];
     iv_background2 = [[UIImageView alloc]initWithFrame:CGRectMake(0, y_background2,rect_frame.size.width,rect_frame.size.height + 5)];
     //宇宙空間の描画方法
-    iv_background1.image = [UIImage imageNamed:@"cosmos_star4.png"];
-    iv_background2.image = [UIImage imageNamed:@"cosmos_star4.png"];
+    iv_background1.image = [UIImage imageNamed:@"cosmos_star4_repair.png"];
+    iv_background2.image = [UIImage imageNamed:@"cosmos_star4_repair.png"];
 //    iv_background1.alpha = 0.9;//透過率
 //    iv_background2.alpha = 0.9;//透過率
 

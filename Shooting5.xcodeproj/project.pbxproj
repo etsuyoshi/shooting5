@@ -27,6 +27,9 @@
 		3411FB7F17FED1DF001D1491 /* powerGauge_pt13.png in Resources */ = {isa = PBXBuildFile; fileRef = 3411FB6F17FED1DF001D1491 /* powerGauge_pt13.png */; };
 		3411FB8017FED1DF001D1491 /* powerGauge_pt14.png in Resources */ = {isa = PBXBuildFile; fileRef = 3411FB7017FED1DF001D1491 /* powerGauge_pt14.png */; };
 		3411FB8117FED1DF001D1491 /* powerGauge_pt15.png in Resources */ = {isa = PBXBuildFile; fileRef = 3411FB7117FED1DF001D1491 /* powerGauge_pt15.png */; };
+		3411FB8417FEE301001D1491 /* MyMachineClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3411FB8317FEE301001D1491 /* MyMachineClass.m */; };
+		3411FB8617FEF392001D1491 /* mechanical_design_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 3411FB8517FEF392001D1491 /* mechanical_design_3.png */; };
+		3411FB8A17FF2D06001D1491 /* cosmos_star4_repair.png in Resources */ = {isa = PBXBuildFile; fileRef = 3411FB8917FF2D06001D1491 /* cosmos_star4_repair.png */; };
 		3419C41417FD27E200980E71 /* explode4.png in Resources */ = {isa = PBXBuildFile; fileRef = 3419C41217FD27E200980E71 /* explode4.png */; };
 		3419C41517FD27E200980E71 /* explode3.png in Resources */ = {isa = PBXBuildFile; fileRef = 3419C41317FD27E200980E71 /* explode3.png */; };
 		3419C41717FD2B3300980E71 /* explode5.png in Resources */ = {isa = PBXBuildFile; fileRef = 3419C41617FD2B3300980E71 /* explode5.png */; };
@@ -57,8 +60,6 @@
 		342ECBC517FC5AF900123886 /* DamageParticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 342ECBC417FC5AF900123886 /* DamageParticleView.m */; };
 		3467B71D17FD53AF004EEE94 /* item.png in Resources */ = {isa = PBXBuildFile; fileRef = 3467B71C17FD53AF004EEE94 /* item.png */; };
 		3467B72217FD5981004EEE94 /* PowerGaugeClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3467B72117FD5980004EEE94 /* PowerGaugeClass.m */; };
-		3467B72417FD627B004EEE94 /* powerGauge_100.png in Resources */ = {isa = PBXBuildFile; fileRef = 3467B72317FD627B004EEE94 /* powerGauge_100.png */; };
-		3467B72617FD6E65004EEE94 /* powerGauge_90.png in Resources */ = {isa = PBXBuildFile; fileRef = 3467B72517FD6E65004EEE94 /* powerGauge_90.png */; };
 		3475247C17F6D23F002EC895 /* gradius01_stand_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 3475247B17F6D23F002EC895 /* gradius01_stand_128.png */; };
 		348D634C17FD963100A3049B /* powerGauge2.png in Resources */ = {isa = PBXBuildFile; fileRef = 348D634B17FD963100A3049B /* powerGauge2.png */; };
 		348D634E17FE0E8F00A3049B /* gradius00_stand_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 348D634D17FE0E8F00A3049B /* gradius00_stand_128.png */; };
@@ -110,6 +111,10 @@
 		3411FB6F17FED1DF001D1491 /* powerGauge_pt13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerGauge_pt13.png; sourceTree = "<group>"; };
 		3411FB7017FED1DF001D1491 /* powerGauge_pt14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerGauge_pt14.png; sourceTree = "<group>"; };
 		3411FB7117FED1DF001D1491 /* powerGauge_pt15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerGauge_pt15.png; sourceTree = "<group>"; };
+		3411FB8217FEE301001D1491 /* MyMachineClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyMachineClass.h; sourceTree = "<group>"; };
+		3411FB8317FEE301001D1491 /* MyMachineClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMachineClass.m; sourceTree = "<group>"; };
+		3411FB8517FEF392001D1491 /* mechanical_design_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mechanical_design_3.png; sourceTree = "<group>"; };
+		3411FB8917FF2D06001D1491 /* cosmos_star4_repair.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cosmos_star4_repair.png; sourceTree = "<group>"; };
 		3419C41217FD27E200980E71 /* explode4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explode4.png; sourceTree = "<group>"; };
 		3419C41317FD27E200980E71 /* explode3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explode3.png; sourceTree = "<group>"; };
 		3419C41617FD2B3300980E71 /* explode5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explode5.png; sourceTree = "<group>"; };
@@ -150,8 +155,6 @@
 		3467B71C17FD53AF004EEE94 /* item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = item.png; sourceTree = "<group>"; };
 		3467B72017FD5980004EEE94 /* PowerGaugeClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerGaugeClass.h; sourceTree = "<group>"; };
 		3467B72117FD5980004EEE94 /* PowerGaugeClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerGaugeClass.m; sourceTree = "<group>"; };
-		3467B72317FD627B004EEE94 /* powerGauge_100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerGauge_100.png; sourceTree = "<group>"; };
-		3467B72517FD6E65004EEE94 /* powerGauge_90.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerGauge_90.png; sourceTree = "<group>"; };
 		3475247B17F6D23F002EC895 /* gradius01_stand_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradius01_stand_128.png; sourceTree = "<group>"; };
 		348D634B17FD963100A3049B /* powerGauge2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerGauge2.png; sourceTree = "<group>"; };
 		348D634D17FE0E8F00A3049B /* gradius00_stand_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradius00_stand_128.png; sourceTree = "<group>"; };
@@ -234,6 +237,8 @@
 				342057ED17F2B34C0084E99D /* ViewController.m */,
 				3467B72017FD5980004EEE94 /* PowerGaugeClass.h */,
 				3467B72117FD5980004EEE94 /* PowerGaugeClass.m */,
+				3411FB8217FEE301001D1491 /* MyMachineClass.h */,
+				3411FB8317FEE301001D1491 /* MyMachineClass.m */,
 				3400396D17F408070093E07E /* EnemyClass.h */,
 				3400396E17F408070093E07E /* EnemyClass.m */,
 				3419C41817FD2B7E00980E71 /* IDClass.h */,
@@ -257,6 +262,8 @@
 		342057D817F2B34C0084E99D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3411FB8917FF2D06001D1491 /* cosmos_star4_repair.png */,
+				3411FB8517FEF392001D1491 /* mechanical_design_3.png */,
 				3411FB6217FED1DF001D1491 /* powerGauge_pt0.png */,
 				3411FB6317FED1DF001D1491 /* powerGauge_pt1.png */,
 				3411FB6417FED1DF001D1491 /* powerGauge_pt2.png */,
@@ -280,8 +287,6 @@
 				348D634F17FE11EF00A3049B /* circle_7w_128.png */,
 				348D634D17FE0E8F00A3049B /* gradius00_stand_128.png */,
 				348D634B17FD963100A3049B /* powerGauge2.png */,
-				3467B72517FD6E65004EEE94 /* powerGauge_90.png */,
-				3467B72317FD627B004EEE94 /* powerGauge_100.png */,
 				3467B71C17FD53AF004EEE94 /* item.png */,
 				3419C41617FD2B3300980E71 /* explode5.png */,
 				3419C41217FD27E200980E71 /* explode4.png */,
@@ -415,8 +420,6 @@
 				3419C41517FD27E200980E71 /* explode3.png in Resources */,
 				3419C41717FD2B3300980E71 /* explode5.png in Resources */,
 				3467B71D17FD53AF004EEE94 /* item.png in Resources */,
-				3467B72417FD627B004EEE94 /* powerGauge_100.png in Resources */,
-				3467B72617FD6E65004EEE94 /* powerGauge_90.png in Resources */,
 				348D634C17FD963100A3049B /* powerGauge2.png in Resources */,
 				348D634E17FE0E8F00A3049B /* gradius00_stand_128.png in Resources */,
 				348D635017FE11EF00A3049B /* circle_7w_128.png in Resources */,
@@ -440,6 +443,8 @@
 				3411FB7F17FED1DF001D1491 /* powerGauge_pt13.png in Resources */,
 				3411FB8017FED1DF001D1491 /* powerGauge_pt14.png in Resources */,
 				3411FB8117FED1DF001D1491 /* powerGauge_pt15.png in Resources */,
+				3411FB8617FEF392001D1491 /* mechanical_design_3.png in Resources */,
+				3411FB8A17FF2D06001D1491 /* cosmos_star4_repair.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,6 +466,7 @@
 				342ECBC517FC5AF900123886 /* DamageParticleView.m in Sources */,
 				3419C41A17FD2B7E00980E71 /* IDClass.m in Sources */,
 				3467B72217FD5981004EEE94 /* PowerGaugeClass.m in Sources */,
+				3411FB8417FEE301001D1491 /* MyMachineClass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
