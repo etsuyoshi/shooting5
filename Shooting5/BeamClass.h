@@ -39,6 +39,7 @@
 -(CGPoint)getLocation;
 -(int) getX;
 -(int) getY;
+-(int)getSize;
 -(UIImageView *)getImageView;
 
 @end

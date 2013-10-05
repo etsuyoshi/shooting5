@@ -53,7 +53,6 @@ int size_machine;
 int length_beam, thick_beam;//ビームの長さと太さ
 Boolean isGameMode;
 int center_x;
-int myHitPoint;
 
 
 UIPanGestureRecognizer *flick_frame;
@@ -121,7 +120,6 @@ float count = 0;
     
     max_enemy_in_frame = 20;
     
-    myHitPoint = 100;
     
     //タッチ用パネル(タップで自機移動、フリックでビーム発射するドリブン用パネル)
     rect_frame = [[UIScreen mainScreen] bounds];
@@ -264,7 +262,8 @@ float count = 0;
     //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
     
     
-    if([MyMachine getIsAlive]){
+    if([MyMachine getIsAlive] ||
+       [MyMachine getDeadTime] < explosionCycle){
         
         [MyMachine doNext];//設定されたtype、x_loc,y_locプロパティでUIImageViewを作成する
         
@@ -273,6 +272,7 @@ float count = 0;
         
         //爆発から所定時間が経過しているか判定＝＞爆発パーティクルの消去
         if([MyMachine getDeadTime] >= explosionCycle){
+            NSLog(@"set emitting no");
             [[MyMachine getExplodeParticle] setIsEmitting:NO];//消去するには数秒後にNOに
         }
         
@@ -322,7 +322,10 @@ float count = 0;
             
         }
     }
-    [self.view addSubview:[MyMachine getImageView]];
+    
+    if([MyMachine getIsAlive]){
+        [self.view addSubview:[MyMachine getImageView]];
+    }
     
     
     for(int i = 0; i < [BeamArray count] ; i++){
@@ -382,27 +385,6 @@ float count = 0;
             
             EnemyClass *_enemy = (EnemyClass *)[EnemyArray objectAtIndex:i];
             
-            
-            
-            //自機の衝突判定(判定対象は敵機、及び敵機ビーム)
-//            if(
-//               x_myMachine >= [_enemy getX] - [_enemy getSize] * 0.6 &&
-//               x_myMachine <= [_enemy getX] + [_enemy getSize] * 0.6 &&
-//               [_enemy getY] - [_enemy getSize] * 0 <= y_myMachine &&
-//               [_enemy getY] + [_enemy getSize] * 0.5 >= y_myMachine){
-//                
-//                NSLog(@"自機と敵機との衝突");
-//                
-//                myHitPoint = MAX(0, myHitPoint-10);
-//                
-////                powerGauge = [[PowerGaugeClass alloc ]init:0 x_init:200 y_init:300 width:100 height:100];
-////                [powerGauge getImageView].transform = CGAffineTransformMakeRotation(2*M_PI* count/60.0f );
-//                [powerGauge setValue:myHitPoint];//仮で90とする
-////                NSLog(@"hitpoint = %d", [powerGauge getValue]);
-//                [self.view addSubview:[powerGauge getImageView]];
-//            }
-            
-            
             if(
                [MyMachine getX] >= [_enemy getX] - [_enemy getSize] * 0.6 &&
                [MyMachine getX] <= [_enemy getX] + [_enemy getSize] * 0.6 &&
@@ -410,30 +392,51 @@ float count = 0;
                [_enemy getY] + [_enemy getSize] * 0.5 >= [MyMachine getY]){
                 
                 NSLog(@"自機と敵機との衝突");
-                
-                myHitPoint = MAX(0, myHitPoint-10);
-                
-                //                powerGauge = [[PowerGaugeClass alloc ]init:0 x_init:200 y_init:300 width:100 height:100];
-                //                [powerGauge getImageView].transform = CGAffineTransformMakeRotation(2*M_PI* count/60.0f );
-                [powerGauge setValue:myHitPoint];//仮で90とする
-                //                NSLog(@"hitpoint = %d", [powerGauge getValue]);
+                //ダメージの設定
+                [MyMachine setDamage:10 location:CGPointMake([MyMachine getX] + [MyMachine getSize]/2,[MyMachine getY] + [MyMachine getSize]/2)];
+                //ヒットポイントのセット
+                [powerGauge setValue:[MyMachine getHitPoint]];//仮で90とする
+                //パワーゲージの減少
                 [self.view addSubview:[powerGauge getImageView]];
+                
+                
+                
+                //ダメージパーティクル表示
+                [[MyMachine getDamageParticle] setUserInteractionEnabled: NO];//インタラクション拒否
+                [[MyMachine getDamageParticle] setIsEmitting:YES];//消去するには数秒後にNOに
+                [self.view bringSubviewToFront: [MyMachine getDamageParticle]];//最前面に
+                [self.view addSubview: [MyMachine getDamageParticle]];//表示する
+                
+                
+                
+                //爆発パーティクル表示
+                if(![MyMachine getIsAlive]){
+//                    NSLog(@"パーティクル = %@", [MyMachine getExplodeParticle]);
+                    [[MyMachine getExplodeParticle] setUserInteractionEnabled: NO];//インタラクション拒否
+                    [[MyMachine getExplodeParticle] setIsEmitting:YES];//消去するには数秒後にNOに
+                    [self.view bringSubviewToFront: [MyMachine getExplodeParticle]];//最前面に
+                    [self.view addSubview: [MyMachine getExplodeParticle]];//表示する
+                }
+
+                
+                
+                
+                
+                
             }
-            
-            
-            ////////////ここまで。
-            
             
             for(int j = 0; j < [BeamArray count] ;j++){//発射した全てのビームに対して
                 //                    NSLog(@"ビーム衝突判定:%d", j);
                 if([(BeamClass *)[BeamArray objectAtIndex:j] getIsAlive]){
                     //                        NSLog(@"ビーム発射確認完了");
                     
+                    //左上位置
                     int _xBeam = [(BeamClass *)[BeamArray objectAtIndex:j] getX];
                     int _yBeam = [(BeamClass *)[BeamArray objectAtIndex:j] getY];
+                    int _sBeam = [(BeamClass *)[BeamArray objectAtIndex:j] getSize];
                     if(
-                       _xBeam >= [_enemy getX] - [_enemy getSize] * 0.6 &&
-                       _xBeam <= [_enemy getX] + [_enemy getSize] * 0.6 &&
+                       _xBeam >= [_enemy getX] - [_enemy getSize] * 0.3 &&
+                       _xBeam <= [_enemy getX] + [_enemy getSize] * 1.3 &&
                        [_enemy getY] - [_enemy getSize] * 0 <= _yBeam &&
                        [_enemy getY] + [_enemy getSize] * 1>= _yBeam){
                         
@@ -445,7 +448,7 @@ float count = 0;
                         
                         //            bl_enemyAlive = false;
                         int damage = [[BeamArray objectAtIndex:j] getPower];
-                        [(EnemyClass *)[EnemyArray objectAtIndex:i] setDamage:damage location:CGPointMake(_xBeam, _yBeam)];
+                        [(EnemyClass *)[EnemyArray objectAtIndex:i] setDamage:damage location:CGPointMake(_xBeam + _sBeam/2, _yBeam + _sBeam/2)];
                         
                         //上記setDamageでdieメソッドも包含実行
                         //                        [(EnemyClass *)[EnemyArray objectAtIndex:i] die:CGPointMake(_xBeam, _yBeam)];
@@ -547,7 +550,7 @@ float count = 0;
         [self ordinaryAnimationStart];
         
         //一定時間経過するとゲームオーバー
-        if(count >= 300){
+        if(count >= 300 || ![MyMachine getIsAlive]){
             NSLog(@"gameover");
             //経過したらタイマー終了
             [tm invalidate];
@@ -561,21 +564,6 @@ float count = 0;
             
         }
         
-        
-        //ビームの更新作業
-//        x_beam = x_myMachine + size_machine / 2;
-//        y_beam -= length_beam;
-        
-        
-        //    NSLog(@"after do next");
-        
-        //    if(count > 0.2){
-        //        NSLog(@"ブレークポイント設置用：timer終了＝0.1秒経過");
-        //    }else{
-        //        NSLog(@"timer終了＝0.1秒経過");
-        //    }
-        
-
     }else{
         
         //一時停止ボタンが押された：isGameMode=false
@@ -621,17 +609,6 @@ float count = 0;
 }
 
 
-//- (void)onTappedFrame:(UITapGestureRecognizer*)gr{
-//    
-//    //画面をタップした時
-////    NSLog(@"tapped frame");
-//    //横位置を取得する(取得したら自動的に呼び出されるordinaryAnimationStartによって画像もその位置に表示される)
-//    CGPoint location = [gr locationInView:iv_frame];
-////    NSLog(@"tapped main image@[ x = %f, y = %f]", location.x , location.y);
-//    x_myMachine = location.x;
-//    
-//}
-
 
 -(void) viewWillDisappear:(BOOL)animated {
     //navigationバーの戻るボタン押下時の呼び出しメソッド
@@ -642,43 +619,6 @@ float count = 0;
         [tm invalidate];
     }
     [super viewWillDisappear:animated];
-}
-
-
--(void) drawBomb:(CGPoint)location{
-    
-    
-    //爆発テスト
-//    CGRect rect_bomb = CGRectMake(location.x - bomb_size/2,
-//                                  location.y - bomb_size/2,
-//                                  bomb_size,bomb_size);
-//    NSMutableArray *_bombImageList = [[NSMutableArray alloc] init];
-//    
-//    [_bombImageList addObject:[UIImage imageNamed:[NSString stringWithFormat:@"bomb.png"]]];
-////    [_bombImageList addObject:[UIImage imageNamed:[NSString stringWithFormat:@"nothing32.png"]]];
-//    [_bombImageList addObject:[UIImage imageNamed:[NSString stringWithFormat:@"bomb_big.png"]]];
-//    
-//    UIImageView *iv_bomb = [[UIImageView alloc]initWithFrame:rect_bomb];
-//    iv_bomb.animationImages = _bombImageList;
-//    iv_bomb.animationDuration = 1.5;
-//    iv_bomb.animationRepeatCount = 2;
-//    //            iv_bomb.image = [UIImage imageNamed:@"bomb.png"];
-//    [self.view addSubview:iv_bomb];
-//    [iv_bomb startAnimating];
-
-    
-    
-    
-//
-//    //爆発パーティクル
-//    DWFParticleView *_fireView = [[DWFParticleView alloc] initWithFrame:CGRectMake(location.x, location.y, bomb_size, bomb_size)];
-////    NSLog(@"location = x:%d, y:%d", (int)location.x, (int)location.y);
-////    NSLog(@"DWFParticleView = object:::%@", _fireView);
-//    [_fireView setUserInteractionEnabled: NO];//インタラクション拒否
-//    [_fireView setIsEmitting:YES];//消去するには数秒後にNOに
-//    [self.view bringSubviewToFront: _fireView];//最前面に
-//    [self.view addSubview: _fireView];//表示する
-
 }
 
 -(void) yieldEnemy{
@@ -708,7 +648,7 @@ float count = 0;
 
 -(void)yieldBeam:(int)beam_type init_x:(int)x init_y:(int)y{
     //
-    if(isTouched){
+    if([MyMachine getIsAlive] && isTouched){
         BeamClass *beam = [[BeamClass alloc] init:x - size_machine/3 y_init:y + size_machine/2 width:50 height:50];
         [BeamArray addObject:beam];
     }
@@ -717,7 +657,7 @@ float count = 0;
 }
 
 -(void)drawBackground{
-    if(isTouched){
+    if([MyMachine getIsAlive] && isTouched){
         [self yieldBeam:0 init_x:([MyMachine getX] + [MyMachine getSize]/2) init_y:([MyMachine getY] - length_beam)];
     }
     //frameの大きさと背景の現在描画位置を決定
@@ -800,140 +740,12 @@ float count = 0;
 }
 
 -(void)displayScore{
-    NSLog(@"aaa");
+    //スコアボードの表示
     NSArray *_ivArray = [ScoreBoard getImageViewArray];
-    NSLog(@"aaa");
     for(int i = 0; i < [_ivArray count]; i++){
-    NSLog(@"i = %d", i);
         [self.view addSubview:[_ivArray objectAtIndex:i]];
     }
-    
-    /*
-    
-    int _strWidth = 25;
-    int _strHeight = 36;
-    int _x0 = 250;
-    int _y0 = 20;
-    int _maxKetasu = 4;
-    
-    
-    NSString *moji = [ NSString stringWithFormat : @"%04d", tokuten];
-//    NSLog(@"moji = %@", moji);
-//    NSLog(@"moji at 0 = %@", [moji substringWithRange:NSMakeRange(0,1)]);//左一文字
-    
-    UIImageView *_iv_tokuten = nil;
-    //４桁まで表示する
-    for(int ketasu = 0; ketasu < _maxKetasu; ketasu++){
-//        NSLog(@"moji at %d = %@", ketasu, [moji substringWithRange:NSMakeRange(ketasu,1)]);//左一文字
-        [[iv_arr_tokuten objectAtIndex:ketasu] removeFromSuperview];//まずは前のスコアを非表示に。
-    }
-    
-    [iv_arr_tokuten removeAllObjects];//次に配列内を全て空に。
-    
-    for(int ketasu = 0; ketasu < _maxKetasu; ketasu++){
-        switch([[moji substringWithRange:NSMakeRange(ketasu, 1)] intValue]){
-            case 0:
-                
-                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
-                                                                          _y0,
-                                                                          _strWidth,
-                                                                          _strHeight)];
-                _iv_tokuten.image = [UIImage imageNamed:@"zero.png"];
-                [iv_arr_tokuten addObject:_iv_tokuten];
-                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
-                
-                break;
-            case 1:
-                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
-                                                                          _y0,
-                                                                          _strWidth - 1,
-                                                                          _strHeight - 1)];
-                _iv_tokuten.image = [UIImage imageNamed:@"one.png"];
-                [iv_arr_tokuten addObject:_iv_tokuten];
-                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
-                break;
-            case 2:
-                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
-                                                                          _y0,
-                                                                          _strWidth - 1,
-                                                                          _strHeight - 1)];
-                _iv_tokuten.image = [UIImage imageNamed:@"two.png"];
-                [iv_arr_tokuten addObject:_iv_tokuten];
-                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
-                break;
-            case 3:
-                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
-                                                                          _y0,
-                                                                          _strWidth - 1,
-                                                                          _strHeight - 1)];
-                _iv_tokuten.image = [UIImage imageNamed:@"three.png"];
-                [iv_arr_tokuten addObject:_iv_tokuten];
-                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
-                break;
-            case 4:
-                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
-                                                                          _y0,
-                                                                          _strWidth - 1,
-                                                                          _strHeight - 1)];
-                _iv_tokuten.image = [UIImage imageNamed:@"four.png"];
-                [iv_arr_tokuten addObject:_iv_tokuten];
-                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
-                break;
-            case 5:
-                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
-                                                                          _y0,
-                                                                          _strWidth - 1,
-                                                                          _strHeight - 1)];
-                _iv_tokuten.image = [UIImage imageNamed:@"five.png"];
-                [iv_arr_tokuten addObject:_iv_tokuten];
-                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
-
-                break;
-            case 6:
-                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
-                                                                          _y0,
-                                                                          _strWidth - 1,
-                                                                          _strHeight - 1)];
-                _iv_tokuten.image = [UIImage imageNamed:@"six.png"];
-                [iv_arr_tokuten addObject:_iv_tokuten];
-                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
-
-                break;
-            case 7:
-                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
-                                                                          _y0,
-                                                                          _strWidth - 1,
-                                                                          _strHeight - 1)];
-                _iv_tokuten.image = [UIImage imageNamed:@"seven.png"];
-                [iv_arr_tokuten addObject:_iv_tokuten];
-                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
-
-                break;
-            case 8:
-                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
-                                                                          _y0,
-                                                                          _strWidth - 1,
-                                                                          _strHeight - 1)];
-                _iv_tokuten.image = [UIImage imageNamed:@"eight.png"];
-                [iv_arr_tokuten addObject:_iv_tokuten];
-                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
-
-                break;
-            case 9:
-                _iv_tokuten = [[UIImageView alloc]initWithFrame:CGRectMake(_x0 + (_strWidth - 10) * ketasu,
-                                                                          _y0,
-                                                                          _strWidth - 1,
-                                                                          _strHeight - 1)];
-                _iv_tokuten.image = [UIImage imageNamed:@"nine.png"];
-                [iv_arr_tokuten addObject:_iv_tokuten];
-                [self.view addSubview:[iv_arr_tokuten objectAtIndex:[iv_arr_tokuten count] - 1]];
-
-                break;
-        }
-    }
-    
-    */
-    
+        
 }
 
 //以下参考：http://www.atmarkit.co.jp/fsmart/articles/ios_sensor05/02.html

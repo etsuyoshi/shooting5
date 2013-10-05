@@ -15,7 +15,7 @@ int unique_id;
     unique_id++;
     y_loc = 300;
     x_loc = x_init;
-    hitPoint = 20;
+    hitPoint = 100;
     mySize = size;
     lifetime_count = 0;
     dead_time = -1;//死亡したら0にして一秒後にparticleを消去する
@@ -139,6 +139,8 @@ int unique_id;
 
 -(DWFParticleView *)getExplodeParticle{
     //dieしていれば爆発用particleは初期化されているはず=>描画用クラスで描画(self.view addSubview:particle);
+    [explodeParticle setType:0];//自機用パーティクル設定
+    
     return explodeParticle;
 }
 -(DamageParticleView *)getDamageParticle{

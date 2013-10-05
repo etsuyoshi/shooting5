@@ -13,7 +13,7 @@
     
     y_loc = y_init;
     x_loc = x_init;
-    power = 1;//衝突対象に対するダメージ
+    power = 10;//衝突対象に対するダメージ
     width = w;
     height = h;
     isAlive = true;
@@ -76,6 +76,10 @@
 
 -(int) getY{
     return y_loc;
+}
+
+-(int)getSize{
+    return width;
 }
 
 -(UIImageView *)getImageView{

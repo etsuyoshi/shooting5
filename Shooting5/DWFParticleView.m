@@ -13,87 +13,6 @@
 
 -(id)initWithFrame:(CGRect)frame
 {
-    /*
-    self = [super initWithFrame:frame];
-    
-    if(self){
-        NSLog(@"bomb start!!");
-        //set ref to the layer
-        fireEmitter = (CAEmitterLayer*)self.layer; //2
-        
-        //configure the emitter layer
-        //    fireEmitter.emitterPosition = CGPointMake(50, 50);
-        fireEmitter.emitterPosition = CGPointMake(frame.origin.x, frame.origin.y);
-        fireEmitter.emitterSize = CGSizeMake(10, 10);
-        
-        fireEmitter.renderMode = kCAEmitterLayerAdditive;
-        
-        
-        CAEmitterCell* fire = [CAEmitterCell emitterCell];
-        //    fire.birthRate = 200;
-        fire.birthRate = 200;
-        fire.lifetime = 2.0;
-        fire.lifetimeRange = 0.5;
-        fire.color = [[UIColor colorWithRed:0.8 green:0.4 blue:0.2 alpha:0.1] CGColor];
-        fire.contents = (id)[[UIImage imageNamed:@"Particles_fire.png"] CGImage];
-        
-        
-        fire.velocity = 10;
-        fire.velocityRange = 20;
-        fire.emissionRange = M_PI_2 * 2;
-        
-        
-        [fire setName:@"fire"];
-        
-        fire.scaleSpeed = 0.1;//広がる速さ
-        //    fire.spin = 0.5;//回転
-        
-        //add the cell to the layer and we're done
-        fireEmitter.emitterCells = [NSArray arrayWithObject:fire];
-        
-    }
-    NSLog(@"%@", self);//<DWFParticleView: 0x7568ec0; frame = (74 80; 150 150); layer = <CAEmitterLayer: 0x759cfc0>>
-    return self;
-    */
-    
-    
-    
-    
-//    self = [super initWithFrame:frame];
-//    isFinished = false;
-//    if (self) {
-//        // Initialization code
-//        
-//        particleEmitter = (CAEmitterLayer *) self.layer;
-//        particleEmitter.emitterPosition = CGPointMake(0, 0);//CGPointMake(frame.origin.x, frame.origin.y);//CGPointMake(0, 0);
-//        particleEmitter.emitterSize = CGSizeMake(3,3);//frame.size.width, frame.size.height);
-//        particleEmitter.renderMode = kCAEmitterLayerAdditive;
-//        
-//        CAEmitterCell *particle = [CAEmitterCell emitterCell];
-//        particle.birthRate = 10;//火や水に見せるためには数百が必要
-//        particle.lifetime = 0.3;
-//        particle.lifetimeRange = 0.2;
-//        particle.color = [[UIColor colorWithRed: 0.8 green: 0.4 blue: 0.2 alpha: 0.1] CGColor];
-//        particle.contents = (id) [[UIImage imageNamed: @"Particles_fire.png"] CGImage];
-//        particle.name = @"fire";
-//        particle.velocity = 0;
-//        particle.velocityRange = 0;
-//        particle.emissionRange = 0;//M_PI_2;
-//        particle.emissionLongitude = 0.025 * 180 / M_PI;
-//        particle.scaleSpeed = 0.5;
-//        particle.spin = 0.5;
-//
-//        
-//        
-//        particleEmitter.emitterCells = [NSArray arrayWithObject: particle];
-//    }
-//    //    NSLog(@"%@", self);//<DWFParticleView: 0x92458e0; frame = (160 160; 150 150); layer = <CAEmitterLayer: 0x9243e50>>
-//    return self;
-
-    
-    
-    
-    
     self = [super initWithFrame:frame];
     isFinished = false;
     if (self) {
@@ -149,6 +68,34 @@
     fireEmitter.emitterPosition = [t locationInView:self];
 }
 */
+
+-(void)setType:(int)_type{
+    type = _type;
+    
+    switch(type){
+        case 0://自機は赤で前向き
+            NSLog(@"explode at type = %d", type);
+            [particleEmitter setValue:(id)[[UIColor colorWithRed: 0.5 green: 0.1 blue: 0.1 alpha: 0.1] CGColor]
+                           forKeyPath:@"emitterCells.fire.color"];
+            [particleEmitter setValue:[NSNumber numberWithDouble:-M_PI_2]
+                           forKeyPath:@"emitterCells.fire.emissionLongitude"];
+            break;
+        case 1://敵機は青で後ろ向き
+            NSLog(@"explode at type = %d", type);
+            [particleEmitter setValue:(id)[[UIColor colorWithRed: 0.1 green: 0.1 blue: 0.5 alpha: 0.1] CGColor]
+                           forKeyPath:@"emitterCells.fire.color"];
+            [particleEmitter setValue:[NSNumber numberWithDouble:M_PI_2]
+                           forKeyPath:@"emitterCells.fire.emissionLongitude"];
+
+            break;
+    }
+    
+
+    
+    
+    
+    
+}
 
 
 -(void)setIsEmitting:(BOOL)isEmitting

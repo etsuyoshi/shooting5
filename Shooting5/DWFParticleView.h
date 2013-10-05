@@ -13,11 +13,13 @@
 //    CAEmitterLayer *fireEmitter;
     CAEmitterLayer *particleEmitter;
     Boolean isFinished;
+    int type;
 }
 
 //-(void)setEmitterPositionFromTouch: (UITouch*)t;
 -(void)setIsEmitting:(BOOL)isEmitting;
 -(Boolean)getIsFinished;
+-(void)setType:(int)type;
 //-(void)awakeFromNib:(CGPoint)location;
 //-(void)bomb:(CGPoint)location;
 @end
