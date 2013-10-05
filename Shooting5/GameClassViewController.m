@@ -34,6 +34,7 @@
 #import "DWFParticleView.h"
 #import "PowerGaugeClass.h"
 #import "MyMachineClass.h"
+#import "ScoreBoardClass.h"
 #import <QuartzCore/QuartzCore.h>
 
 
@@ -41,7 +42,7 @@ CGRect rect_frame, rect_myMachine, rect_enemyBeam, rect_beam_launch;
 UIImageView *iv_frame, *iv_myMachine, *iv_enemyBeam, *iv_beam_launch, *iv_background1, *iv_background2;
 
 
-NSMutableArray *iv_arr_tokuten;
+//NSMutableArray *iv_arr_tokuten;
 int y_background1, y_background2;
 const int explosionCycle = 3;//爆発時間
 int max_enemy_in_frame;
@@ -53,7 +54,7 @@ int length_beam, thick_beam;//ビームの長さと太さ
 Boolean isGameMode;
 int center_x;
 int myHitPoint;
-int tokuten;
+
 
 UIPanGestureRecognizer *flick_frame;
 //UILongPressGestureRecognizer *longPress_frame;
@@ -63,6 +64,7 @@ MyMachineClass *MyMachine;
 NSMutableArray *EnemyArray;
 NSMutableArray *BeamArray;
 NSMutableArray *ItemArray;
+ScoreBoardClass *ScoreBoard;
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 //パワーゲージ背景：ビジュアルこだわりポイント
@@ -162,7 +164,7 @@ float count = 0;
     EnemyArray = [[NSMutableArray alloc]init];
     
     //自機定義
-    MyMachine = [[MyMachineClass alloc] init:x_frame/2 size:50];
+    MyMachine = [[MyMachineClass alloc] init:x_frame/2 - 50 size:70];
     
     //自機が発射したビームを格納する配列初期化
     BeamArray = [[NSMutableArray alloc] init];
@@ -170,10 +172,15 @@ float count = 0;
     //敵機を破壊した際のアイテム
     ItemArray = [[NSMutableArray alloc] init];
     
+    //スコアボードの初期化
+    ScoreBoard = [[ScoreBoardClass alloc]init:0 x_init:0 y_init:0];
+    
+    [self displayScore];
+    /*
     
     //ここは時間がある時にtokutenオブジェクトとして保有しておく必要がある
     //点数表示用ImageView用配列
-    iv_arr_tokuten = [[NSMutableArray alloc] init];
+//    iv_arr_tokuten = [[NSMutableArray alloc] init];
     //全て0で初期化
     int _strWidth = 25;
     int _strHeight = 36;
@@ -190,6 +197,8 @@ float count = 0;
         [iv_arr_tokuten addObject:_iv_tokuten];
         [self.view addSubview:[iv_arr_tokuten objectAtIndex:ketasu]];
     }
+     
+     */
 
     size_machine = 100;
     
@@ -251,29 +260,15 @@ float count = 0;
     //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
     //_/_/_/_/前時刻の描画を消去_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
     //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-//    NSLog(@"count = %d", [EnemyArray count]);
     for(int i = 0;i < [EnemyArray count] ; i++){
-//        NSLog(@"敵機 No:%d 消去[x = %d, y = %d]",
-//              i,
-//              [(EnemyClass *)[EnemyArray objectAtIndex:i] getX],
-//              [(EnemyClass *)[EnemyArray objectAtIndex:i] getY]);
         [[(EnemyClass *)[EnemyArray objectAtIndex:i] getImageView ] removeFromSuperview];
-//        NSLog(@"オブジェクト:%@",[(EnemyClass *)[EnemyArray objectAtIndex:i] getImageView]);
-//        NSLog(@"aaa");
     }
     
     for(int i = 0; i < [BeamArray count] ;i++){
         [[(BeamClass *)[BeamArray objectAtIndex:i]getImageView] removeFromSuperview];
     }
-
-    /////////////////////////////////////////////
-//    if([iv_myMachine center].x >= x_myMachine && [iv_myMachine center].x < x_myMachine + size_machine){
-//    
-//    }else{
-//        NSLog(@"x_past=%d, size=%d, x_now=%d", (int)[iv_myMachine center].x, size_machine, x_myMachine);
-        [iv_myMachine removeFromSuperview];
+    
     [[MyMachine getImageView] removeFromSuperview];
-//    }
     
     
     //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -284,39 +279,6 @@ float count = 0;
 //    }
 
     
-    
-    //自機
-//    NSLog(@"自機");
-    /*
-    rect_myMachine = CGRectMake(x_myMachine, y_myMachine, size_machine, size_machine);//左上座標、幅、高さ
-    NSMutableArray *_myImageList = [[NSMutableArray alloc] init];
-    [_myImageList addObject:[UIImage imageNamed:[NSString stringWithFormat:@"gradius00_stand_128.png"]]];
-    [_myImageList addObject:[UIImage imageNamed:[NSString stringWithFormat:@"gradius01_stand_128.png"]]];
-    iv_myMachine = [[UIImageView alloc]initWithFrame:rect_myMachine];
-    iv_myMachine.animationImages = _myImageList;
-    iv_myMachine.animationDuration = 0.5;
-    iv_myMachine.animationRepeatCount = 0;
-     */
-    
-    
-    //現状、自機と敵機をタップしても何も起こらないようにする
-//    iv_myMachine.userInteractionEnabled = NO;
-//    [iv_myMachine addGestureRecognizer:flick_frame];
-    
-    //ジェスチャーレコナイザーを付与して、タップイベントに備える
-//    UIPanGestureRecognizer* panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
-//    [iv_myMachine addGestureRecognizer:panGesture];
-//    UITapGestureRecognizer *tap =
-//    [[UITapGestureRecognizer alloc] initWithTarget:self
-//                                            action:@selector(onTappedMachine:)];
-//    //タップ種類=シングルタップ
-//    tap.numberOfTapsRequired = 1;
-//    [iv_myMachine addGestureRecognizer:tap];
-    //ビューにメインイメージを貼り付ける
-    /*
-    [self.view addSubview:iv_myMachine];
-    [iv_myMachine startAnimating];
-    */
     
     //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
     //_/_/_/_/進行_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -361,26 +323,6 @@ float count = 0;
             }
         }
     }
-//    
-//    //test:パーティクルのbirthRateがゼロになっているか
-//    for(int i = 0;i < [EnemyArray count] ; i++){
-//        if([[EnemyArray objectAtIndex:i] getIsAlive]){
-//            NSLog(@"enemy[%d] is alive", i);
-//        }else{
-//            NSLog(@"enemy[%d] is dead ", i);
-//            NSLog(@"enemy's dead_time is %d", [[EnemyArray objectAtIndex:i] getDeadTime]);
-////            if([[EnemyArray objectAtIndex:i] getStatus]){
-//            if([[[EnemyArray objectAtIndex:i] getParticle] getIsFinished]){
-//                NSLog(@"enemy's explosion is finished");
-//            }else{
-//                NSLog(@"enemy's explosion is not finished");
-//            }
-//            
-//        }
-//    }
-    
-    
-    
     
     //ビーム進行=>出来ればMyMachineの保有オブジェクトにする
     for(int i = 0; i < [BeamArray count] ; i++){
@@ -391,7 +333,9 @@ float count = 0;
 
 
 //    NSLog(@"敵機配列");
-    //表示
+    //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+    //_/_/_/_/表示_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+    //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
     for(int i = 0; i < [EnemyArray count] ; i++){
         if([(EnemyClass *)[EnemyArray objectAtIndex:i] getIsAlive]){
             //ビューにメインイメージを貼り付ける
@@ -399,19 +343,14 @@ float count = 0;
             
         }
     }
-    NSLog(@"%@", [MyMachine getImageView]);
     [self.view addSubview:[MyMachine getImageView]];
     
-    
-    ////////////////////ここまでMyMachineクラスの定義、動作完了。
-    //続き＝＞x_myMachine、y・・・について、全て修正：前時刻の更新なのか、MyMachineクラスを更新するのか区別しておく必要あり。
     
     for(int i = 0; i < [BeamArray count] ; i++){
         if([(BeamClass *)[BeamArray objectAtIndex:i] getIsAlive]){
             //ビューにメインイメージを貼り付ける
             [self.view addSubview:[(BeamClass *)[BeamArray objectAtIndex:i] getImageView]];
         }
-
     }
     
     
@@ -423,26 +362,7 @@ float count = 0;
         if([_item getIsAlive]){//アイテムの獲得判定
             int _xItem = [_item getX];
             int _yItem = [_item getY];
-            
-//            if(
-//               _xItem >= x_myMachine &&
-//               _xItem <= x_myMachine + size_machine &&
-//               _yItem >= y_myMachine &&
-//               _yItem <= y_myMachine + size_machine){
-//                
-//                [[[ItemArray objectAtIndex:itemCount] getImageView] removeFromSuperview];
-//                [[ItemArray objectAtIndex:itemCount] die];
-//                
-//                //得点の加算
-//                tokuten++;
-////                NSLog(@"tokuten = %d", tokuten);
-//                [self displayTOKUTEN];
-//                
-//                //            break;
-//                
-//            }
-            
-            
+                        
             if(
                _xItem >= [MyMachine getX] &&
                _xItem <= [MyMachine getX] + [MyMachine getSize] &&
@@ -462,9 +382,9 @@ float count = 0;
                  */
                 
                 //得点の加算
-                tokuten++;
+                [ScoreBoard setScore:[ScoreBoard getScore] + 1];//+1でよい？！
                 //                NSLog(@"tokuten = %d", tokuten);
-                [self displayTOKUTEN];
+                [self displayScore];
                 
                 //            break;
                 
@@ -900,7 +820,16 @@ float count = 0;
     
 }
 
--(void)displayTOKUTEN{
+-(void)displayScore{
+    NSLog(@"aaa");
+    NSArray *_ivArray = [ScoreBoard getImageViewArray];
+    NSLog(@"aaa");
+    for(int i = 0; i < [_ivArray count]; i++){
+    NSLog(@"i = %d", i);
+        [self.view addSubview:[_ivArray objectAtIndex:i]];
+    }
+    
+    /*
     
     int _strWidth = 25;
     int _strHeight = 36;
@@ -1023,6 +952,8 @@ float count = 0;
                 break;
         }
     }
+    
+    */
     
 }
 
