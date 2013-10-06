@@ -35,6 +35,7 @@
 #import "PowerGaugeClass.h"
 #import "MyMachineClass.h"
 #import "ScoreBoardClass.h"
+#import "GoldBoardClass.h"
 #import <QuartzCore/QuartzCore.h>
 
 
@@ -64,6 +65,7 @@ NSMutableArray *EnemyArray;
 NSMutableArray *BeamArray;
 NSMutableArray *ItemArray;
 ScoreBoardClass *ScoreBoard;
+GoldBoardClass *GoldBoard;
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 //パワーゲージ背景：ビジュアルこだわりポイント
@@ -174,7 +176,11 @@ float count = 0;
     ScoreBoard = [[ScoreBoardClass alloc]init:0 x_init:0 y_init:0];
     
     //スコアボードの表示(初期状態ではゼロ)
-    [self displayScore];
+    [self displayScore:ScoreBoard];
+    
+    //ゴールドの初期化と表示
+    GoldBoard = [[GoldBoardClass alloc]init:0 x_init:0 y_init:50];
+    [self displayScore:GoldBoard];
     
     
     size_machine = 100;
@@ -296,7 +302,7 @@ float count = 0;
             //爆発してから時間が所定時間が経過してる場合
             if([(EnemyClass *)[EnemyArray objectAtIndex: i] getDeadTime] >= explosionCycle){
                 //爆発パーティクルの消去
-                NSLog(@"パーティクル消去 at %d", i);
+//                NSLog(@"パーティクル消去 at %d", i);
                 [[(EnemyClass *)[EnemyArray objectAtIndex:i] getExplodeParticle] setIsEmitting:NO];//消去するには数秒後にNOに
 
             }
@@ -363,13 +369,11 @@ float count = 0;
                  _/_/_/_/_/_/_/_/_/_/_/_/
                  */
                 
-                //得点の加算
-                [ScoreBoard setScore:[ScoreBoard getScore] + 1];//+1でよい？！
-                //                NSLog(@"tokuten = %d", tokuten);
-                [self displayScore];
                 
-                //            break;
                 
+                //ゴールドを加算
+                [GoldBoard setScore:[GoldBoard getScore] + 1];
+                [self displayScore:GoldBoard];
             }
         }
     }
@@ -408,14 +412,20 @@ float count = 0;
                 [self.view addSubview: [MyMachine getDamageParticle]];//表示する
                 
                 
-                
-                //爆発パーティクル表示
+                //爆発パーティクル(ダメージ前isAliveがtrueからダメージ後falseになった場合は攻撃によって死んだ物として爆発)
                 if(![MyMachine getIsAlive]){
+                    
+                    /*
+                     修正点：爆発でスコアが見えなくなってしまっているので、爆発はスコアの背面にする(スコアが最前面にする？）
+                     */
+                    
 //                    NSLog(@"パーティクル = %@", [MyMachine getExplodeParticle]);
                     [[MyMachine getExplodeParticle] setUserInteractionEnabled: NO];//インタラクション拒否
                     [[MyMachine getExplodeParticle] setIsEmitting:YES];//消去するには数秒後にNOに
                     [self.view bringSubviewToFront: [MyMachine getExplodeParticle]];//最前面に
                     [self.view addSubview: [MyMachine getExplodeParticle]];//表示する
+                    
+                    
                 }
 
                 
@@ -467,17 +477,28 @@ float count = 0;
 //                        NSLog(@"パーティクル = %@", [(EnemyClass *)[EnemyArray objectAtIndex:i] getExplodeParticle]);
                         [[BeamArray objectAtIndex:j] die];//衝突したらビームは消去
                         
+                        
+                        //敵を倒したら
                         if(![[EnemyArray objectAtIndex:i] getIsAlive]){
-                            NSLog(@"パーティクル = %@", [(EnemyClass *)[EnemyArray objectAtIndex:i] getExplodeParticle]);
+                            
+                            
+//                            NSLog(@"パーティクル = %@", [(EnemyClass *)[EnemyArray objectAtIndex:i] getExplodeParticle]);
+                            //爆発パーティクル表示
                             [[(EnemyClass *)[EnemyArray objectAtIndex:i] getExplodeParticle] setUserInteractionEnabled: NO];//インタラクション拒否
                             [[(EnemyClass *)[EnemyArray objectAtIndex:i] getExplodeParticle] setIsEmitting:YES];//消去するには数秒後にNOに
                             [self.view bringSubviewToFront: [(EnemyClass *)[EnemyArray objectAtIndex:i] getExplodeParticle]];//最前面に
                             [self.view addSubview: [(EnemyClass *)[EnemyArray objectAtIndex:i] getExplodeParticle]];//表示する
                             
+                            //得点の加算
+                            [ScoreBoard setScore:[ScoreBoard getScore] + 5];//+1でよい？！
+                            [self displayScore:ScoreBoard];
+                            
+                            
+                            
                             //アイテム出現
                             if(arc4random() % 2 == 0){
                                 NSLog(@"アイテム出現");
-                                ItemClass *_item = [[ItemClass alloc] init:_xBeam y_init:_yBeam width:20 height:20];
+                                ItemClass *_item = [[ItemClass alloc] init:_xBeam y_init:_yBeam width:50 height:50];
                                 [ItemArray addObject:_item];
                                 
                                 [self.view bringSubviewToFront: [[ItemArray objectAtIndex:([ItemArray count]-1)] getImageView]];//最前面に
@@ -739,9 +760,10 @@ float count = 0;
     
 }
 
--(void)displayScore{
+-(void)displayScore:(ScoreBoardClass *)_boardClass{
     //スコアボードの表示
-    NSArray *_ivArray = [ScoreBoard getImageViewArray];
+    
+    NSArray *_ivArray = [_boardClass getImageViewArray];
     for(int i = 0; i < [_ivArray count]; i++){
         [self.view addSubview:[_ivArray objectAtIndex:i]];
     }

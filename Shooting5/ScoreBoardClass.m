@@ -12,18 +12,12 @@
 
 
 
-NSMutableArray *score_array;
-int score;
-int eachDigitWidth;
-int eachDigitHeight;
-int rightMargin;
-int maxKetasu;
-int xStart, yStart;
-NSMutableArray *strEnglishNum;
 
 
--(id)init:(int)score x_init:(int)x_init y_init:(int)y_init{//端末自体のフレームの大きさを引数にした
-    
+
+
+-(id)init:(int)_score x_init:(int)x_init y_init:(int)y_init{//端末自体のフレームの大きさを引数にした
+    score = _score;
     xStart = x_init;//frame.size.width - (rightMargin + eachDigitWidth * maxKetasu);//左端
     yStart = y_init;
 
@@ -44,8 +38,9 @@ NSMutableArray *strEnglishNum;
     [strEnglishNum addObject:@"nine.png"];
     
     score_array = [[NSMutableArray alloc]init];
-    maxKetasu = 4;
+    maxKetasu = 9;
     
+    //score_arrayの初期化
     for(int ketasu = 0;ketasu < maxKetasu;ketasu ++){
         UIImageView *_eachDigit = [[UIImageView alloc]initWithFrame:CGRectMake(xStart + (eachDigitWidth - overlap) * ketasu,
                                                                                yStart,
@@ -56,7 +51,8 @@ NSMutableArray *strEnglishNum;
         
     }
     
-
+    
+    [self setScore:score];
     
     return self;
 }
@@ -66,13 +62,13 @@ NSMutableArray *strEnglishNum;
     
     
 
-    NSString *moji = [ NSString stringWithFormat : @"%04d", score];//桁数によって変える必要がある。
-    UIImageView *_eachDigit;
+    NSString *moji = [ NSString stringWithFormat : @"%09d", score];//桁数によって変える必要がある。
+//    UIImageView *_eachDigit;
 //    NSLog(@"start");
     for(int ketasu = 0; ketasu < maxKetasu; ketasu++){
-        NSLog(@"keta = %d", ketasu);
+//        NSLog(@"keta = %d", ketasu);
         for(int loopCount = 0; loopCount < [score_array count]; loopCount++){
-            NSLog(@"lc = %d, searchNum = %d", loopCount, [[moji substringWithRange:NSMakeRange(ketasu, 1)] intValue]);
+//            NSLog(@"lc = %d, searchNum = %d", loopCount, [[moji substringWithRange:NSMakeRange(ketasu, 1)] intValue]);
             if(loopCount == [[moji substringWithRange:NSMakeRange(ketasu, 1)] intValue]){
                 
 //                _eachDigit = [[UIImageView alloc]initWithFrame:CGRectMake(xStart + (eachDigitWidth) * ketasu,

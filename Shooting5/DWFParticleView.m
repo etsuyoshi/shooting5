@@ -74,14 +74,14 @@
     
     switch(type){
         case 0://自機は赤で前向き
-            NSLog(@"explode at type = %d", type);
+//            NSLog(@"explode at type = %d", type);
             [particleEmitter setValue:(id)[[UIColor colorWithRed: 0.5 green: 0.1 blue: 0.1 alpha: 0.1] CGColor]
                            forKeyPath:@"emitterCells.fire.color"];
             [particleEmitter setValue:[NSNumber numberWithDouble:-M_PI_2]
                            forKeyPath:@"emitterCells.fire.emissionLongitude"];
             break;
         case 1://敵機は青で後ろ向き
-            NSLog(@"explode at type = %d", type);
+//            NSLog(@"explode at type = %d", type);
             [particleEmitter setValue:(id)[[UIColor colorWithRed: 0.1 green: 0.1 blue: 0.5 alpha: 0.1] CGColor]
                            forKeyPath:@"emitterCells.fire.color"];
             [particleEmitter setValue:[NSNumber numberWithDouble:M_PI_2]

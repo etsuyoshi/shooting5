@@ -20,7 +20,19 @@
     rect = CGRectMake(x_loc, y_loc, w, h);
     iv = [[UIImageView alloc]initWithFrame:rect];
     //    iv.image = [UIImage imageNamed:@"beam.png"];
-    iv.image = [UIImage imageNamed:@"item.png"];
+    switch(arc4random() % 3){
+        case 0:
+            iv.image = [UIImage imageNamed:@"blue_item_yuri_big.png"];
+            break;
+        case 1:
+            iv.image = [UIImage imageNamed:@"yellow_item_thunder.png"];
+            break;
+        case 2:
+            iv.image = [UIImage imageNamed:@"red.png"];
+            break;
+    
+    }
+    
     return self;
 }
 -(id) init{
