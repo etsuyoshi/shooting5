@@ -20,15 +20,18 @@
     rect = CGRectMake(x_loc, y_loc, w, h);
     iv = [[UIImageView alloc]initWithFrame:rect];
     //    iv.image = [UIImage imageNamed:@"beam.png"];
-    switch(arc4random() % 3){
-        case 0:
+    switch(arc4random() % 4){
+        case 0://青：攻撃力上昇
             iv.image = [UIImage imageNamed:@"blue_item_yuri_big.png"];
             break;
-        case 1:
+        case 1://黄：画面内敵全滅
             iv.image = [UIImage imageNamed:@"yellow_item_thunder.png"];
             break;
-        case 2:
+        case 2://赤：回復
             iv.image = [UIImage imageNamed:@"red.png"];
+            break;
+        case 3://コイン
+            iv.image = [UIImage imageNamed:@"coin.png"];
             break;
     
     }
