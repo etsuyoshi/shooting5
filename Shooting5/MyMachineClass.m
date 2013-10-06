@@ -16,6 +16,8 @@ int unique_id;
     y_loc = 300;
     x_loc = x_init;
     hitPoint = 100;
+    offensePower = 1;
+    defensePower = 0;
     mySize = size;
     lifetime_count = 0;
     dead_time = -1;//死亡したら0にして一秒後にparticleを消去する
@@ -25,6 +27,7 @@ int unique_id;
     rect = CGRectMake(x_loc, y_loc, mySize, mySize);
     iv = [[UIImageView alloc]initWithFrame:rect];
     machine_type = arc4random() % 3;
+    beamArray = [[NSMutableArray alloc]init];
     switch(machine_type){
         case 0:
             bomb_size = 20;
@@ -50,9 +53,16 @@ int unique_id;
 
 -(void)setDamage:(int)damage location:(CGPoint)location{
     damageParticle = [[DamageParticleView alloc] initWithFrame:CGRectMake(location.x, location.y, damage, damage)];
-    hitPoint -= damage;
-    if(hitPoint < 0){
-        [self die:location];
+    
+    if(defensePower > 0){
+        if(hitPoint > 0){
+            hitPoint -= damage;
+            if(hitPoint < 0){
+                [self die:location];
+            }
+        }
+    }else{
+        defensePower --;
     }
 }
 
@@ -146,6 +156,26 @@ int unique_id;
 -(DamageParticleView *)getDamageParticle{
     //dieしていれば爆発用particleは初期化されているはず=>描画用クラスで描画(self.view addSubview:particle);
     return damageParticle;
+}
+
+-(void)yieldBeam:(int)beam_type init_x:(int)x init_y:(int)y{
+    BeamClass *beam = [[BeamClass alloc] init:x - mySize/3 y_init:y + mySize/2 width:50 height:50];
+    [beamArray addObject:beam];
+}
+-(BeamClass *)getBeam:(int)i{
+    return (BeamClass *)[beamArray objectAtIndex:i];
+}
+
+-(int)getBeamCount{
+    return [beamArray count];
+}
+
+-(void)setOffensePow:(int)_power{
+    offensePower = _power;
+}
+
+-(void)setDefensePow:(int)_power{
+    defensePower = _power;
 }
 
 

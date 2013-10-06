@@ -20,16 +20,14 @@
  ・敵機の描画を精密に？！→クラウドワークス
  ・画面タッチ時にビーム発射：済
 
- ・敵機をもっと頑丈に(typeによって爆発hit数を変更する)
+ ・敵機をもっと頑丈に(typeによって爆発hit数を変更する):済
  ・自機からのビームはタップ時常時発射:済
  ・自機の移動はpanGesture:済
- ・ハロワ編集
- ・信託記帳
  */
 
 #import "GameClassViewController.h"
 #import "EnemyClass.h"
-#import "BeamClass.h"
+//#import "BeamClass.h"
 #import "ItemClass.h"
 #import "DWFParticleView.h"
 #import "PowerGaugeClass.h"
@@ -62,7 +60,7 @@ Boolean isTouched;
 
 MyMachineClass *MyMachine;
 NSMutableArray *EnemyArray;
-NSMutableArray *BeamArray;
+//NSMutableArray *BeamArray;
 NSMutableArray *ItemArray;
 ScoreBoardClass *ScoreBoard;
 GoldBoardClass *GoldBoard;
@@ -166,8 +164,8 @@ float count = 0;
     //自機定義
     MyMachine = [[MyMachineClass alloc] init:x_frame/2 - 50 size:70];
     
-    //自機が発射したビームを格納する配列初期化
-    BeamArray = [[NSMutableArray alloc] init];
+    //自機が発射したビームを格納する配列初期化=>MyMachineクラス内に実装
+//    BeamArray = [[NSMutableArray alloc] init];
     
     //敵機を破壊した際のアイテム
     ItemArray = [[NSMutableArray alloc] init];
@@ -231,8 +229,6 @@ float count = 0;
                                         selector:@selector(time:)//タイマー呼び出し
                                         userInfo:nil
                                          repeats:YES];
-//    [self ordinaryAnimationStart];
-
 }
 
 
@@ -247,8 +243,12 @@ float count = 0;
         [[(EnemyClass *)[EnemyArray objectAtIndex:i] getImageView ] removeFromSuperview];
     }
     
-    for(int i = 0; i < [BeamArray count] ;i++){
-        [[(BeamClass *)[BeamArray objectAtIndex:i]getImageView] removeFromSuperview];
+//    for(int i = 0; i < [BeamArray count] ;i++){
+//        
+//        [[(BeamClass *)[BeamArray objectAtIndex:i]getImageView] removeFromSuperview];
+//    }
+    for(int i = 0; i < [MyMachine getBeamCount]; i++){
+        [[[MyMachine getBeam:i] getImageView] removeFromSuperview];
     }
     
     [[MyMachine getImageView] removeFromSuperview];
@@ -310,9 +310,15 @@ float count = 0;
     }
     
     //ビーム進行=>出来ればMyMachineの保有オブジェクトにする
-    for(int i = 0; i < [BeamArray count] ; i++){
-        if([(BeamClass *)[BeamArray objectAtIndex:i] getIsAlive]) {
-            [(BeamClass *)[BeamArray objectAtIndex:i ] doNext];
+//    for(int i = 0; i < [BeamArray count] ; i++){
+//        if([(BeamClass *)[BeamArray objectAtIndex:i] getIsAlive]) {
+//            [(BeamClass *)[BeamArray objectAtIndex:i ] doNext];
+//        }
+//    }
+    
+    for(int i = 0; i < [MyMachine getBeamCount];i++){
+        if([[MyMachine getBeam:i] getIsAlive]){
+            [[MyMachine getBeam:i] doNext];
         }
     }
 
@@ -334,13 +340,18 @@ float count = 0;
     }
     
     
-    for(int i = 0; i < [BeamArray count] ; i++){
-        if([(BeamClass *)[BeamArray objectAtIndex:i] getIsAlive]){
+//    for(int i = 0; i < [BeamArray count] ; i++){
+//        if([(BeamClass *)[BeamArray objectAtIndex:i] getIsAlive]){
+//            //ビューにメインイメージを貼り付ける
+//            [self.view addSubview:[(BeamClass *)[BeamArray objectAtIndex:i] getImageView]];
+//        }
+//    }
+    for(int i = 0 ; i < [MyMachine getBeamCount]; i++){
+        if([[MyMachine getBeam:i]getIsAlive]){
             //ビューにメインイメージを貼り付ける
-            [self.view addSubview:[(BeamClass *)[BeamArray objectAtIndex:i] getImageView]];
+            [self.view addSubview:[[MyMachine getBeam:i] getImageView]];
         }
     }
-    
     
     
     
@@ -435,15 +446,17 @@ float count = 0;
                 
             }
             
-            for(int j = 0; j < [BeamArray count] ;j++){//発射した全てのビームに対して
+//            for(int j = 0; j < [BeamArray count] ;j++){//発射した全てのビームに対して
+            for(int j = 0 ; j < [MyMachine getBeamCount];j++){
+                BeamClass *_beam = [MyMachine getBeam:j];
                 //                    NSLog(@"ビーム衝突判定:%d", j);
-                if([(BeamClass *)[BeamArray objectAtIndex:j] getIsAlive]){
+                if([_beam getIsAlive]){
                     //                        NSLog(@"ビーム発射確認完了");
                     
                     //左上位置
-                    int _xBeam = [(BeamClass *)[BeamArray objectAtIndex:j] getX];
-                    int _yBeam = [(BeamClass *)[BeamArray objectAtIndex:j] getY];
-                    int _sBeam = [(BeamClass *)[BeamArray objectAtIndex:j] getSize];
+                    int _xBeam = [_beam getX];
+                    int _yBeam = [_beam getY];
+                    int _sBeam = [_beam getSize];
                     if(
                        _xBeam >= [_enemy getX] - [_enemy getSize] * 0.3 &&
                        _xBeam <= [_enemy getX] + [_enemy getSize] * 1.3 &&
@@ -457,7 +470,7 @@ float count = 0;
 //                              _xBeam, _yBeam, [_enemy getX], [_enemy getY]);
                         
                         //            bl_enemyAlive = false;
-                        int damage = [[BeamArray objectAtIndex:j] getPower];
+                        int damage = [_beam getPower];
                         [(EnemyClass *)[EnemyArray objectAtIndex:i] setDamage:damage location:CGPointMake(_xBeam + _sBeam/2, _yBeam + _sBeam/2)];
                         
                         //上記setDamageでdieメソッドも包含実行
@@ -475,7 +488,7 @@ float count = 0;
                         
                         //爆発パーティクル
 //                        NSLog(@"パーティクル = %@", [(EnemyClass *)[EnemyArray objectAtIndex:i] getExplodeParticle]);
-                        [[BeamArray objectAtIndex:j] die];//衝突したらビームは消去
+                        [[MyMachine getBeam:j] die];//衝突したらビームは消去
                         
                         
                         //敵を倒したら
@@ -612,16 +625,10 @@ float count = 0;
     [MyMachine setY:movedPoint.y];
     [gr setTranslation:CGPointZero inView:self.view];
     
-//    [self yieldBeam:0 init_x:(x_myMachine + size_machine/2) init_y:(y_myMachine - length_beam)];
-    
     // 指が移動したとき、上下方向にビューをスライドさせる
     if (gr.state == UIGestureRecognizerStateChanged) {//移動中
         isTouched = true;
 //        NSLog(@"x = %d, y = %d", (int)[gr translationInView:self.view].x, (int)[gr translationInView:self.view].y);
-        
-        //フリックしている時は常に「自機位置から」ビームを発射：このメソッドではフリックと
-//        [self yieldBeam:0 init_x:(x_myMachine + size_machine/2) init_y:(y_myMachine - length_beam)];
-
     }
     // 指が離されたとき、ビューを元に位置に戻して、ラベルの文字列を変更する
     else if (gr.state == UIGestureRecognizerStateEnded) {//指を離した時
@@ -667,19 +674,20 @@ float count = 0;
 
 }
 
--(void)yieldBeam:(int)beam_type init_x:(int)x init_y:(int)y{
-    //
-    if([MyMachine getIsAlive] && isTouched){
-        BeamClass *beam = [[BeamClass alloc] init:x - size_machine/3 y_init:y + size_machine/2 width:50 height:50];
-        [BeamArray addObject:beam];
-    }
-    
-    
-}
+//yieldBeamメソッドはMyMachine内に実装
+//-(void)yieldBeam:(int)beam_type init_x:(int)x init_y:(int)y{
+//    //
+//    if([MyMachine getIsAlive] && isTouched){
+//        BeamClass *beam = [[BeamClass alloc] init:x - size_machine/3 y_init:y + size_machine/2 width:50 height:50];
+//        [BeamArray addObject:beam];
+//    }
+//    
+//    
+//}
 
 -(void)drawBackground{
     if([MyMachine getIsAlive] && isTouched){
-        [self yieldBeam:0 init_x:([MyMachine getX] + [MyMachine getSize]/2) init_y:([MyMachine getY] - length_beam)];
+        [MyMachine yieldBeam:0 init_x:([MyMachine getX] + [MyMachine getSize]/2) init_y:([MyMachine getY] - length_beam)];
     }
     //frameの大きさと背景の現在描画位置を決定
     //点数オブジェクトで描画
