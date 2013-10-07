@@ -59,6 +59,7 @@
 		342ECBBC17FC570500123886 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 342ECBBB17FC570500123886 /* star.png */; };
 		342ECBC517FC5AF900123886 /* DamageParticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 342ECBC417FC5AF900123886 /* DamageParticleView.m */; };
 		343F802B17FF947100224839 /* ScoreBoardClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 343F802A17FF947100224839 /* ScoreBoardClass.m */; };
+		344928B218025E6100315F2D /* ItemSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 344928B118025E6100315F2D /* ItemSelectViewController.m */; };
 		3467B71D17FD53AF004EEE94 /* item.png in Resources */ = {isa = PBXBuildFile; fileRef = 3467B71C17FD53AF004EEE94 /* item.png */; };
 		3467B72217FD5981004EEE94 /* PowerGaugeClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3467B72117FD5980004EEE94 /* PowerGaugeClass.m */; };
 		3475247C17F6D23F002EC895 /* gradius01_stand_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 3475247B17F6D23F002EC895 /* gradius01_stand_128.png */; };
@@ -161,6 +162,8 @@
 		342ECBC417FC5AF900123886 /* DamageParticleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DamageParticleView.m; sourceTree = "<group>"; };
 		343F802917FF947100224839 /* ScoreBoardClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScoreBoardClass.h; sourceTree = "<group>"; };
 		343F802A17FF947100224839 /* ScoreBoardClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScoreBoardClass.m; sourceTree = "<group>"; };
+		344928B018025E6100315F2D /* ItemSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemSelectViewController.h; sourceTree = "<group>"; };
+		344928B118025E6100315F2D /* ItemSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemSelectViewController.m; sourceTree = "<group>"; };
 		3467B71C17FD53AF004EEE94 /* item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = item.png; sourceTree = "<group>"; };
 		3467B72017FD5980004EEE94 /* PowerGaugeClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerGaugeClass.h; sourceTree = "<group>"; };
 		3467B72117FD5980004EEE94 /* PowerGaugeClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerGaugeClass.m; sourceTree = "<group>"; };
@@ -251,6 +254,8 @@
 				342057E917F2B34C0084E99D /* MainStoryboard.storyboard */,
 				342057EC17F2B34C0084E99D /* ViewController.h */,
 				342057ED17F2B34C0084E99D /* ViewController.m */,
+				344928B018025E6100315F2D /* ItemSelectViewController.h */,
+				344928B118025E6100315F2D /* ItemSelectViewController.m */,
 				3467B72017FD5980004EEE94 /* PowerGaugeClass.h */,
 				3467B72117FD5980004EEE94 /* PowerGaugeClass.m */,
 				3411FB8217FEE301001D1491 /* MyMachineClass.h */,
@@ -499,6 +504,7 @@
 				3411FB8417FEE301001D1491 /* MyMachineClass.m in Sources */,
 				343F802B17FF947100224839 /* ScoreBoardClass.m in Sources */,
 				34C09ECE1800497900E4A4D8 /* GoldBoardClass.m in Sources */,
+				344928B218025E6100315F2D /* ItemSelectViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

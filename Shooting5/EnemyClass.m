@@ -92,7 +92,7 @@ int unique_id;
 
     if(y_loc <= 100){//衝突判定テストのため
             y_loc += mySize/6;
-            x_loc += mySize/10 * (int)pow(-1, arc4random()%2) % 200;//単位時間当たりに左右3個体分の移動距離を進む
+//            x_loc += mySize/10 * (int)pow(-1, arc4random()%2) % 200;//単位時間当たりに左右3個体分の移動距離を進む
     }else{
         //タイプによって進むものとそうでないものに分ける
         switch(enemy_type){
@@ -105,7 +105,10 @@ int unique_id;
                 y_loc += mySize/6;
 //                x_loc += mySize/10 * (int)pow(-1, arc4random()%2) % 200;//単位時間当たりに左右3個体分の移動距離を進む
                 break;
-            
+            case 2:
+                y_loc += mySize/6;
+                //                x_loc += mySize/10 * (int)pow(-1, arc4random()%2) % 200;//単位時間当たりに左右3個体分の移動距離を進む
+                break;
         }
     }
     
@@ -165,13 +168,13 @@ int unique_id;
     return iv;
 }
 
--(DWFParticleView *)getExplodeParticle{
+-(DWFParticleView *)getExplodeParticle{//死亡イフェクト
     //dieしていれば爆発用particleは初期化されているはず=>描画用クラスで描画(self.view addSubview:particle);
     [explodeParticle setType:1];//敵用パーティクル設定
     return explodeParticle;
 //    return nil;
 }
--(DamageParticleView *)getDamageParticle{
+-(DamageParticleView *)getDamageParticle{//被弾イフェクト
     //dieしていれば爆発用particleは初期化されているはず=>描画用クラスで描画(self.view addSubview:particle);
     return damageParticle;
 }

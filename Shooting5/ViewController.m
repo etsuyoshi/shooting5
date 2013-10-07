@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "ItemSelectViewController.h"
 
 @interface ViewController ()
 
@@ -18,6 +19,16 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    // 生成例
+    ItemSelectViewController *vc = [[ItemSelectViewController alloc] init];
+    [self presentmodalViewController:self animated:YES];
+
+    
+    // xibファイルからの生成例
+//    vc =
+//    [[UIViewController alloc] initWithNibName:
+//     @"hogeView" bundle:[NSBundle mainBundle]];
 }
 
 - (void)didReceiveMemoryWarning
