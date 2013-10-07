@@ -71,7 +71,7 @@
         <!--Item Select View Controller-->
         <scene sceneID="x4k-jK-nBD">
             <objects>
-                <viewController id="h7y-ow-0kw" customClass="ItemSelectViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ItemSelectViewController" wantsFullScreenLayout="YES" id="h7y-ow-0kw" customClass="ItemSelectViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="egc-Cs-M7T" customClass="Item">
                         <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

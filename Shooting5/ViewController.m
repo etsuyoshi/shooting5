@@ -20,21 +20,65 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    // 生成例
-    ItemSelectViewController *vc = [[ItemSelectViewController alloc] init];
-    [self presentmodalViewController:self animated:YES];
+//    CGRect rect_frame = [[UIScreen mainScreen] bounds];
+    CGRect rect_main = CGRectMake(0,0, 320, 320);
+    UIImageView *iv_frame = [[UIImageView alloc]initWithFrame:rect_main];
+    iv_frame.image = [UIImage imageNamed:@"chara_test.png"];
+    
+    [self.view addSubview:iv_frame];
+    
+    
+    
+}
+-(void)viewDidAppear:(BOOL)animated{
+    //viewDidLoadの次に呼び出される
+    CGRect rect_frame = [[UIScreen mainScreen] bounds];
+    UIButton *bt = [self createButtonWithTitle:@"setting"
+                                           tag:0
+                                         frame:CGRectMake(rect_frame.size.width/2 - 50,
+                                                          rect_frame.size.height/2 + 130,
+                                                          100,
+                                                          40)];
+    
+    
+    [bt addTarget:self action:@selector(pushed_button:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:bt];
 
     
-    // xibファイルからの生成例
-//    vc =
-//    [[UIViewController alloc] initWithNibName:
-//     @"hogeView" bundle:[NSBundle mainBundle]];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)pushed_button:(id)sender{
+    UIStoryboard *storyboard = nil;
+
+    switch([sender tag]){
+        case 0:
+            storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+            UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ItemSelectViewController"];
+            //    NSLog(@"%@", vc);
+            [self presentViewController: vc animated:YES completion: nil];
+            break;
+//        case 1:
+//            NSLog(@"bb@");
+//            break;
+
+    }
+}
+-(UIButton*)createButtonWithTitle:(NSString*)title tag:(int)tag frame:(CGRect)frame
+{
+    //画像を表示させる場合：http://blog.syuhari.jp/archives/1407
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    button.frame = frame;
+    button.tag   = tag;
+    [button setTitle:title forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(pushed_button:)
+     forControlEvents:UIControlEventTouchUpInside];
+    return button;
 }
 
 @end
