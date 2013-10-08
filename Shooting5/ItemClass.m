@@ -17,21 +17,27 @@
     width = w;
     height = h;
     isAlive = true;
-    rect = CGRectMake(x_loc, y_loc, w, h);
-    iv = [[UIImageView alloc]initWithFrame:rect];
     //    iv.image = [UIImage imageNamed:@"beam.png"];
     switch(arc4random() % 4){
         case 0://青：攻撃力上昇
-            iv.image = [UIImage imageNamed:@"blue_item_yuri_big.png"];
+            rect = CGRectMake(x_loc, y_loc, w, h);
+            iv = [[UIImageView alloc]initWithFrame:rect];
+            iv.image = [UIImage imageNamed:@"blue_item_yuri_big2.png"];
             break;
         case 1://黄：画面内敵全滅
-            iv.image = [UIImage imageNamed:@"yellow_item_thunder.png"];
+            rect = CGRectMake(x_loc, y_loc, w, h);
+            iv = [[UIImageView alloc]initWithFrame:rect];
+            iv.image = [UIImage imageNamed:@"yellow_item_thunder2.png"];
             break;
         case 2://赤：回復
+            rect = CGRectMake(x_loc, y_loc, w, h);
+            iv = [[UIImageView alloc]initWithFrame:rect];
             iv.image = [UIImage imageNamed:@"red.png"];
             break;
         case 3://コイン
-            iv.image = [UIImage imageNamed:@"coin.png"];
+            rect = CGRectMake(x_loc, y_loc, w*3/5, h*3/5);//コインは解像度が低いのでサイズを小さくして表示する
+            iv = [[UIImageView alloc]initWithFrame:rect];
+            iv.image = [UIImage imageNamed:@"coin2.png"];
             break;
     
     }

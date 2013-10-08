@@ -52,8 +52,8 @@ NSMutableArray *tagArray;
     NSLog(@"bbb");
     
     tagArray = [NSArray arrayWithObjects:
-                [NSArray arrayWithObjects:@"00", @"01", "02", nil],
-                [NSArray arrayWithObjects:@"10", @"11", "12", nil], nil];
+                [NSArray arrayWithObjects:@"00", @"01", @"02", nil],
+                [NSArray arrayWithObjects:@"10", @"11", @"12", nil], nil];
     NSLog(@"ccc");
 
 	// Do any additional setup after loading the view.

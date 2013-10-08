@@ -21,9 +21,9 @@
 	// Do any additional setup after loading the view, typically from a nib.
     
 //    CGRect rect_frame = [[UIScreen mainScreen] bounds];
-    CGRect rect_main = CGRectMake(0,0, 320, 320);
+    CGRect rect_main = CGRectMake(0,30, 320, 320);
     UIImageView *iv_frame = [[UIImageView alloc]initWithFrame:rect_main];
-    iv_frame.image = [UIImage imageNamed:@"chara_test.png"];
+    iv_frame.image = [UIImage imageNamed:@"chara_test2.png"];
     
     [self.view addSubview:iv_frame];
     
