@@ -20,7 +20,18 @@
 //#define COMPONENT_09 9
 //#define COMPONENT_10 10
 
+#define Y_MOST_UPPER_COMPONENT 30
+#define W_MOST_UPPER_COMPONENT 100
+#define H_MOST_UPPER_COMPONENT 50
+
+
 #define SIZE_FORMAL_BUTTON 50
+#define INTERVAL_FORMAL_BUTTON 1
+
+#define W_BT_START 150
+#define H_BT_START 80
+
+#define ALPHA_COMPONENT 0.5
 
 NSMutableArray *imageFileArray;
 NSMutableArray *tagArray;
@@ -47,44 +58,130 @@ NSMutableArray *tagArray;
 //    imageFile = [[NSMutableArray alloc]init];
 //    _imageFile = [NSArray arrayWithObjects:@"red.png", @"blue_item_yuri_big.png", nil];
     imageFileArray = [NSArray arrayWithObjects:
-                      [NSArray arrayWithObjects:@"red.png", @"red.png", @"blue_item_yuri_big.png", nil],
-                      [NSArray arrayWithObjects:@"blue_item_yuri_big.png", @"red.png", @"yellow_item_thunder.png", nil], nil];
-    NSLog(@"bbb");
+                      [NSArray arrayWithObjects:
+                       @"red.png",
+                       @"red.png",
+                       @"blue_item_yuri_big2.png",
+                       @"yellow_item_thunder.png",
+                       nil],
+                      [NSArray arrayWithObjects:
+                       @"blue_item_yuri_big2.png",
+                       @"red.png",
+                       @"yellow_item_thunder.png",
+                       @"red.png",
+                       nil],
+                      
+                      [NSArray arrayWithObjects:
+                       @"blue_item_yuri_big2.png",
+                       @"red.png",
+                       @"yellow_item_thunder.png",
+                       @"red.png",
+                       nil],
+                      
+                      [NSArray arrayWithObjects:
+                       @"blue_item_yuri_big2.png",
+                       @"red.png",
+                       @"yellow_item_thunder.png",
+                       @"red.png",
+                       nil],
+                      nil];
+//    NSLog(@"imageFileArray initialization complete");
     
     tagArray = [NSArray arrayWithObjects:
-                [NSArray arrayWithObjects:@"00", @"01", @"02", nil],
-                [NSArray arrayWithObjects:@"10", @"11", @"12", nil], nil];
-    NSLog(@"ccc");
+                [NSArray arrayWithObjects:@"00", @"01", @"02", @"03", nil],
+                [NSArray arrayWithObjects:@"10", @"11", @"12", @"13", nil],
+                [NSArray arrayWithObjects:@"20", @"21", @"22", @"23", nil],
+                [NSArray arrayWithObjects:@"30", @"31", @"32", @"33", nil],
+                nil];
+//    NSLog(@"tagArray initialization complete");
 
 	// Do any additional setup after loading the view.
 }
 -(void)viewDidAppear:(BOOL)animated{
 
-    NSLog(@"000");
-    for(int row = 0; row < 2;row++){
-        NSLog(@"row = %d", row);
+//    NSLog(@"init select view controller start!!");
+    int x_frame_center = (int)[[UIScreen mainScreen] bounds].size.width/2;
+//    NSLog(@"%d" , x_frame_center);
+//    int y_frame_center = (int)[[UIScreen mainScreen] bounds].size.height/2;//使用しない？
+//    NSLog(@"中心＝%d", (int)[[UIScreen mainScreen] bounds].origin.x);
+    
+    //背景作成
+    UIImageView *iv_back = [self createImageView:@"chara_test2.png" tag:0 frame:[[UIScreen mainScreen] bounds]];
+    iv_back.alpha = ALPHA_COMPONENT;
+    [self.view sendSubviewToBack:iv_back];
+    [self.view addSubview:iv_back];
+    
+    //最高得点表示部分
+    UIImageView *iv_tokuten = [self createImageView:@"white_128.png"
+                                                tag:0
+                                              frame:CGRectMake(x_frame_center - 10 - W_MOST_UPPER_COMPONENT,
+                                                               Y_MOST_UPPER_COMPONENT,
+                                                               W_MOST_UPPER_COMPONENT,
+                                                               H_MOST_UPPER_COMPONENT)];
+    iv_tokuten.alpha = ALPHA_COMPONENT;
+    [self.view addSubview:iv_tokuten];
+    
+    
+    
+    //獲得コイン数表示部分
+    UIImageView *iv_coin = [self createImageView:@"white_128.png"
+                                             tag:0
+                                           frame:CGRectMake(x_frame_center + 10,
+                                                            Y_MOST_UPPER_COMPONENT,
+                                                            W_MOST_UPPER_COMPONENT,
+                                                            H_MOST_UPPER_COMPONENT)];
+    iv_coin.alpha = ALPHA_COMPONENT;
+    [self.view addSubview:iv_coin];
+    
+//    NSLog(@"count = %d", [[imageFileArray objectAtIndex:0] count]);
+    
+    //各種アイコン表示部分
+    for(int row = 0; row < [imageFileArray count];row++){
+//        NSLog(@"row = %d", row);
 
-        for(int col = 0; col < 3 ;col++){
-//            NSLog(@"col = %d", col);
-            //ボタン
-            UIButton *bt = [self createButtonWithImage:
-                            [[imageFileArray objectAtIndex:row] objectAtIndex:col]
-//                                                   tag:COMPONENT_00
+        for(int col = 0; col < [[imageFileArray objectAtIndex:row] count] ;col++){
+            NSLog(@"row = %d, col = %d", row, col);
+            CGRect rect_bt = CGRectMake(
+                                        x_frame_center - (SIZE_FORMAL_BUTTON + INTERVAL_FORMAL_BUTTON) * 2 +
+                                        (SIZE_FORMAL_BUTTON + INTERVAL_FORMAL_BUTTON) * col,
+                                        
+                                        Y_MOST_UPPER_COMPONENT + H_MOST_UPPER_COMPONENT + 10 +
+                                        (SIZE_FORMAL_BUTTON + INTERVAL_FORMAL_BUTTON) * row,
+                                        
+                                        SIZE_FORMAL_BUTTON,
+                                        SIZE_FORMAL_BUTTON);
+            
+            UIButton *bt = [self createButtonWithImage:[[imageFileArray objectAtIndex:row] objectAtIndex:col]
                                                    tag:[[[tagArray objectAtIndex:row] objectAtIndex:col ] intValue]//COMPONENT_00でも可
-//                                                   tag:[tab_array objectAtIndex:row]
-                                                 frame:CGRectMake(col * (SIZE_FORMAL_BUTTON + 10),
-                                                                  row * (SIZE_FORMAL_BUTTON + 10) + 40,
-                                                                  SIZE_FORMAL_BUTTON,
-                                                                  SIZE_FORMAL_BUTTON)];
+                                                 frame:rect_bt];
             
             [bt addTarget:self action:@selector(pushed_button:) forControlEvents:UIControlEventTouchUpInside];
             [self.view addSubview:bt];
             
-            NSLog(@"row = %d", row);
+            NSLog(@"row = %d, col = %d, x = %d, y = %d, image = %@",
+                  row, col,
+                  (int)rect_bt.origin.x, (int)rect_bt.origin.y,
+                  [[imageFileArray objectAtIndex:row] objectAtIndex:col]);
         }
     }
     
+    //スタートボタン表示部分
+    CGRect rect_start = CGRectMake(x_frame_center - W_BT_START/2,
+                                   Y_MOST_UPPER_COMPONENT + H_MOST_UPPER_COMPONENT + 10 + (SIZE_FORMAL_BUTTON + INTERVAL_FORMAL_BUTTON) * [imageFileArray count] + 50,
+                                   W_BT_START,
+                                   H_BT_START);
+    UIButton *bt = [self createButtonWithImage:@"white_128.png"
+                                           tag:0
+                                         frame:rect_start];
     
+    [bt addTarget:self action:@selector(pushed_button:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:bt];
+    
+    
+    //キャラ変更部分(購入部分)
+    
+    
+    //機体数増加部分(購入ページ)
     
     NSLog(@"ItemViewController start");
 }

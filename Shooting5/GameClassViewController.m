@@ -123,6 +123,7 @@ float count = 0;
     
     //タッチ用パネル(タップで自機移動、フリックでビーム発射するドリブン用パネル)
     rect_frame = [[UIScreen mainScreen] bounds];
+    NSLog(@"%d", (int)[iv_frame center].x);
     x_frame = rect_frame.size.width;
     y_frame = rect_frame.size.height;
     NSLog(@"%d, %d", x_frame, y_frame);
