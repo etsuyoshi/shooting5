@@ -22,15 +22,22 @@
 //#define COMPONENT_09 9
 //#define COMPONENT_10 10
 
+#define MARGIN_CENTER_UPPER_COMPONENT 10
 #define Y_MOST_UPPER_COMPONENT 30
 #define W_MOST_UPPER_COMPONENT 130
 #define H_MOST_UPPER_COMPONENT 50
 
+#define MARGIN_UPPER_TO_RANKING 2
+
 #define W_RANKING_COMPONENT 300
-#define H_RANKING_COMPONENT 100
+#define H_RANKING_COMPONENT 240
+
+#define MARGIN_RANKING_TO_FORMAL_BUTTON 2
 
 #define SIZE_FORMAL_BUTTON 50
 #define INTERVAL_FORMAL_BUTTON 1
+
+#define MARGIN_FORMAL_TO_START 2
 
 #define W_BT_START 150
 #define H_BT_START 50
@@ -84,7 +91,7 @@ UIButton *closeButton;//閉じるボタン
 //                       @"yellow_item_thunder.png",
 //                       @"red.png",
                        nil],
-                      
+                      /*
                       [NSArray arrayWithObjects:
                        @"blue_item_yuri_big2.png",
                        @"blue_item_yuri_big2.png",
@@ -104,6 +111,7 @@ UIButton *closeButton;//閉じるボタン
 //                       @"yellow_item_thunder.png",
 //                       @"red.png",
                        nil],
+                       */
                       nil];
 //    NSLog(@"imageFileArray initialization complete");
     
@@ -134,7 +142,7 @@ UIButton *closeButton;//閉じるボタン
     //最高得点表示部分
     UIImageView *iv_tokuten = [self createImageView:@"white_128.png"
                                                 tag:100
-                                              frame:CGRectMake(x_frame_center - 10 - W_MOST_UPPER_COMPONENT,
+                                              frame:CGRectMake(x_frame_center - MARGIN_CENTER_UPPER_COMPONENT - W_MOST_UPPER_COMPONENT,
                                                                Y_MOST_UPPER_COMPONENT,
                                                                W_MOST_UPPER_COMPONENT,
                                                                H_MOST_UPPER_COMPONENT)];
@@ -148,7 +156,7 @@ UIButton *closeButton;//閉じるボタン
     //獲得コイン数表示部分
     UIImageView *iv_coin = [self createImageView:@"white_128.png"
                                              tag:101
-                                           frame:CGRectMake(x_frame_center + 10,
+                                           frame:CGRectMake(x_frame_center + MARGIN_CENTER_UPPER_COMPONENT,
                                                             Y_MOST_UPPER_COMPONENT,
                                                             W_MOST_UPPER_COMPONENT,
                                                             H_MOST_UPPER_COMPONENT)];
@@ -162,10 +170,10 @@ UIButton *closeButton;//閉じるボタン
     
     
     //ランキング表示部分
-    UIImageView *iv_ranking = [self createImageView:@"white_128.png"
+    UIImageView *iv_ranking = [self createImageView:@"black_128.png"
                                              tag:103
                                            frame:CGRectMake(x_frame_center - W_RANKING_COMPONENT / 2,
-                                                            Y_MOST_UPPER_COMPONENT + H_MOST_UPPER_COMPONENT + 10,
+                                                            Y_MOST_UPPER_COMPONENT + H_MOST_UPPER_COMPONENT + MARGIN_UPPER_TO_RANKING,
                                                             W_RANKING_COMPONENT,
                                                             H_RANKING_COMPONENT)];
 //    CGRect rect = CGRectMake(x_frame_center - W_RANKING_COMPONENT / 2,
@@ -194,7 +202,8 @@ UIButton *closeButton;//閉じるボタン
                                         x_frame_center - (SIZE_FORMAL_BUTTON + INTERVAL_FORMAL_BUTTON) * 2 +
                                         (SIZE_FORMAL_BUTTON + INTERVAL_FORMAL_BUTTON) * col,
                                         
-                                        Y_MOST_UPPER_COMPONENT + H_MOST_UPPER_COMPONENT + 10 + H_RANKING_COMPONENT + 10 + 
+                                        Y_MOST_UPPER_COMPONENT + H_MOST_UPPER_COMPONENT + MARGIN_UPPER_TO_RANKING +
+                                        H_RANKING_COMPONENT + MARGIN_RANKING_TO_FORMAL_BUTTON +
                                         (SIZE_FORMAL_BUTTON + INTERVAL_FORMAL_BUTTON) * row,
                                         
                                         SIZE_FORMAL_BUTTON,
@@ -216,7 +225,9 @@ UIButton *closeButton;//閉じるボタン
     
     //スタートボタン表示部分
     CGRect rect_start = CGRectMake(x_frame_center - W_BT_START/2,
-                                   Y_MOST_UPPER_COMPONENT + H_MOST_UPPER_COMPONENT + 10 + H_RANKING_COMPONENT + 10 + (SIZE_FORMAL_BUTTON + INTERVAL_FORMAL_BUTTON) * [imageFileArray count] + 10,
+                                   Y_MOST_UPPER_COMPONENT + H_MOST_UPPER_COMPONENT + MARGIN_UPPER_TO_RANKING +
+                                   H_RANKING_COMPONENT + MARGIN_RANKING_TO_FORMAL_BUTTON +
+                                   (SIZE_FORMAL_BUTTON + INTERVAL_FORMAL_BUTTON) * [imageFileArray count] + MARGIN_FORMAL_TO_START,
                                    W_BT_START,
                                    H_BT_START);
     UIButton *bt_start = [self createButtonWithImage:@"white_128.png"

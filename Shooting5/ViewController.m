@@ -29,6 +29,26 @@
     
     
     
+    //_/_/_/_/_/_/_/_/_/_/_/_/ユーザー認証_/_/_/_/_/_/_/_/_/_/
+    //IDを取得する
+    NSUserDefaults* id_defaults =
+        [NSUserDefaults standardUserDefaults];
+//    [id_defaults removeObjectForKey:@"user_id"];//値を削除：テスト用
+    int user_id = [id_defaults integerForKey:@"user_id"];
+    NSLog(@"userid = %d", user_id);
+    //IDがない場合、十分に長い乱数を取得してIDとして記憶
+    if(user_id == 0){
+        //取得
+        user_id = abs(arc4random());
+        NSLog(@"新規取得userid = %d", user_id);
+        //記録
+        [id_defaults setInteger:user_id forKey:@"user_id"];
+    }else{
+        NSLog(@"ログイン完了：user_id = %d", user_id);
+    }
+    //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+    
+    
 }
 -(void)viewDidAppear:(BOOL)animated{
     //viewDidLoadの次に呼び出される

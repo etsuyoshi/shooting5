@@ -585,7 +585,7 @@ float count = 0;
         [self ordinaryAnimationStart];
         
         //一定時間経過するとゲームオーバー
-        if(count >= 300 || ![MyMachine getIsAlive]){
+        if(count >= 30 || ![MyMachine getIsAlive]){
             NSLog(@"gameover");
             //経過したらタイマー終了
             [tm invalidate];
@@ -596,6 +596,44 @@ float count = 0;
             UIImageView *iv_gameover = [[UIImageView alloc]initWithFrame:rect_gameover];
             iv_gameover.image = [UIImage imageNamed:@"gameover.png"];
             [self.view addSubview:iv_gameover];
+            
+            
+            
+            //_/_/_/_/_/得点とゴールドを端末に記録させる_/_/_/_/_/_/_/_/_/_/
+            //前回最高得点を取得する
+            NSUserDefaults* score_defaults =
+            [NSUserDefaults standardUserDefaults];
+            //    [id_defaults removeObjectForKey:@"user_id"];//値を削除：テスト用
+            int score_int = [score_defaults integerForKey:@"max_score"];
+            NSLog(@"now, score = %d", score_int);
+            //今回取得したスコアが前回までの最高得点を上回れば更新
+            if([ScoreBoard getScore] < score_int){
+                //update
+                [score_defaults setInteger:score_int forKey:@"max_score"];
+                NSLog(@"score update! => %d", [score_defaults integerForKey:@"max_score"]);
+                
+                //congrat!! view appear!
+                
+                
+                
+            }else{
+                NSLog(@"be going ...");
+            }
+            
+            //累積ゴールドを取得する
+            NSUserDefaults* gold_defaults =
+            [NSUserDefaults standardUserDefaults];
+            int gold_int = [gold_defaults integerForKey:@"gold_score"];
+            NSLog(@"now, gold = %d", gold_int);
+            if([GoldBoard getScore] < gold_int){
+                [gold_defaults setInteger:gold_int forKey:@"gold_score"];
+                NSLog(@"score update! => %d", [score_defaults integerForKey:@"max_score"]);
+            }else{
+                NSLog(@"be going ...");
+            }
+            
+            //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+            
             
         }
         
