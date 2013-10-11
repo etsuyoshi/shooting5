@@ -151,11 +151,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Shooting5/ViewController.m"
-         timestampString = "402984284.91788"
+         timestampString = "402994997.93996"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "55"
-         endingLineNumber = "55"
+         startingLineNumber = "60"
+         endingLineNumber = "60"
          landmarkName = "-viewDidAppear:"
          landmarkType = "5">
       </FileBreakpoint>

@@ -31,15 +31,15 @@ int unique_id;
     switch(machine_type){
         case 0:
             bomb_size = 20;
-            iv.image = [UIImage imageNamed:@"gradius02_stand_128.png"];
+            iv.image = [UIImage imageNamed:@"player_rough.png"];
             break;
         case 1:
             bomb_size = 30;
-            iv.image = [UIImage imageNamed:@"gradius02_stand_128.png"];
+            iv.image = [UIImage imageNamed:@"player_rough.png"];
             break;
         case 2:
             bomb_size = 40;
-            iv.image = [UIImage imageNamed:@"gradius02_stand_128.png"];
+            iv.image = [UIImage imageNamed:@"player_rough.png"];
             break;
     }
     
@@ -104,13 +104,13 @@ int unique_id;
     switch(machine_type){
         case 0:
 //            NSLog(@"machine iv generated");
-            iv.image = [UIImage imageNamed:@"gradius02_stand_128.png"];
+            iv.image = [UIImage imageNamed:@"player_rough.png"];
             break;
         case 1:
-            iv.image = [UIImage imageNamed:@"gradius02_stand_128.png"];
+            iv.image = [UIImage imageNamed:@"player_rough.png"];
             break;
         case 2:
-            iv.image = [UIImage imageNamed:@"gradius02_stand_128.png"];
+            iv.image = [UIImage imageNamed:@"player_rough.png"];
             break;
     }
     

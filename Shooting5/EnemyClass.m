@@ -29,15 +29,15 @@ int unique_id;
     switch(enemy_type){
         case 0:
             bomb_size = 20;
-            iv.image = [UIImage imageNamed:@"enemy01_stand_128.png"];
+            iv.image = [UIImage imageNamed:@"test_teki_rough.png"];
             break;
         case 1:
             bomb_size = 30;
-            iv.image = [UIImage imageNamed:@"enemy02_stand_128.png"];
+            iv.image = [UIImage imageNamed:@"test_teki_rough.png"];
             break;
         case 2:
             bomb_size = 40;
-            iv.image = [UIImage imageNamed:@"enemy03_stand_128.png"];
+            iv.image = [UIImage imageNamed:@"test_teki_rough.png"];
             break;
     }
 //    iv.alpha = 0.5;
@@ -120,14 +120,14 @@ int unique_id;
     switch(enemy_type){
         case 0:
 //            iv.image = [UIImage imageNamed:@"enemy01_stand_128.png"];//mechanical_design_3
-            iv.image = [UIImage imageNamed:@"mechanical_design_3.png"];
+            iv.image = [UIImage imageNamed:@"test_teki_rough.png"];
             break;
         case 1:
 //            iv.image = [UIImage imageNamed:@"enemy02_stand_128.png"];
-            iv.image = [UIImage imageNamed:@"mechanical_design_3.png"];
+            iv.image = [UIImage imageNamed:@"test_teki_rough.png"];
             break;
         case 2:
-            iv.image = [UIImage imageNamed:@"enemy03_stand_128.png"];
+            iv.image = [UIImage imageNamed:@"test_teki_rough.png"];
             break;
     }
 

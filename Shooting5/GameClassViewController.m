@@ -747,8 +747,11 @@ float count = 0;
     iv_background1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, y_background1,rect_frame.size.width,rect_frame.size.height + 5)];
     iv_background2 = [[UIImageView alloc]initWithFrame:CGRectMake(0, y_background2,rect_frame.size.width,rect_frame.size.height + 5)];
     //宇宙空間の描画方法
-    iv_background1.image = [UIImage imageNamed:@"cosmos_star4_repair.png"];
-    iv_background2.image = [UIImage imageNamed:@"cosmos_star4_repair.png"];
+//    iv_background1.image = [UIImage imageNamed:@"cosmos_star4_repair.png"];
+//    iv_background2.image = [UIImage imageNamed:@"cosmos_star4_repair.png"];
+    iv_background1.image = [UIImage imageNamed:@"test_background2.png"];
+    iv_background2.image = [UIImage imageNamed:@"test_background2.png"];
+    
 //    iv_background1.alpha = 0.9;//透過率
 //    iv_background2.alpha = 0.9;//透過率
 

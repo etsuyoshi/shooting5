@@ -77,6 +77,10 @@
 		34A087461803F017005458EF /* red.png in Resources */ = {isa = PBXBuildFile; fileRef = 34A087451803F017005458EF /* red.png */; };
 		34A087481803F194005458EF /* coin2.png in Resources */ = {isa = PBXBuildFile; fileRef = 34A087471803F194005458EF /* coin2.png */; };
 		34A0874A180419CE005458EF /* white_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 34A08749180419CE005458EF /* white_128.png */; };
+		34BF447B1806B394005977A4 /* player_rough.png in Resources */ = {isa = PBXBuildFile; fileRef = 34BF447A1806B394005977A4 /* player_rough.png */; };
+		34BF447D1806C2A2005977A4 /* test_nangoku.png in Resources */ = {isa = PBXBuildFile; fileRef = 34BF447C1806C2A2005977A4 /* test_nangoku.png */; };
+		34BF447F1806C3C6005977A4 /* test_teki_rough.png in Resources */ = {isa = PBXBuildFile; fileRef = 34BF447E1806C3C6005977A4 /* test_teki_rough.png */; };
+		34BF44811806C588005977A4 /* test_background2.png in Resources */ = {isa = PBXBuildFile; fileRef = 34BF44801806C588005977A4 /* test_background2.png */; };
 		34C09ECE1800497900E4A4D8 /* GoldBoardClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 34C09ECD1800497900E4A4D8 /* GoldBoardClass.m */; };
 		34C09ED0180085DF00E4A4D8 /* blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 34C09ECF180085DF00E4A4D8 /* blue.png */; };
 		34C09EDB18009C5F00E4A4D8 /* blue_item_yuri.png in Resources */ = {isa = PBXBuildFile; fileRef = 34C09ED918009C5E00E4A4D8 /* blue_item_yuri.png */; };
@@ -188,6 +192,10 @@
 		34A087451803F017005458EF /* red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red.png; sourceTree = "<group>"; };
 		34A087471803F194005458EF /* coin2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin2.png; sourceTree = "<group>"; };
 		34A08749180419CE005458EF /* white_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = white_128.png; sourceTree = "<group>"; };
+		34BF447A1806B394005977A4 /* player_rough.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player_rough.png; sourceTree = "<group>"; };
+		34BF447C1806C2A2005977A4 /* test_nangoku.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_nangoku.png; sourceTree = "<group>"; };
+		34BF447E1806C3C6005977A4 /* test_teki_rough.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_teki_rough.png; sourceTree = "<group>"; };
+		34BF44801806C588005977A4 /* test_background2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_background2.png; sourceTree = "<group>"; };
 		34C09ECC1800497900E4A4D8 /* GoldBoardClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GoldBoardClass.h; path = ../GoldBoardClass.h; sourceTree = "<group>"; };
 		34C09ECD1800497900E4A4D8 /* GoldBoardClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GoldBoardClass.m; path = ../GoldBoardClass.m; sourceTree = "<group>"; };
 		34C09ECF180085DF00E4A4D8 /* blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blue.png; sourceTree = "<group>"; };
@@ -299,6 +307,10 @@
 		342057D817F2B34C0084E99D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				34BF44801806C588005977A4 /* test_background2.png */,
+				34BF447E1806C3C6005977A4 /* test_teki_rough.png */,
+				34BF447C1806C2A2005977A4 /* test_nangoku.png */,
+				34BF447A1806B394005977A4 /* player_rough.png */,
 				3413B99F1804FF6400D450FF /* black_128.png */,
 				34A08749180419CE005458EF /* white_128.png */,
 				34A087471803F194005458EF /* coin2.png */,
@@ -504,6 +516,10 @@
 				34A087481803F194005458EF /* coin2.png in Resources */,
 				34A0874A180419CE005458EF /* white_128.png in Resources */,
 				3413B9A01804FF6400D450FF /* black_128.png in Resources */,
+				34BF447B1806B394005977A4 /* player_rough.png in Resources */,
+				34BF447D1806C2A2005977A4 /* test_nangoku.png in Resources */,
+				34BF447F1806C3C6005977A4 /* test_teki_rough.png in Resources */,
+				34BF44811806C588005977A4 /* test_background2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

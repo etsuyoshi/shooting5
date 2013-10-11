@@ -39,7 +39,12 @@
     //IDがない場合、十分に長い乱数を取得してIDとして記憶
     if(user_id == 0){
         //取得
-        user_id = abs(arc4random());
+//        int temp1 = arc4random() % 100;
+//        int temp2 = arc4random() % 100;
+//        int temp3 = arc4random() % 100;
+//        user_id = abs(temp1 * temp2 * temp3);
+        user_id = abs(arc4random()%INT_MAX);
+//        NSLog(@"新規取得userid = %d, %d, %d, %d , %d", user_id, temp1, temp2, temp3, (temp1 * temp2 * temp3));
         NSLog(@"新規取得userid = %d", user_id);
         //記録
         [id_defaults setInteger:user_id forKey:@"user_id"];
