@@ -33,26 +33,55 @@
     //IDを取得する
     NSUserDefaults* id_defaults =
         [NSUserDefaults standardUserDefaults];
-//    [id_defaults removeObjectForKey:@"user_id"];//値を削除：テスト用
-    int user_id = [id_defaults integerForKey:@"user_id"];
-    NSLog(@"userid = %d", user_id);
-    //IDがない場合、十分に長い乱数を取得してIDとして記憶
-    if(user_id == 0){
+    [id_defaults removeObjectForKey:@"user_id"];//値を削除：テスト用
+    [id_defaults removeObjectForKey:@"user_id"];//値を削除：テスト用
+    [id_defaults removeObjectForKey:@"user_id"];//値を削除：テスト用
+    NSString *registeredId = [id_defaults stringForKey:@"user_id"];
+    NSLog(@"userid = %@", registeredId);
+
+//    return;
+    //端末に記録されたIDがない場合、十分に長い乱数を取得してIDとして記憶
+    if(registeredId == NULL){
         //取得
-//        int temp1 = arc4random() % 100;
-//        int temp2 = arc4random() % 100;
-//        int temp3 = arc4random() % 100;
-//        user_id = abs(temp1 * temp2 * temp3);
-        user_id = abs(arc4random()%INT_MAX);
-//        NSLog(@"新規取得userid = %d, %d, %d, %d , %d", user_id, temp1, temp2, temp3, (temp1 * temp2 * temp3));
-        NSLog(@"新規取得userid = %d", user_id);
+//        NSLog(@"int max = %010d", INT_MAX);//2147483647        
+        int random_num = abs(arc4random()%100000);//0-99999=最大5桁の乱数
+//        random_num = 1;
+//        NSLog(@"rand = %d", random_num);
+        NSDateFormatter *_dateformat = [[NSDateFormatter alloc] init];
+        [_dateformat setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"ja_JP"]];
+        [_dateformat setDateFormat:@"yyyyMMddHHmmss"];//14桁
+        NSString *_now = [_dateformat stringFromDate:[NSDate date]];
+//        NSLog(@"%@", _now);
+        NSString *newId = [NSString stringWithFormat:@"%@%05d", _now, random_num];//yyyymmddhhmmss+5桁乱数=19桁=mysqlのbigIntの最大格納桁数
+        NSLog(@"新規取得userid = %@", newId);
         //記録
-        [id_defaults setInteger:user_id forKey:@"user_id"];
+        [id_defaults setObject:newId forKey:@"user_id"];
     }else{
-        NSLog(@"ログイン完了：user_id = %d", user_id);
+        NSLog(@"既存idでログイン完了：user_id = %@", registeredId);
     }
-    //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
     
+    //本来なら、アクセスしたサーバーのレコードからid情報を検索し、なければ新規登録、あればそのまま続行
+    //サーバーにアクセスしてユーザー情報を登録
+    //http://satoshi.upper.jp/user/shooting/usermanage.php
+    
+    if([self getIsUniqueID:[id_defaults stringForKey:@"user_id"]]){
+        
+        NSLog(@"ユニークidです");
+        
+        //新規登録する
+        if([self initUserRegister:[id_defaults stringForKey:@"user_id"]]){
+            NSLog(@"サーバーに登録完了");
+        }else{
+            NSLog(@"サーバーにアクセス出来ないので、ログインなしで進めます");
+        }
+    }else{
+        
+        NSLog(@"重複したidがあります");
+    }
+    
+    
+    
+    //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
     
 }
 -(void)viewDidAppear:(BOOL)animated{
@@ -104,6 +133,125 @@
     [button addTarget:self action:@selector(pushed_button:)
      forControlEvents:UIControlEventTouchUpInside];
     return button;
+}
+
+-(Boolean)getIsUniqueID:(NSString *)_strId{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:0];
+    [dict setObject:_strId forKey:@"id"];
+    NSData *data = [self formEncodedDataFromDictionary:dict];
+    
+    
+    NSURL *url = [NSURL URLWithString:@"http://satoshi.upper.jp/user/shooting/userfind.php"];
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
+    [req setHTTPMethod:@"POST"];
+    [req setHTTPBody:data];
+    NSURLResponse *response;
+    NSError *error = nil;
+    NSData *result = [ NSURLConnection sendSynchronousRequest:req
+                                          returningResponse:&response
+                                                      error:&error];
+    
+    
+    if(error){
+        
+        return false;
+    }
+    NSString* resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];//phpファイルのechoが返って来る
+    NSLog(@"%@", resultString);
+    
+    if([resultString isEqualToString:@"duplicated id exists"]){
+        
+        return false;
+    }else if([resultString isEqualToString:@"this is new id"]){
+
+        return true;
+    }
+    
+    
+    
+    return false;
+}
+-(Boolean)initUserRegister:(NSString *)_strId{
+    
+    
+    NSURL* url = [NSURL URLWithString:@"http://satoshi.upper.jp/user/shooting/usermanage.php"];
+    
+    
+    //熟達本sect3
+    //送信するデータの作成
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:0];
+    [dict setObject:@"test_name" forKey:@"name"];
+    [dict setObject:[NSString stringWithFormat:@"%d", 0] forKey:@"score"];
+    [dict setObject:[NSString stringWithFormat:@"%d", 0] forKey:@"gold"];
+    [dict setObject:_strId forKey:@"id"];
+    
+    
+    NSData *data = [self formEncodedDataFromDictionary:dict];//引数のデータ(mysqlに格納するデータ列)を作成
+    
+    // 接続要求を作成する
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
+    // HTTPのメソッドをPOSTに設定する
+    [req setHTTPMethod:@"POST"];
+    // POSTのデータとして設定する
+    [req setHTTPBody:data];
+    NSURLResponse* response;
+    NSError* error = nil;
+    NSData* result = [NSURLConnection sendSynchronousRequest:req
+                                           returningResponse:&response
+                                                       error:&error];
+    if(error){
+        NSLog(@"error = %@", error);
+        NSLog(@"exit in order error");
+        return false;
+    }
+    NSString* resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];//phpファイルのechoが返って来る
+    NSLog(@"registering result = %@", resultString);
+    return true;
+}
+
+
+- (NSData *)formEncodedDataFromDictionary:(NSDictionary *)dict
+{
+    NSMutableString *str;
+    
+    str = [NSMutableString stringWithCapacity:0];
+    
+    // 「キー=値」のペアを「&」で結合して列挙する
+    // キーと値はどちらもURLエンコードを行い、スペースは「+」に置き換える
+    for (NSString __strong *key in [dict allKeys])
+    {
+        //        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+        NSString *value = [dict objectForKey:key];
+        
+        // スペースを「+」に置き換える
+        key = [key stringByReplacingOccurrencesOfString:@" "
+                                             withString:@"+"];
+        value = [value stringByReplacingOccurrencesOfString:@" "
+                                                 withString:@"+"];
+        
+        
+        // URLエンコードを行う
+        key = [key stringByAddingPercentEscapesUsingEncoding:
+               NSUTF8StringEncoding];
+        value = [value stringByAddingPercentEscapesUsingEncoding:
+                 NSUTF8StringEncoding];
+        
+        // 文字列を連結する
+        if ([str length] > 0)
+        {
+            [str appendString:@"&"];
+        }
+        
+        [str appendFormat:@"%@=%@", key, value];
+        //        [pool drain];
+    }
+    
+    // 作成した文字列をUTF-8で符号化する
+    NSData *data;
+    data = [str dataUsingEncoding:NSUTF8StringEncoding];
+//    NSLog(@"str = %@", str);
+//    NSLog(@"return data = %@", data);
+    return data;
 }
 
 @end
