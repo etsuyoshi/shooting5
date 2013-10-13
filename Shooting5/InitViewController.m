@@ -33,8 +33,19 @@
     
     //ユーザー認証
     DBAccessClass *dbac = [[DBAccessClass alloc]init];
+    //端末からidを取得してdbと照合(なければdbと端末自体に新規作成)
+//    [dbac setIdToDB:[dbac getIdFromDevice]];
+    NSString *_id = [dbac getIdFromDevice];
+    [dbac setIdToDB:_id];//dbに登録(既存idならばそのまま)
     
+    /*
+    NSString *output = [dbac getValueFromDB:_id column:@"score"];
+    NSLog(@"output = %@", output);
+    [dbac updateValueToDB:_id column:@"score" newVal:@"100"];
     
+    output = [dbac getValueFromDB:_id column:@"score"];
+    NSLog(@"output = %@", output);
+     */
 }
 -(void)viewDidAppear:(BOOL)animated{
     //viewDidLoadの次に呼び出される

@@ -14,7 +14,6 @@
 
 -(NSString *)getIdFromDevice;
 -(Boolean)setIdToDB:(NSString *)arg_id;
--(Boolean)updateInitView:(NSString *)arg_id;
 -(Boolean)updateValueToDB:(NSString *)user_id column:(NSString *)column newVal:(NSString *)newValue;
 -(NSString *)getValueFromDB:(NSString *)user_id column:(NSString *)column;
 -(Boolean)getIsRegisteredID:(NSString *)_strId;

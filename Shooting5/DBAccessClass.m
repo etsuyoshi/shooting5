@@ -47,8 +47,6 @@
         _registeredId = newId;//
     }else{
         NSLog(@"既存idでログイン完了：user_id = %@", _registeredId);
-        
-        
     }
     return _registeredId;
 }
@@ -91,33 +89,48 @@
     //    return;
 }
 
-//@初期画面表示回数
--(Boolean)updateInitView:(NSString *)arg_id{
-    NSUserDefaults *_ud = [NSUserDefaults standardUserDefaults];
-    //端末に保存されている初期画面表示回数を取得
-    int initCnt = [_ud integerForKey:@"initView"];
-    initCnt ++;
-    NSLog(@"initCnt = %d", initCnt);
-    //端末情報@初期画面表示回数の更新
-    [_ud setObject:[[NSNumber alloc]initWithInt:initCnt] forKey:@"initView"];
-    
-    //db情報@初期画面表示回数の更新
-    
-    
-    
-    return NO;
-}
 
 -(Boolean)updateValueToDB:(NSString *)user_id column:(NSString *)column newVal:(NSString *)newValue{
-    //phpの作り込みが必要
-    return false;
+    //実行sql：$sql = "update dbusermanage SET $_POST[column] = '$_POST[value]' WHERE id = '$_POST[id]'";
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:0];
+    [dict setObject:user_id forKey:@"id"];
+    [dict setObject:column forKey:@"column"];
+    [dict setObject:newValue forKey:@"value"];
+    NSData *data = [self formEncodedDataFromDictionary:dict];
+    NSURL *url = [NSURL URLWithString:@"http://satoshi.upper.jp/user/shooting/updatevalue.php"];
+    
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
+    [req setHTTPMethod:@"POST"];
+    [req setHTTPBody:data];
+    
+    NSURLResponse *response;
+    NSError *error = nil;
+    NSData *result = [NSURLConnection sendSynchronousRequest:req
+                                           returningResponse:&response
+                                                       error:&error];
+    if(error){
+        NSLog(@"同期通信失敗");
+        return false;
+    }else{
+        NSLog(@"同期通信成功");
+    }
+    
+    
+    NSString* resultString = [[NSString alloc] initWithData:result
+                                                   encoding:NSUTF8StringEncoding];//phpファイルのechoが返って来る
+    NSLog(@"getValueFromDB = %@", resultString);
+    
+    
+    
+    return true;
 }
 
 //【一般型】指定したidの、指定したカラムを取得する
 -(NSString *)getValueFromDB:(NSString *)user_id column:(NSString *)column{
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:0];
-    [dict setObject:user_id forKey:column];
+    [dict setObject:user_id forKey:@"id"];
+    [dict setObject:column forKey:@"item"];
     NSData *data = [self formEncodedDataFromDictionary:dict];
     NSURL *url = [NSURL URLWithString:@"http://satoshi.upper.jp/user/shooting/getvalue.php"];
     
@@ -200,8 +213,6 @@
     
     //ここに制御文が移ることはない
     return false;
-
-
 }
 -(Boolean)initUserRegister:(NSString *)_strId{
     
@@ -283,8 +294,8 @@
     // 作成した文字列をUTF-8で符号化する
     NSData *data;
     data = [str dataUsingEncoding:NSUTF8StringEncoding];
-    //    NSLog(@"str = %@", str);
-    //    NSLog(@"return data = %@", data);
+    NSLog(@"str = %@", str);
+    NSLog(@"return data = %@", data);
     return data;
 }
 
