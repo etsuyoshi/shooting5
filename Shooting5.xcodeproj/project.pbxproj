@@ -45,7 +45,7 @@
 		342057E617F2B34C0084E99D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 342057E517F2B34C0084E99D /* Default@2x.png */; };
 		342057E817F2B34C0084E99D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 342057E717F2B34C0084E99D /* Default-568h@2x.png */; };
 		342057EB17F2B34C0084E99D /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 342057E917F2B34C0084E99D /* MainStoryboard.storyboard */; };
-		342057EE17F2B34C0084E99D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 342057ED17F2B34C0084E99D /* ViewController.m */; };
+		342057EE17F2B34C0084E99D /* InitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 342057ED17F2B34C0084E99D /* InitViewController.m */; };
 		342057FA17F2B8810084E99D /* GameClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 342057F917F2B8810084E99D /* GameClassViewController.m */; };
 		3424020117F6E8A100E06902 /* BeamClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3424020017F6E8A100E06902 /* BeamClass.m */; };
 		342403C517F774E000E06902 /* enemy01_stand_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 342403C117F774E000E06902 /* enemy01_stand_128.png */; };
@@ -64,6 +64,7 @@
 		3467B71D17FD53AF004EEE94 /* item.png in Resources */ = {isa = PBXBuildFile; fileRef = 3467B71C17FD53AF004EEE94 /* item.png */; };
 		3467B72217FD5981004EEE94 /* PowerGaugeClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3467B72117FD5980004EEE94 /* PowerGaugeClass.m */; };
 		3475247C17F6D23F002EC895 /* gradius01_stand_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 3475247B17F6D23F002EC895 /* gradius01_stand_128.png */; };
+		348AD7ED180A9159007226EC /* DBAccessClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 348AD7EC180A9159007226EC /* DBAccessClass.m */; };
 		348D634C17FD963100A3049B /* powerGauge2.png in Resources */ = {isa = PBXBuildFile; fileRef = 348D634B17FD963100A3049B /* powerGauge2.png */; };
 		348D634E17FE0E8F00A3049B /* gradius00_stand_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 348D634D17FE0E8F00A3049B /* gradius00_stand_128.png */; };
 		348D635017FE11EF00A3049B /* circle_7w_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 348D634F17FE11EF00A3049B /* circle_7w_128.png */; };
@@ -153,8 +154,8 @@
 		342057E517F2B34C0084E99D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		342057E717F2B34C0084E99D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		342057EA17F2B34C0084E99D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		342057EC17F2B34C0084E99D /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		342057ED17F2B34C0084E99D /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		342057EC17F2B34C0084E99D /* InitViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InitViewController.h; sourceTree = "<group>"; };
+		342057ED17F2B34C0084E99D /* InitViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InitViewController.m; sourceTree = "<group>"; };
 		342057F817F2B8810084E99D /* GameClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameClassViewController.h; sourceTree = "<group>"; };
 		342057F917F2B8810084E99D /* GameClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameClassViewController.m; sourceTree = "<group>"; };
 		342401FF17F6E8A100E06902 /* BeamClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeamClass.h; sourceTree = "<group>"; };
@@ -179,6 +180,8 @@
 		3467B72017FD5980004EEE94 /* PowerGaugeClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerGaugeClass.h; sourceTree = "<group>"; };
 		3467B72117FD5980004EEE94 /* PowerGaugeClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerGaugeClass.m; sourceTree = "<group>"; };
 		3475247B17F6D23F002EC895 /* gradius01_stand_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradius01_stand_128.png; sourceTree = "<group>"; };
+		348AD7EB180A9159007226EC /* DBAccessClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBAccessClass.h; sourceTree = "<group>"; };
+		348AD7EC180A9159007226EC /* DBAccessClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBAccessClass.m; sourceTree = "<group>"; };
 		348D634B17FD963100A3049B /* powerGauge2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerGauge2.png; sourceTree = "<group>"; };
 		348D634D17FE0E8F00A3049B /* gradius00_stand_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradius00_stand_128.png; sourceTree = "<group>"; };
 		348D634F17FE11EF00A3049B /* circle_7w_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle_7w_128.png; sourceTree = "<group>"; };
@@ -272,8 +275,10 @@
 				342057E017F2B34C0084E99D /* AppDelegate.h */,
 				342057E117F2B34C0084E99D /* AppDelegate.m */,
 				342057E917F2B34C0084E99D /* MainStoryboard.storyboard */,
-				342057EC17F2B34C0084E99D /* ViewController.h */,
-				342057ED17F2B34C0084E99D /* ViewController.m */,
+				342057EC17F2B34C0084E99D /* InitViewController.h */,
+				342057ED17F2B34C0084E99D /* InitViewController.m */,
+				348AD7EB180A9159007226EC /* DBAccessClass.h */,
+				348AD7EC180A9159007226EC /* DBAccessClass.m */,
 				344928B018025E6100315F2D /* ItemSelectViewController.h */,
 				344928B118025E6100315F2D /* ItemSelectViewController.m */,
 				3467B72017FD5980004EEE94 /* PowerGaugeClass.h */,
@@ -532,7 +537,7 @@
 			files = (
 				342057DE17F2B34C0084E99D /* main.m in Sources */,
 				342057E217F2B34C0084E99D /* AppDelegate.m in Sources */,
-				342057EE17F2B34C0084E99D /* ViewController.m in Sources */,
+				342057EE17F2B34C0084E99D /* InitViewController.m in Sources */,
 				342057FA17F2B8810084E99D /* GameClassViewController.m in Sources */,
 				3400396F17F408070093E07E /* EnemyClass.m in Sources */,
 				3424020117F6E8A100E06902 /* BeamClass.m in Sources */,
@@ -545,6 +550,7 @@
 				343F802B17FF947100224839 /* ScoreBoardClass.m in Sources */,
 				34C09ECE1800497900E4A4D8 /* GoldBoardClass.m in Sources */,
 				344928B218025E6100315F2D /* ItemSelectViewController.m in Sources */,
+				348AD7ED180A9159007226EC /* DBAccessClass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
