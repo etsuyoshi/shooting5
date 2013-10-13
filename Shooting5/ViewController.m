@@ -6,6 +6,8 @@
 //  Copyright (c) 2013年 endo.tuyo. All rights reserved.
 //
 
+//DB側でログイン回数をカウントする(カラム追加、値取得して１を足す)
+
 #import "ViewController.h"
 #import "ItemSelectViewController.h"
 
@@ -33,9 +35,9 @@
     //IDを取得する
     NSUserDefaults* id_defaults =
         [NSUserDefaults standardUserDefaults];
-    [id_defaults removeObjectForKey:@"user_id"];//値を削除：テスト用
-    [id_defaults removeObjectForKey:@"user_id"];//値を削除：テスト用
-    [id_defaults removeObjectForKey:@"user_id"];//値を削除：テスト用
+//    [id_defaults removeObjectForKey:@"user_id"];//値を削除：テスト用
+//    [id_defaults removeObjectForKey:@"user_id"];//値を削除：テスト用
+//    [id_defaults removeObjectForKey:@"user_id"];//値を削除：テスト用
     NSString *registeredId = [id_defaults stringForKey:@"user_id"];
     NSLog(@"userid = %@", registeredId);
 
@@ -53,6 +55,7 @@
         NSString *_now = [_dateformat stringFromDate:[NSDate date]];
 //        NSLog(@"%@", _now);
         NSString *newId = [NSString stringWithFormat:@"%@%05d", _now, random_num];//yyyymmddhhmmss+5桁乱数=19桁=mysqlのbigIntの最大格納桁数
+//        NSString *newId = [NSString stringWithFormat:@"2013010101010100002"];//上記代替のテスト用id
         NSLog(@"新規取得userid = %@", newId);
         //記録
         [id_defaults setObject:newId forKey:@"user_id"];
@@ -72,7 +75,7 @@
         if([self initUserRegister:[id_defaults stringForKey:@"user_id"]]){
             NSLog(@"サーバーに登録完了");
         }else{
-            NSLog(@"サーバーにアクセス出来ないので、ログインなしで進めます");
+            NSLog(@"サーバーに登録できませんでした。");
         }
     }else{
         
@@ -137,7 +140,7 @@
 
 -(Boolean)getIsUniqueID:(NSString *)_strId{
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:0];
-    [dict setObject:_strId forKey:@"id"];
+    [dict setObject:_strId forKey:@"find_id"];
     NSData *data = [self formEncodedDataFromDictionary:dict];
     
     
@@ -153,20 +156,37 @@
     
     
     if(error){
-        
+        NSLog(@"同期通信失敗!");
         return false;
+    }else{
+        NSLog(@"同期通信成功!");
     }
     NSString* resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];//phpファイルのechoが返って来る
-    NSLog(@"%@", resultString);
-    
-    if([resultString isEqualToString:@"duplicated id exists"]){
-        
-        return false;
-    }else if([resultString isEqualToString:@"this is new id"]){
-
-        return true;
+    NSLog(@"php output : %@", resultString);
+    switch([resultString intValue]){
+        case 0:
+        {
+            NSLog(@"データベースを検索した結果、新規データです");
+            return true;
+//            break;
+        }
+        default:
+        {
+            NSLog(@"データベースを検索した結果、%d件の重複データ存在します。", [resultString intValue]);
+            return false;
+//            break;
+        }
     }
     
+    /*
+    if([resultString isEqualToString:@"0"]){
+        NSLog(@"重複データが存在します");
+        return false;
+    }else if([resultString isEqualToString:@"this is new id"]){
+        NSLog(@"新規データです");
+        return true;
+    }
+    */
     
     
     return false;
